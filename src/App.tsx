@@ -1,7 +1,9 @@
 import { MotionConfig } from 'motion/react'
 import { ReactLenis } from 'lenis/react'
 import { ChatWidget } from './components/ChatWidget'
+import { Certifications } from './components/Certifications'
 import { Contact } from './components/Contact'
+import { FeaturedBuild } from './components/FeaturedBuild'
 import { Footer } from './components/Footer'
 import { Hero } from './components/Hero'
 import { Nav } from './components/Nav'
@@ -30,8 +32,10 @@ export default function App() {
         <Nav />
         <main id="main-content" tabIndex={-1}>
           <Hero />
-          <Projects />
+          <FeaturedBuild />
           <Skills />
+          <Projects />
+          <Certifications />
           <Contact />
         </main>
         <Footer />

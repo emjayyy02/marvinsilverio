@@ -8,7 +8,7 @@ export function Contact() {
     <section id="contact" aria-labelledby="contact-heading">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[minmax(14rem,0.55fr)_minmax(0,1.45fr)] lg:gap-16 lg:py-24">
         <Reveal>
-          <SectionHeading id="contact-heading" eyebrow="03 / Contact" title="Start with a real conversation." description="For a conversation about web development, workflows, or a project, reach out through any of these channels." />
+          <SectionHeading id="contact-heading" eyebrow="06 / Contact" title="Start with a real conversation." description="For a conversation about web development, workflows, or a project, reach out through any of these channels." />
         </Reveal>
         <Reveal delay={0.18}>
           <div className="pixel-panel bg-primary p-6 text-primary-foreground sm:p-8">

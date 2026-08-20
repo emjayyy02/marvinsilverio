@@ -105,6 +105,38 @@ body {
 .pixel-panel::before { top: 0.75rem; right: 0.75rem; }
 .pixel-panel::after { right: 1.5rem; bottom: 0.75rem; }
 
+.tool-orbit {
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.tool-orbit::before,
+.tool-orbit::after {
+  position: absolute;
+  z-index: 1;
+  border-color: color-mix(in oklch, var(--border) 72%, transparent);
+  border-radius: 50%;
+  content: '';
+  pointer-events: none;
+}
+
+.tool-orbit::before {
+  inset: 0 29%;
+  border-left-width: 1px;
+  border-right-width: 1px;
+}
+
+.tool-orbit::after {
+  inset: 31% 0;
+  border-bottom-width: 1px;
+  border-top-width: 1px;
+}
+
+.tool-orbit[data-dragging='true'] { cursor: grabbing; }
+
+.tool-orbit[data-dragging='true'] li,
+.tool-orbit[data-coasting='true'] li { will-change: left, top, transform, opacity; }
+
 .theme-trigger { box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--foreground) 8%, transparent); }
 
 .theme-iris-overlay {

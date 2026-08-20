@@ -13,6 +13,9 @@ A frontend-only personal portfolio focused on software development and workflow 
 
 - Light and dark themes with a hard-edged iris reveal that begins at the theme toggle
 - A recognizable grayscale 64x64 pixel tarsier used as the static Nav mark and animated Hero mascot
+- A Featured Build spotlight with a real preview, inline case-study notes, and a source link
+- A pointer- and keyboard-driven Tools & Skills globe with damped release momentum and no automatic rotation
+- Lightweight project placeholders and a plain certification list, both sourced from the central content file
 - A frontend-only "Contact Marvin" widget that reuses the centralized contact links and becomes a focus-trapped modal on mobile
 - Keyboard-friendly navigation, skip link, visible focus styles, and 44px control targets
 
@@ -29,6 +32,6 @@ Use `npm run typecheck`, `npm run lint`, and `npm run build` before deployment.
 
 ## Edit content
 
-All editable portfolio information is centralized in `src/data/content.ts`. The portfolio itself is the truthful featured case study, including a real browser-rendered screenshot. Experience and certification sections are intentionally absent until real evidence is supplied. The mascot source, alternative text, contact-widget copy, and contact URLs also live in the content file.
+All editable portfolio information is centralized in `src/data/content.ts`. This includes the Featured Build, tool groups, labelled project placeholders, certification rows, mascot source and alternative text, contact-widget copy, and contact URLs. Experience remains absent until a real entry is supplied.
 
 For local visual QA only, add `?motion=full` to exercise the normal-motion path when the test browser reports reduced motion. `?mascotAsset=<unique-token>` forces a fresh Hero mascot request, while `?mascotAsset=error` exercises the visible image-failure fallback. These switches are disabled in production builds.

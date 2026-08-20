@@ -26,7 +26,7 @@ export function Hero() {
               {content.person.summary.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
             </motion.div>
             <motion.div {...entrance(0.38)} className="mt-8">
-              <a href="#projects" className="interactive-control inline-flex min-h-11 items-center rounded-card bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground">View this build</a>
+              <a href="#featured-build" className="interactive-control inline-flex min-h-11 items-center rounded-card bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground">View this build</a>
             </motion.div>
           </div>
         </div>

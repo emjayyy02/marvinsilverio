@@ -21,7 +21,8 @@ This file records the shipped interface rules. `PRODUCT.md` owns product intent;
 - Controls use `.interactive-control`: restrained pointer feedback with a 44px minimum target where practical. Shrinking is reserved for the active/pressed state.
 - Informational cards never scale or otherwise imply clickability. Interactive cards must expose a real action and a distinct focus state.
 - Preserve the shared `:focus-visible` ring. Hover styling never replaces keyboard focus feedback.
-- The featured project is informational: no hover scale, fake destination, or interaction cue is applied without a real action.
+- The featured project uses one bordered spotlight card with a preview, concise build summary, inline case-study disclosure, and real source link. Informational regions do not scale or imply clickability.
+- Tools render as a DOM-based spherical cluster. It rotates only from pointer or keyboard input, carries at most a short release momentum, and never auto-rotates or exposes carousel controls.
 
 ## Motion
 
@@ -29,6 +30,7 @@ This file records the shipped interface rules. `PRODUCT.md` owns product intent;
 - Section headings establish the section first, followed by content with a calm, visible stagger. Supporting motion stays quieter than the mascot and iris.
 - Lenis smooths wheel and trackpad input with `lerp: 0.1`. Touch remains native (`syncTouch: false`); internal anchors stop inertia and rely on the shared 80px scroll padding.
 - Reduced motion disables the iris and scroll damping, removes movement from the mascot and interaction transforms, and retains only short opacity fades where useful.
+- Reduced motion keeps direct manipulation of the tool globe available but removes release momentum, so the cluster stops with the pointer.
 
 ## Contact widget
 
@@ -47,6 +49,6 @@ This file records the shipped interface rules. `PRODUCT.md` owns product intent;
 
 ## Content maintenance
 
-- Editable rendered portfolio content belongs in `src/data/content.ts`; the case-study screenshot lives in `public/images`.
-- Keep this portfolio as the truthful featured project. Experience and certification sections stay absent until real entries are supplied.
+- Editable rendered portfolio content belongs in `src/data/content.ts`; the featured-build screenshot lives in `public/images`.
+- Keep this portfolio as the truthful featured project. Label temporary project cards as placeholders, keep certifications in the plain list data, and leave Experience absent until a real entry is supplied.
 - Update `README.md`, this file, and visual QA expectations when a deliberate design-system rule changes.

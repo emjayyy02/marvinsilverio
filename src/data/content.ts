@@ -1,5 +1,17 @@
 export type ContactIconName = 'email' | 'linkedin' | 'instagram'
 
+export type SkillIconName =
+  | 'react'
+  | 'tailwind'
+  | 'supabase'
+  | 'html'
+  | 'css'
+  | 'javascript'
+  | 'zapier'
+  | 'n8n'
+  | 'microsoft365'
+  | 'googleWorkspace'
+
 export interface ContactLink {
   label: string
   href: string
@@ -8,21 +20,35 @@ export interface ContactLink {
 
 export interface SkillGroup {
   title: string
-  items: string[]
+  items: {
+    label: string
+    icon: SkillIconName
+  }[]
 }
 
-export interface Project {
+export interface FeaturedBuild {
   title: string
   description: string
   imageSrc: string
   imageAlt: string
-  imageCaption: string
   tags: string[]
   status: string
-  details: {
+  sourceHref: string
+  caseStudy: {
     label: string
     body: string
   }[]
+}
+
+export interface ProjectPreview {
+  title: string
+  tags: string[]
+  status: string
+}
+
+export interface Certification {
+  name: string
+  issuer: string
 }
 
 export interface ChatWidgetContent {
@@ -49,39 +75,75 @@ export const content = {
     { label: 'Contact', href: '#contact' },
   ],
   skills: [
-    { title: 'Web Dev', items: ['React', 'Tailwind CSS', 'Supabase', 'HTML', 'CSS', 'JavaScript'] },
-    { title: 'Automation', items: ['Zapier', 'n8n'] },
-    { title: 'Productivity', items: ['Microsoft 365', 'Google Workspace'] },
-  ] satisfies SkillGroup[],
-  projects: [
     {
-      title: 'Personal developer portfolio',
-      description: 'This site is the project: a React portfolio being rebuilt from a visual audit that proved working code is not the same as a clear, credible experience.',
-      imageSrc: '/images/portfolio-build-preview.png',
-      imageAlt: 'The portfolio Hero rendered at desktop width in light mode.',
-      imageCaption: 'Working build / 1440px browser review / light theme',
-      tags: ['React', 'TypeScript', 'Tailwind CSS', 'Motion'],
-      status: 'Currently building',
-      details: [
-        {
-          label: 'Problem',
-          body: 'The previous revision kept an outdated centered Hero, exposed placeholder work, and shipped signature motion that was technically present but visually easy to miss.',
-        },
-        {
-          label: 'Approach',
-          body: 'Correct the highest-impact failures first, then review the rendered result at real viewport widths and in the target browser before accepting any item.',
-        },
-        {
-          label: 'Current state',
-          body: 'The Hero, mascot, theme transition, content truth, responsive behavior, and documentation are being brought back into agreement.',
-        },
-        {
-          label: 'Lesson',
-          body: 'A passing build confirms that code compiles. It does not confirm that a visitor can see, understand, or trust the experience.',
-        },
+      title: 'Web Dev',
+      items: [
+        { label: 'React', icon: 'react' },
+        { label: 'Tailwind CSS', icon: 'tailwind' },
+        { label: 'Supabase', icon: 'supabase' },
+        { label: 'HTML', icon: 'html' },
+        { label: 'CSS', icon: 'css' },
+        { label: 'JavaScript', icon: 'javascript' },
       ],
     },
-  ] satisfies Project[],
+    {
+      title: 'Automation',
+      items: [
+        { label: 'Zapier', icon: 'zapier' },
+        { label: 'n8n', icon: 'n8n' },
+      ],
+    },
+    {
+      title: 'Productivity',
+      items: [
+        { label: 'Microsoft 365', icon: 'microsoft365' },
+        { label: 'Google Workspace', icon: 'googleWorkspace' },
+      ],
+    },
+  ] satisfies SkillGroup[],
+  featuredBuild: {
+    title: 'Personal developer portfolio',
+    description: 'A focused React portfolio rebuilt from a visual audit, with clearer hierarchy, responsive behavior, accessible motion, and one maintainable source for content.',
+    imageSrc: '/images/portfolio-build-preview.png',
+    imageAlt: 'The portfolio Hero rendered at desktop width in light mode.',
+    tags: ['React', 'TypeScript', 'Tailwind CSS', 'Motion'],
+    status: 'Currently building',
+    sourceHref: 'https://github.com/silveriomarvin3-sys/personal-developer-profile',
+    caseStudy: [
+      {
+        label: 'Problem',
+        body: 'Working code still produced an unclear first impression and exposed content that was not ready to publish.',
+      },
+      {
+        label: 'Approach',
+        body: 'Repair the highest-impact issues first, then accept changes only after reviewing the rendered experience at real viewport widths.',
+      },
+      {
+        label: 'Current state',
+        body: 'The portfolio now keeps its identity, theme behavior, responsive layout, content source, and documentation in agreement.',
+      },
+      {
+        label: 'Lesson',
+        body: 'A passing build confirms compilation; browser review confirms whether a visitor can see, understand, and trust the result.',
+      },
+    ],
+  } satisfies FeaturedBuild,
+  projects: [
+    {
+      title: 'Project placeholder 01',
+      tags: ['Web development', 'Details coming soon'],
+      status: 'Placeholder',
+    },
+    {
+      title: 'Project placeholder 02',
+      tags: ['Workflow automation', 'Details coming soon'],
+      status: 'Placeholder',
+    },
+  ] satisfies ProjectPreview[],
+  certifications: [
+    { name: 'n8n Level Certification', issuer: 'n8n' },
+    { name: 'Airtable Academy', issuer: 'Airtable' },
+  ] satisfies Certification[],
   contacts: [
     { label: 'Email', href: 'mailto:beefmarvin@gmail.com', icon: 'email' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/silveriomarvin1emj', icon: 'linkedin' },

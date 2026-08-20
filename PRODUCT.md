@@ -20,15 +20,15 @@ Marvin combines developing web-software skills with workflow and document-operat
 
 ## Operating Context
 
-The product is a responsive, static web portfolio used across desktop and mobile devices. Its main visitor path is professional summary, a featured case study of this portfolio, skills, and contact. A floating contact panel repeats the same centralized contact channels without pretending to provide live chat.
+The product is a responsive, static web portfolio used across desktop and mobile devices. Its main visitor path is professional summary, a featured build spotlight, skills, additional projects, certifications, and contact. A floating contact panel repeats the same centralized contact channels without pretending to provide live chat.
 
 ## Capabilities and Constraints
 
 - Frontend-only React, Vite, TypeScript, Tailwind CSS, Motion, and Lenis.
 - Light and dark themes only, persisted locally and initialized from the operating-system preference.
 - One signature mascot-assembly animation; supporting motion remains restrained.
-- All currently rendered portfolio and contact content stays centralized in `src/data/content.ts`.
-- This portfolio is the current featured project. Experience and certifications remain hidden until Marvin supplies real information.
+- All currently rendered portfolio, skill, certification, and contact content stays centralized in `src/data/content.ts`.
+- This portfolio is the current featured project. Placeholder project cards are labelled honestly, and Experience remains hidden until Marvin supplies a real entry.
 - No fabricated roles, organizations, certifications, metrics, testimonials, or project outcomes.
 
 ## Brand Commitments
@@ -42,7 +42,7 @@ The product is a responsive, static web portfolio used across desktop and mobile
 
 - Existing contact details and learning-stack information in `src/data/content.ts`.
 - This portfolio rebuild is a real current project and an honest case study of audit-driven iteration.
-- No formal software role or certification has been supplied yet; future work must not fabricate them.
+- Certification list entries supplied for this layout pass live in `src/data/content.ts`; their exact public wording and issuing organizations remain user-owned content.
 
 ## Product Principles
 
