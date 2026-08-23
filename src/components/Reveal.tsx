@@ -1,9 +1,10 @@
 import type { ReactNode } from 'react'
-import { motion, useReducedMotion } from 'motion/react'
-import { forceFullMotionForVisualQa } from '../lib/motionPreference'
+import { motion } from 'motion/react'
+import { usePrefersReducedMotion } from '../lib/motionPreference'
+import { motionDuration, motionEase } from '../lib/motionTokens'
 
 export function Reveal({ children, delay = 0, className = '' }: { children: ReactNode; delay?: number; className?: string }) {
-  const shouldReduceMotion = useReducedMotion() && !forceFullMotionForVisualQa()
+  const shouldReduceMotion = usePrefersReducedMotion()
 
   return (
     <motion.div
@@ -11,7 +12,7 @@ export function Reveal({ children, delay = 0, className = '' }: { children: Reac
       initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.16, margin: '0px 0px -8% 0px' }}
-      transition={{ duration: shouldReduceMotion ? 0.2 : 0.76, delay: shouldReduceMotion ? 0 : delay, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: shouldReduceMotion ? motionDuration.fast : motionDuration.reveal, delay: shouldReduceMotion ? 0 : delay, ease: motionEase.out }}
     >
       {children}
     </motion.div>

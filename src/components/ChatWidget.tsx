@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
+import { AnimatePresence, motion } from 'motion/react'
 import { content } from '../data/content'
 import { Icon } from './Icon'
-import { forceFullMotionForVisualQa } from '../lib/motionPreference'
+import { usePrefersReducedMotion } from '../lib/motionPreference'
+import { motionDuration, motionEase } from '../lib/motionTokens'
 
 export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [isMobileModal, setIsMobileModal] = useState(() => window.matchMedia('(max-width: 767px)').matches)
-  const shouldReduceMotion = useReducedMotion() && !forceFullMotionForVisualQa()
+  const shouldReduceMotion = usePrefersReducedMotion()
   const triggerRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
@@ -95,7 +96,7 @@ export function ChatWidget() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: shouldReduceMotion ? 0 : 0.18 }}
+              transition={{ duration: shouldReduceMotion ? 0 : motionDuration.fast }}
             />
             <motion.div
               {...panelMotion}
@@ -106,7 +107,7 @@ export function ChatWidget() {
               aria-labelledby={headingId}
               data-lenis-prevent
               className="fixed inset-x-4 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-[60] rounded-card border border-border bg-surface p-5 shadow-card md:inset-x-auto md:right-6 md:w-[22rem]"
-              transition={{ duration: shouldReduceMotion ? 0 : 0.18, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: shouldReduceMotion ? 0 : motionDuration.normal, ease: motionEase.out }}
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -118,7 +119,7 @@ export function ChatWidget() {
                   type="button"
                   onClick={() => closePanel()}
                   aria-label={content.chat.closeLabel}
-                  className="interactive-control grid size-11 shrink-0 place-items-center rounded-card border border-border bg-muted text-foreground"
+                  className="interactive-control button-secondary grid size-11 shrink-0 place-items-center rounded-card border border-border bg-muted text-foreground"
                 >
                   <Icon name="close" />
                 </button>
@@ -132,10 +133,10 @@ export function ChatWidget() {
                     target={contact.href.startsWith('http') ? '_blank' : undefined}
                     rel={contact.href.startsWith('http') ? 'noreferrer' : undefined}
                     onClick={() => closePanel()}
-                    className="interactive-control group flex min-h-11 items-center justify-between rounded-card border border-border bg-muted px-3.5 py-3 text-sm font-medium text-foreground"
+                    className="interactive-control button-secondary group flex min-h-11 items-center justify-between rounded-card border border-border bg-muted px-3.5 py-3 text-sm font-medium text-foreground"
                   >
                     <span className="flex items-center gap-3"><Icon name={contact.icon} className="size-5" />{contact.label}</span>
-                    <Icon name="arrow" className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transform-none" />
+                    <Icon name="arrow" className="button-arrow size-4 group-hover:translate-x-0.5" />
                   </a>
                 ))}
               </div>
@@ -152,7 +153,7 @@ export function ChatWidget() {
         aria-expanded={isOpen}
         aria-controls={panelId}
         aria-haspopup="dialog"
-        className="interactive-control fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))] z-[65] inline-flex size-11 items-center justify-center gap-2 rounded-full border border-border bg-primary p-0 text-sm font-medium text-primary-foreground shadow-card md:h-11 md:w-auto md:px-4"
+        className="interactive-control button-primary fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))] z-[65] inline-flex size-11 items-center justify-center gap-2 rounded-full border border-border bg-primary p-0 text-sm font-medium text-primary-foreground shadow-card md:h-11 md:w-auto md:px-4"
       >
         <Icon name="message" className="size-4" />
         <span className="hidden md:inline">{content.chat.triggerLabel}</span>

@@ -1,7 +1,7 @@
 import type { ContactIconName } from '../data/content'
 
 interface IconProps {
-  name: ContactIconName | 'sun' | 'moon' | 'menu' | 'close' | 'arrow' | 'message'
+  name: ContactIconName | 'sun' | 'moon' | 'menu' | 'close' | 'arrow' | 'arrowLeft' | 'arrowUp' | 'message' | 'image' | 'check'
   className?: string
 }
 
@@ -17,7 +17,11 @@ export function Icon({ name, className = 'size-4' }: IconProps) {
     menu: <path d="M4 7h16M4 12h16M4 17h16" {...sharedProps} />,
     close: <path d="m6 6 12 12M18 6 6 18" {...sharedProps} />,
     arrow: <path d="M5 12h14M13 6l6 6-6 6" {...sharedProps} />,
+    arrowLeft: <path d="M19 12H5m6 6-6-6 6-6" {...sharedProps} />,
+    arrowUp: <path d="M12 19V5m-6 6 6-6 6 6" {...sharedProps} />,
     message: <><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.7 8.7 0 0 1-3.4-.68L4 20l1.47-4A7.5 7.5 0 1 1 20 11.5Z" {...sharedProps} /><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01" {...sharedProps} /></>,
+    image: <><rect x="3" y="4" width="18" height="16" rx="2" {...sharedProps} /><circle cx="8.5" cy="9" r="1.5" {...sharedProps} /><path d="m5 17 4.5-4 3.25 2.75L15.5 13l3.5 4" {...sharedProps} /></>,
+    check: <path d="m6.5 12.5 3.3 3.3 7.7-8" {...sharedProps} />,
   }
 
   return <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>{paths[name]}</svg>

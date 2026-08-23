@@ -13,10 +13,15 @@
   --primary: oklch(0 0 0);
   --primary-foreground: oklch(1 0 0);
   --ring: oklch(0.38 0 0);
+  --profile-mark: oklch(0.5 0.2 255);
+  --profile-mark-foreground: oklch(1 0 0);
   --radius: 0.5rem;
   --shadow-opacity: 0.18;
   --shadow-blur: 2px;
   --shadow-card: 0 1px var(--shadow-blur) oklch(0 0 0 / var(--shadow-opacity));
+  --motion-fast: 160ms;
+  --motion-normal: 220ms;
+  --motion-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dark {
@@ -29,6 +34,8 @@
   --primary: oklch(1 0 0);
   --primary-foreground: oklch(0 0 0);
   --ring: oklch(0.77 0 0);
+  --profile-mark: oklch(0.62 0.19 255);
+  --profile-mark-foreground: oklch(1 0 0);
   --shadow-card: 0 1px var(--shadow-blur) oklch(0 0 0 / var(--shadow-opacity));
 }
 
@@ -63,8 +70,6 @@ body {
 ::view-transition-new(root) { z-index: 2; }
 
 ::selection { background: var(--primary); color: var(--primary-foreground); }
-
-.pixel-art { image-rendering: pixelated; }
 
 .hero-grid {
   background-image: radial-gradient(circle at center, var(--border) 1px, transparent 1px);
@@ -155,23 +160,82 @@ body {
 .theme-iris-overlay.is-active { transform: scale(1); }
 
 .interactive-control {
-  transition-property: transform, opacity, color, background-color, border-color, box-shadow;
-  transition-duration: 180ms;
-  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  transition-property: opacity, color, background-color, border-color;
+  transition-duration: var(--motion-fast);
+  transition-timing-function: var(--motion-ease-out);
 }
 
+.button-primary,
+.button-secondary {
+  transition-property: transform, opacity, color, background-color, border-color, box-shadow;
+  transition-duration: var(--motion-normal);
+}
+
+.button-arrow,
+.contact-channel-arrow {
+  transition: transform var(--motion-normal) var(--motion-ease-out);
+}
+
+.contact-channel {
+  isolation: isolate;
+  position: relative;
+  transition-property: color, border-color, opacity;
+  transition-duration: var(--motion-normal);
+}
+
+.contact-channel::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: var(--primary-foreground);
+  content: '';
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--motion-normal) var(--motion-ease-out);
+}
+
+.contact-channel > * { position: relative; z-index: 1; }
+
+.interactive-control:active { opacity: 0.82; }
+.button-primary:active { transform: translateY(0) scale(0.98); }
+.button-secondary:active { transform: scale(0.98); }
+.contact-channel:active { transform: scale(0.99); }
+
 @media (hover: hover) and (pointer: fine) {
-  .interactive-control:hover { opacity: 1; transform: translateY(-1px); }
-  .interactive-control:active { transform: translateY(0) scale(0.98); }
+  .interactive-control:hover { opacity: 1; }
+  .button-primary:hover { transform: translateY(-3px); box-shadow: 0 3px 5px oklch(0 0 0 / 0.16); }
+  .button-secondary:hover { transform: scale(1.03); }
+  .contact-channel:hover { color: var(--primary); }
+  .contact-channel:hover::before { transform: scaleX(1); }
+  .contact-channel:hover .contact-channel-arrow { transform: translateX(4px); }
 }
 
 :focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
 
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto !important; }
+html[data-motion='reduce'] { scroll-behavior: auto !important; }
 
-  .interactive-control { transition-property: opacity, color, background-color, border-color; }
-
-  .interactive-control:hover,
-  .interactive-control:active { transform: none !important; }
+html[data-motion='reduce'] .interactive-control,
+html[data-motion='reduce'] .button-primary,
+html[data-motion='reduce'] .button-secondary,
+html[data-motion='reduce'] .contact-channel {
+  transition-property: opacity, color, background-color, border-color;
+  transition-duration: var(--motion-fast);
 }
+
+html[data-motion='reduce'] .interactive-control:hover,
+html[data-motion='reduce'] .interactive-control:active,
+html[data-motion='reduce'] .button-primary:hover,
+html[data-motion='reduce'] .button-primary:active,
+html[data-motion='reduce'] .button-secondary:hover,
+html[data-motion='reduce'] .button-secondary:active,
+html[data-motion='reduce'] .contact-channel:hover,
+html[data-motion='reduce'] .contact-channel:active,
+html[data-motion='reduce'] .button-arrow,
+html[data-motion='reduce'] .contact-channel-arrow,
+html[data-motion='reduce'] .scroll-top-control { transform: none !important; }
+
+html[data-motion='reduce'] .button-primary:hover { box-shadow: var(--shadow-card); }
+html[data-motion='reduce'] .contact-channel::before { display: none; }
+html[data-motion='reduce'] .contact-channel:hover { background: var(--primary-foreground); color: var(--primary); }
+html[data-motion='reduce'] .scroll-top-control { transition-property: opacity; }

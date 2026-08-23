@@ -141,5 +141,10 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+.vite-temp/
 dist/
 *.local
+
+# Local portfolio QA captures
+/portfolio-full-screenshot.png
+/portfolio-square-screenshot.png

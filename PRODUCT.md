@@ -20,28 +20,33 @@ Marvin combines developing web-software skills with workflow and document-operat
 
 ## Operating Context
 
-The product is a responsive, static web portfolio used across desktop and mobile devices. Its main visitor path is professional summary, a featured build spotlight, skills, additional projects, certifications, and contact. A floating contact panel repeats the same centralized contact channels without pretending to provide live chat.
+The product is a responsive, static web portfolio used across desktop and mobile devices. Its homepage leads from a professional summary to a featured build, selected projects, a compact tools preview, certifications, Education, and contact. Dedicated project and skills archives let visitors browse deeper evidence without turning the homepage into a long catalogue. A floating contact panel repeats the same centralized contact channels.
 
 ## Capabilities and Constraints
 
 - Frontend-only React, Vite, TypeScript, Tailwind CSS, Motion, and Lenis.
 - Light and dark themes only, persisted locally and initialized from the operating-system preference.
-- One signature mascot-assembly animation; supporting motion remains restrained.
-- All currently rendered portfolio, skill, certification, and contact content stays centralized in `src/data/content.ts`.
-- This portfolio is the current featured project. Placeholder project cards are labelled honestly, and Experience remains hidden until Marvin supplies a real entry.
+- Hero, section, and panel motion remains restrained and respects reduced motion.
+- General portfolio, certification, Education, contact, and footer content stays centralized in `src/data/content.ts`; the current toolkit and its categories live in `src/data/skills.ts`; structured project records are exposed through `src/data/projects.ts` and maintained in one project catalog.
+- Project 05 is the featured build. Projects 04, 03, 02, and 01 appear as selected projects, while all verified projects are available through a four-per-page `/projects` archive and dedicated case-study routes. Experience remains hidden until Marvin supplies a real entry.
+- A small dependency-free History API router supports the homepage, `/skills`, reload-safe project archive query pagination, and project detail URLs.
 - No fabricated roles, organizations, certifications, metrics, testimonials, or project outcomes.
 
 ## Brand Commitments
 
-- Product and wordmark name: Marvin Silverio / Marvin.
-- A compact grayscale pixel-art Philippine tarsier is the recognizable mascot.
+- Product name: Marvin Silverio; the compact navigation mark is `MJ`.
+- The Hero uses Marvin's supplied portrait in a centralized circular slot, with the neutral placeholder retained only as an image-load failure fallback.
+- A small decorative blue check-style profile mark follows Marvin's name without making or announcing a verification claim.
+- Professional positioning: Automation Engineer & Frontend Developer.
 - Voice is direct, professional, honest about the current learning stage, and focused on software development plus workflow automation.
-- The interface remains neutral; personality comes from typography, spacing, pixel craft, and motion rather than color accents.
+- The interface remains neutral except for the restrained blue profile mark; personality otherwise comes from typography, spacing, pixel craft, and motion.
 
 ## Evidence on Hand
 
 - Existing contact details and learning-stack information in `src/data/content.ts`.
-- This portfolio rebuild is a real current project and an honest case study of audit-driven iteration.
+- Structured descriptions, verified card preview images, representative card technologies, full stacks, source URLs, screenshots, evidence captions, and case-study sections for Projects 01–05 in the centralized project catalog.
+- Projects 01–05 have public source repositories and verified README documentation. Project 05 includes evaluation and reliability evidence for its AI-assisted support workflow.
+- Project 05 uses eight verified evidence screenshots, Project 04 uses six, Project 03 uses eight, Project 02 uses six, and Project 01 uses the verified portfolio preview.
 - Certification list entries supplied for this layout pass live in `src/data/content.ts`; their exact public wording and issuing organizations remain user-owned content.
 
 ## Product Principles

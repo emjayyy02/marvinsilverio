@@ -1,15 +1,11 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { KeyboardEvent, PointerEvent as ReactPointerEvent } from 'react'
-import { useReducedMotion } from 'motion/react'
-import type { SkillIconName } from '../data/content'
-import { forceFullMotionForVisualQa } from '../lib/motionPreference'
+import type { Skill } from '../data/skills'
+import { usePrefersReducedMotion } from '../lib/motionPreference'
 import { ToolIcon } from './ToolIcon'
 
-export interface ToolOrbitItem {
-  id: string
-  label: string
-  group: string
-  icon: SkillIconName
+export interface ToolOrbitItem extends Pick<Skill, 'id' | 'name' | 'logo'> {
+  category: string
 }
 
 interface Rotation {
@@ -35,7 +31,7 @@ const clamp = (value: number, min: number, max: number) => Math.min(Math.max(val
 
 export function ToolOrbit({ items }: { items: readonly ToolOrbitItem[] }) {
   const instructionId = useId()
-  const shouldReduceMotion = Boolean(useReducedMotion()) && !forceFullMotionForVisualQa()
+  const shouldReduceMotion = usePrefersReducedMotion()
   const [rotation, setRotation] = useState<Rotation>(INITIAL_ROTATION)
   const [isDragging, setIsDragging] = useState(false)
   const [isCoasting, setIsCoasting] = useState(false)
@@ -238,9 +234,8 @@ export function ToolOrbit({ items }: { items: readonly ToolOrbitItem[] }) {
 
   return (
     <div>
-      <p id={instructionId} className="mb-4 text-center font-mono text-[0.68rem] uppercase tracking-[0.12em] text-muted-foreground">
-        Drag to rotate <span aria-hidden="true">/</span> focus and use arrow keys
-      </p>
+      <p className="mb-4 text-center font-mono text-[0.68rem] uppercase tracking-[0.12em] text-muted-foreground">Drag to rotate</p>
+      <p id={instructionId} className="sr-only">Drag to rotate. Focus the globe and use the arrow keys to rotate it. Press Home to reset the view or Escape to stop momentum.</p>
       <div
         role="group"
         tabIndex={0}
@@ -259,8 +254,9 @@ export function ToolOrbit({ items }: { items: readonly ToolOrbitItem[] }) {
           {projectedItems.map(({ item, left, top, scale, opacity, zIndex }) => (
             <li
               key={item.id}
-              aria-label={`${item.label}, ${item.group}`}
-              className="absolute grid size-[3.65rem] place-items-center rounded-card border border-border bg-background text-foreground sm:size-[4.4rem]"
+              aria-label={`${item.name}, ${item.category}`}
+              title={item.name}
+              className="absolute grid size-[3.65rem] place-items-center rounded-card border border-border bg-white text-neutral-900 shadow-card sm:size-[4.4rem]"
               style={{
                 left: `${left}%`,
                 top: `${top}%`,
@@ -269,20 +265,12 @@ export function ToolOrbit({ items }: { items: readonly ToolOrbitItem[] }) {
                 transform: `translate(-50%, -50%) scale(${scale})`,
               }}
             >
-              <ToolIcon name={item.icon} className="size-5 sm:size-6" />
-              <span className="sr-only">{item.label}</span>
+              <ToolIcon logo={item.logo} className="size-5 sm:size-6" />
+              <span className="sr-only">{item.name}</span>
             </li>
           ))}
         </ul>
-        <span aria-hidden="true" className="absolute bottom-5 left-1/2 z-[110] -translate-x-1/2 whitespace-nowrap rounded-card border border-border bg-background/90 px-2 py-1 font-mono text-[0.58rem] uppercase tracking-[0.1em] text-muted-foreground backdrop-blur-sm">
-          {isDragging ? 'Rotating' : isCoasting ? 'Momentum' : 'Drag the globe'}
-        </span>
       </div>
-      <ul className="mx-auto mt-5 flex max-w-[36rem] flex-wrap justify-center gap-x-4 gap-y-2" aria-label="Tool names">
-        {items.map((item) => (
-          <li key={`${item.id}-label`} className="pixel-tag font-mono text-[0.65rem] uppercase tracking-[0.08em] text-muted-foreground">{item.label}</li>
-        ))}
-      </ul>
     </div>
   )
 }

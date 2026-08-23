@@ -6,6 +6,7 @@ export default {
         background: 'var(--background)', foreground: 'var(--foreground)', surface: 'var(--surface)', muted: 'var(--muted)',
         'muted-foreground': 'var(--muted-foreground)', border: 'var(--border)', primary: 'var(--primary)',
         'primary-foreground': 'var(--primary-foreground)', ring: 'var(--ring)',
+        'profile-mark': 'var(--profile-mark)', 'profile-mark-foreground': 'var(--profile-mark-foreground)',
       },
       borderRadius: { card: 'var(--radius)' },
       boxShadow: { card: 'var(--shadow-card)' },

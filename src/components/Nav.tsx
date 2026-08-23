@@ -1,16 +1,19 @@
 import { useState } from 'react'
 import type { MouseEvent } from 'react'
-import { motion, useReducedMotion } from 'motion/react'
+import { motion } from 'motion/react'
 import { content } from '../data/content'
 import { useTheme } from '../contexts/ThemeContext'
 import type { Theme, TransitionOrigin } from '../contexts/ThemeContext'
-import { forceFullMotionForVisualQa } from '../lib/motionPreference'
+import { usePrefersReducedMotion } from '../lib/motionPreference'
+import { motionDuration, motionEase } from '../lib/motionTokens'
+import { RouteLink, useRouter } from '../lib/router'
 import { Icon } from './Icon'
 
 export function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
-  const shouldReduceMotion = useReducedMotion() && !forceFullMotionForVisualQa()
+  const { location } = useRouter()
+  const shouldReduceMotion = usePrefersReducedMotion()
 
   const closeMenu = () => setIsMenuOpen(false)
 
@@ -19,19 +22,18 @@ export function Nav() {
       className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md"
       initial={{ opacity: 0, y: shouldReduceMotion ? 0 : -10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: shouldReduceMotion ? 0.2 : 0.46, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: shouldReduceMotion ? motionDuration.fast : motionDuration.entrance, ease: motionEase.out }}
     >
       <nav className="mx-auto flex min-h-16 max-w-6xl items-center justify-between px-5 sm:px-8" aria-label="Main navigation">
-        <a href="#top" className="interactive-control inline-flex min-h-11 items-center gap-2.5 rounded-card pr-2 text-xs font-medium tracking-[-0.02em] text-foreground">
-          <img src={content.person.mascotSrc} alt="" width="32" height="32" className="pixel-art size-8 shrink-0" />
-          <span>{content.person.wordmark}</span>
-        </a>
+        <RouteLink href="/" aria-label="Marvin Silverio home" className="interactive-control inline-flex min-h-11 min-w-11 items-center justify-center rounded-card font-mono text-sm font-semibold tracking-[0.08em] text-foreground">
+          <span aria-hidden="true">MJ</span>
+        </RouteLink>
 
         <div className="hidden items-center gap-1 md:flex">
           {content.navigation.map((item) => (
-            <a key={item.href} href={item.href} className="interactive-control inline-flex min-h-11 items-center rounded-card px-3 text-sm text-muted-foreground hover:text-foreground">
+            <RouteLink key={item.href} href={item.href} aria-current={location.pathname === item.href ? 'page' : undefined} className="interactive-control inline-flex min-h-11 items-center rounded-card px-3 text-sm text-muted-foreground hover:text-foreground">
               {item.label}
-            </a>
+            </RouteLink>
           ))}
           <ThemeButton theme={theme} toggleTheme={toggleTheme} />
         </div>
@@ -48,9 +50,9 @@ export function Nav() {
         <div id="mobile-navigation" className="border-t border-border bg-background px-5 py-3 md:hidden sm:px-8">
           <div className="mx-auto flex max-w-6xl flex-col">
             {content.navigation.map((item) => (
-              <a key={item.href} href={item.href} onClick={closeMenu} className="interactive-control inline-flex min-h-11 items-center rounded-card px-3 text-sm text-muted-foreground hover:text-foreground">
+              <RouteLink key={item.href} href={item.href} aria-current={location.pathname === item.href ? 'page' : undefined} onClick={closeMenu} className="interactive-control inline-flex min-h-11 items-center rounded-card px-3 text-sm text-muted-foreground hover:text-foreground">
                 {item.label}
-              </a>
+              </RouteLink>
             ))}
           </div>
         </div>
@@ -89,7 +91,7 @@ function ThemeButton({ theme, toggleTheme }: { theme: Theme; toggleTheme: (origi
         className="grid place-items-center"
         initial={{ opacity: 0, scale: 0.72 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: motionDuration.normal, ease: motionEase.out }}
       >
         <Icon name={icon} />
       </motion.span>

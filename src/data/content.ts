@@ -1,54 +1,21 @@
 export type ContactIconName = 'email' | 'linkedin' | 'instagram'
 
-export type SkillIconName =
-  | 'react'
-  | 'tailwind'
-  | 'supabase'
-  | 'html'
-  | 'css'
-  | 'javascript'
-  | 'zapier'
-  | 'n8n'
-  | 'microsoft365'
-  | 'googleWorkspace'
-
 export interface ContactLink {
   label: string
   href: string
   icon: ContactIconName
 }
 
-export interface SkillGroup {
-  title: string
-  items: {
-    label: string
-    icon: SkillIconName
-  }[]
-}
-
-export interface FeaturedBuild {
-  title: string
-  description: string
-  imageSrc: string
-  imageAlt: string
-  tags: string[]
-  status: string
-  sourceHref: string
-  caseStudy: {
-    label: string
-    body: string
-  }[]
-}
-
-export interface ProjectPreview {
-  title: string
-  tags: string[]
-  status: string
-}
-
 export interface Certification {
   name: string
   issuer: string
+}
+
+export interface Education {
+  period: string
+  degree: string
+  school: string
+  location: string
 }
 
 export interface ChatWidgetContent {
@@ -58,92 +25,71 @@ export interface ChatWidgetContent {
   closeLabel: string
 }
 
+export interface ProfileImageContent {
+  src: string | null
+  alt: string
+}
+
 export const content = {
   person: {
     name: 'Marvin Silverio',
-    wordmark: 'Marvin',
-    positioning: 'Software development + workflow automation',
-    summary: [
-      "I build responsive software interfaces and workflow automations that turn repetitive operations into reliable tools. I'm currently deepening my React, Tailwind CSS, and Supabase stack while specializing in automation with Zapier and n8n.",
-    ],
-    mascotSrc: '/images/tarsier-pixel-v2.png?v=2',
-    mascotAlt: 'A grayscale pixel-art Philippine tarsier mascot with large round eyes.',
+    professionalTitle: 'Automation Engineer & Frontend Developer',
+    heroSummary: 'I build workflow automations and web interfaces that turn repetitive processes into reliable, usable systems. My current work focuses on n8n, JavaScript, AI-assisted workflows, APIs, and modern frontend development.',
+    profileImage: {
+      src: '/images/marvin-silverio-profile.jpg' as string | null,
+      alt: 'Portrait of Marvin Silverio',
+    } satisfies ProfileImageContent,
+    resumeUrl: null as string | null,
+    primaryAction: {
+      label: 'View Projects',
+      href: '/#projects',
+    },
   },
   navigation: [
-    { label: 'Projects', href: '#projects' },
-    { label: 'Skills', href: '#skills' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Projects', href: '/#projects' },
+    { label: 'Capabilities', href: '/skills' },
+    { label: 'Contact', href: '/#contact' },
   ],
-  skills: [
-    {
-      title: 'Web Dev',
-      items: [
-        { label: 'React', icon: 'react' },
-        { label: 'Tailwind CSS', icon: 'tailwind' },
-        { label: 'Supabase', icon: 'supabase' },
-        { label: 'HTML', icon: 'html' },
-        { label: 'CSS', icon: 'css' },
-        { label: 'JavaScript', icon: 'javascript' },
-      ],
+  sections: {
+    featuredBuild: {
+      eyebrow: '02 / Featured build',
+      title: 'AI assistance with deterministic control.',
+      description: 'A support-operations workflow that uses an LLM for interpretation while keeping validation, routing, review policy, and failure handling inside the workflow.',
     },
-    {
-      title: 'Automation',
-      items: [
-        { label: 'Zapier', icon: 'zapier' },
-        { label: 'n8n', icon: 'n8n' },
-      ],
+    projects: {
+      eyebrow: '03 / Selected projects',
+      title: 'Selected projects.',
+      description: 'A few recent builds across automation and frontend work. Explore the full archive for more.',
     },
-    {
-      title: 'Productivity',
-      items: [
-        { label: 'Microsoft 365', icon: 'microsoft365' },
-        { label: 'Google Workspace', icon: 'googleWorkspace' },
-      ],
+    skills: {
+      eyebrow: '04 / Tools & capabilities',
+      title: 'Tools in practice.',
+      description: 'A growing toolkit shaped by the systems and interfaces I build.',
+      detail: "Explore the full set of technologies and tools I've worked with.",
     },
-  ] satisfies SkillGroup[],
-  featuredBuild: {
-    title: 'Personal developer portfolio',
-    description: 'A focused React portfolio rebuilt from a visual audit, with clearer hierarchy, responsive behavior, accessible motion, and one maintainable source for content.',
-    imageSrc: '/images/portfolio-build-preview.png',
-    imageAlt: 'The portfolio Hero rendered at desktop width in light mode.',
-    tags: ['React', 'TypeScript', 'Tailwind CSS', 'Motion'],
-    status: 'Currently building',
-    sourceHref: 'https://github.com/silveriomarvin3-sys/personal-developer-profile',
-    caseStudy: [
-      {
-        label: 'Problem',
-        body: 'Working code still produced an unclear first impression and exposed content that was not ready to publish.',
-      },
-      {
-        label: 'Approach',
-        body: 'Repair the highest-impact issues first, then accept changes only after reviewing the rendered experience at real viewport widths.',
-      },
-      {
-        label: 'Current state',
-        body: 'The portfolio now keeps its identity, theme behavior, responsive layout, content source, and documentation in agreement.',
-      },
-      {
-        label: 'Lesson',
-        body: 'A passing build confirms compilation; browser review confirms whether a visitor can see, understand, and trust the result.',
-      },
-    ],
-  } satisfies FeaturedBuild,
-  projects: [
-    {
-      title: 'Project placeholder 01',
-      tags: ['Web development', 'Details coming soon'],
-      status: 'Placeholder',
+    certifications: {
+      eyebrow: '05 / Certifications',
+      title: 'Credentials, listed plainly.',
+      description: 'A direct record of learning credentials without ratings, progress bars, or decorative badges.',
     },
-    {
-      title: 'Project placeholder 02',
-      tags: ['Workflow automation', 'Details coming soon'],
-      status: 'Placeholder',
+    education: {
+      eyebrow: '05 / Education',
+      title: 'Education.',
     },
-  ] satisfies ProjectPreview[],
-  certifications: [
-    { name: 'n8n Level Certification', issuer: 'n8n' },
-    { name: 'Airtable Academy', issuer: 'Airtable' },
-  ] satisfies Certification[],
+    contact: {
+      eyebrow: '06 / Contact',
+      title: 'Start a conversation.',
+      description: 'Choose the channel that works best for you.',
+      panelCopy: 'Choose a channel.',
+    },
+  },
+  certifications: [] as Certification[],
+  education: {
+    period: '2025 — 2029',
+    degree: 'Bachelor of Science in Information Systems',
+    school: 'Dr. Filemon C. Aguilar Memorial College of Las Piñas',
+    location: 'Las Piñas City, Philippines',
+  } satisfies Education,
   contacts: [
     { label: 'Email', href: 'mailto:beefmarvin@gmail.com', icon: 'email' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/silveriomarvin1emj', icon: 'linkedin' },
@@ -152,7 +98,17 @@ export const content = {
   chat: {
     triggerLabel: 'Contact Marvin',
     heading: 'Choose a channel.',
-    description: 'There is no bot here—just three direct ways to reach me.',
+    description: 'Reach me through any of these.',
     closeLabel: 'Close contact panel',
   } satisfies ChatWidgetContent,
+  footer: {
+    philosophy: [
+      'Obsession beats talent.',
+      'Discipline outlasts obsession.',
+    ],
+    name: 'Marvin Silverio',
+    line: 'Keep going',
+    location: 'Las Piñas City, PH',
+    copyright: '© 2026 All rights reserved.',
+  },
 } as const
