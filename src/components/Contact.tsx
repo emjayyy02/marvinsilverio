@@ -17,7 +17,7 @@ export function Contact() {
             <p className="text-xl font-medium tracking-[-0.03em]">{section.panelCopy}</p>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               {content.contacts.map((contact) => (
-                <a key={contact.label} href={contact.href} target={contact.href.startsWith('http') ? '_blank' : undefined} rel={contact.href.startsWith('http') ? 'noreferrer' : undefined} className="interactive-control contact-channel group flex min-h-11 items-center justify-between overflow-hidden border border-primary-foreground/30 px-4 py-4 text-sm font-medium text-primary-foreground">
+                <a key={contact.label} href={contact.href} target={contact.href.startsWith('http') ? '_blank' : undefined} rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined} className="interactive-control contact-channel group flex min-h-11 items-center justify-between overflow-hidden border border-primary-foreground/30 px-4 py-4 text-sm font-medium text-primary-foreground">
                   <span className="flex items-center gap-3"><Icon name={contact.icon} className="size-5" />{contact.label}</span>
                   <Icon name="arrow" className="contact-channel-arrow size-4" />
                 </a>

@@ -131,7 +131,7 @@ export function ChatWidget() {
                     key={contact.label}
                     href={contact.href}
                     target={contact.href.startsWith('http') ? '_blank' : undefined}
-                    rel={contact.href.startsWith('http') ? 'noreferrer' : undefined}
+                    rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                     onClick={() => closePanel()}
                     className="interactive-control button-secondary group flex min-h-11 items-center justify-between rounded-card border border-border bg-muted px-3.5 py-3 text-sm font-medium text-foreground"
                   >

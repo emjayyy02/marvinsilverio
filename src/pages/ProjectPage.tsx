@@ -10,9 +10,9 @@ export function ProjectPage({ project }: { project: Project }) {
     <>
       <header className="hero-grid border-b border-border">
         <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
-          <RouteLink href="/projects" className="interactive-control button-secondary group inline-flex min-h-11 items-center gap-2 rounded-card text-sm font-medium text-muted-foreground hover:text-foreground">
+          <RouteLink href="/" className="interactive-control button-secondary group inline-flex min-h-11 items-center gap-2 rounded-card text-sm font-medium text-muted-foreground hover:text-foreground">
             <Icon name="arrowLeft" className="button-arrow size-4 group-hover:-translate-x-0.5" />
-            Back to Projects
+            Back to Home
           </RouteLink>
 
           <div className="mt-8 grid gap-7 lg:grid-cols-[minmax(0,1.45fr)_minmax(16rem,0.55fr)] lg:items-end lg:gap-16">

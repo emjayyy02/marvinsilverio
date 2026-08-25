@@ -30,6 +30,9 @@ export interface ProfileImageContent {
   alt: string
 }
 
+const portfolioEmail = 'marvinsilverio.dev@gmail.com'
+const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${portfolioEmail}`
+
 export const content = {
   person: {
     name: 'Marvin Silverio',
@@ -91,7 +94,7 @@ export const content = {
     location: 'Las Piñas City, Philippines',
   } satisfies Education,
   contacts: [
-    { label: 'Email', href: 'mailto:beefmarvin@gmail.com', icon: 'email' },
+    { label: 'Email', href: gmailComposeUrl, icon: 'email' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/silveriomarvin1emj', icon: 'linkedin' },
     { label: 'Instagram', href: 'https://www.instagram.com/_emm.jayyy/', icon: 'instagram' },
   ] satisfies ContactLink[],
