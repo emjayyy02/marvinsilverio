@@ -9,6 +9,13 @@ export interface ContactLink {
 export interface Certification {
   name: string
   issuer: string
+  issued: string
+  image: {
+    src: string
+    alt: string
+    width: number
+    height: number
+  }
 }
 
 export interface Education {
@@ -72,21 +79,33 @@ export const content = {
     },
     certifications: {
       eyebrow: '05 / Certifications',
-      title: 'Credentials, listed plainly.',
-      description: 'A direct record of learning credentials without ratings, progress bars, or decorative badges.',
+      title: 'Certifications.',
+      description: 'Training and certifications supporting my hands-on automation work.',
     },
     education: {
-      eyebrow: '05 / Education',
+      eyebrow: '06 / Education',
       title: 'Education.',
     },
     contact: {
-      eyebrow: '06 / Contact',
+      eyebrow: '07 / Contact',
       title: 'Start a conversation.',
       description: 'Choose the channel that works best for you.',
       panelCopy: 'Choose a channel.',
     },
   },
-  certifications: [] as Certification[],
+  certifications: [
+    {
+      name: 'In Practice: AI, Testing & Best Practices',
+      issuer: 'n8n Academy',
+      issued: 'August 2026',
+      image: {
+        src: '/images/n8n-academy-ai-testing-best-practices-certificate.png',
+        alt: 'n8n Academy certificate for In Practice: AI, Testing & Best Practices',
+        width: 1123,
+        height: 799,
+      },
+    },
+  ] satisfies Certification[],
   education: {
     period: '2025 — 2029',
     degree: 'Bachelor of Science in Information Systems',

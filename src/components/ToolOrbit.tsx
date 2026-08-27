@@ -243,7 +243,7 @@ export function ToolOrbit({ items }: { items: readonly ToolOrbitItem[] }) {
         aria-describedby={instructionId}
         data-dragging={isDragging ? 'true' : 'false'}
         data-coasting={isCoasting ? 'true' : 'false'}
-        className="tool-orbit relative mx-auto aspect-square w-full max-w-[32rem] select-none overflow-hidden rounded-full border border-border bg-surface text-foreground"
+        className="tool-orbit relative isolate mx-auto aspect-square w-full max-w-[32rem] select-none overflow-hidden rounded-full border border-border bg-surface text-foreground"
         onKeyDown={handleKeyDown}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
