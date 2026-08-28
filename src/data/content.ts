@@ -49,7 +49,7 @@ export const content = {
       src: '/images/marvin-silverio-profile.jpg' as string | null,
       alt: 'Portrait of Marvin Silverio',
     } satisfies ProfileImageContent,
-    resumeUrl: null as string | null,
+    resumeUrl: '/Marvin_Silverio_Resume.pdf' as string | null,
     primaryAction: {
       label: 'View Projects',
       href: '/#projects',
