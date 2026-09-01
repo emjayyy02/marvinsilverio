@@ -1,5 +1,6 @@
 import { type FormEvent, useCallback, useEffect, useId, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
+import ReactMarkdown, { type Components } from 'react-markdown'
 import { content } from '../data/content'
 import { Icon } from './Icon'
 import { usePrefersReducedMotion } from '../lib/motionPreference'
@@ -14,6 +15,41 @@ import {
 const INITIAL_RESPONSE_TIMEOUT_MS = 30_000
 const STREAM_INACTIVITY_TIMEOUT_MS = 25_000
 const ABSOLUTE_REQUEST_TIMEOUT_MS = 90_000
+
+const assistantMarkdownComponents: Components = {
+  p: ({ children }) => <p className="[&:not(:first-child)]:mt-2">{children}</p>,
+  strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+  em: ({ children }) => <em>{children}</em>,
+  h1: ({ children }) => <strong className="mt-2 block font-semibold first:mt-0">{children}</strong>,
+  h2: ({ children }) => <strong className="mt-2 block font-semibold first:mt-0">{children}</strong>,
+  h3: ({ children }) => <strong className="mt-2 block font-semibold first:mt-0">{children}</strong>,
+  h4: ({ children }) => <strong className="mt-2 block font-semibold first:mt-0">{children}</strong>,
+  h5: ({ children }) => <strong className="mt-2 block font-semibold first:mt-0">{children}</strong>,
+  h6: ({ children }) => <strong className="mt-2 block font-semibold first:mt-0">{children}</strong>,
+  ul: ({ children }) => <ul className="my-2 list-disc space-y-1 pl-5">{children}</ul>,
+  ol: ({ children }) => <ol className="my-2 list-decimal space-y-1 pl-5">{children}</ol>,
+  li: ({ children }) => <li>{children}</li>,
+  code: ({ children, className }) => (
+    <code className={`rounded-card bg-surface px-1 py-0.5 font-mono text-[0.85em] ${className ?? ''}`}>
+      {children}
+    </code>
+  ),
+  pre: ({ children }) => (
+    <pre className="my-2 overflow-x-auto rounded-card bg-surface p-3 font-mono text-xs leading-5 [&>code]:bg-transparent [&>code]:p-0">
+      {children}
+    </pre>
+  ),
+  a: ({ children, href }) => (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="underline decoration-border underline-offset-2 hover:decoration-foreground"
+    >
+      {children}
+    </a>
+  ),
+}
 
 type ActiveRequest = {
   controller: AbortController
@@ -426,9 +462,16 @@ export function ChatWidget() {
                         alt=""
                         className="size-8 shrink-0 rounded-full border border-border object-cover"
                       />
-                      <p className="rounded-card bg-muted px-3.5 py-3 text-sm leading-6 text-foreground">
-                        {message.content || content.chat.thinkingMessage}
-                      </p>
+                      <div className="min-w-0 rounded-card bg-muted px-3.5 py-3 text-sm leading-6 text-foreground">
+                        {message.content ? (
+                          <ReactMarkdown
+                            skipHtml
+                            components={assistantMarkdownComponents}
+                          >
+                            {message.content}
+                          </ReactMarkdown>
+                        ) : content.chat.thinkingMessage}
+                      </div>
                     </div>
                   ) : (
                     <div key={`${message.role}-${index}`} className="flex justify-end">
