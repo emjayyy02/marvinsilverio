@@ -317,15 +317,26 @@ export function ChatWidget() {
                     <p id={descriptionId} className="mt-0.5 truncate text-xs text-muted-foreground">{content.chat.description}</p>
                   </div>
                 </div>
-                <button
-                  ref={closeButtonRef}
-                  type="button"
-                  onClick={() => closePanel()}
-                  aria-label={content.chat.closeLabel}
-                  className="interactive-control grid size-9 shrink-0 place-items-center rounded-card text-muted-foreground hover:bg-muted hover:text-foreground"
-                >
-                  <Icon name="close" />
-                </button>
+                <div className="flex shrink-0 items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={handleNewConversation}
+                    title={content.chat.newConversationLabel}
+                    aria-label={content.chat.newConversationLabel}
+                    className="interactive-control rounded-card px-2 py-2 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+                  >
+                    New
+                  </button>
+                  <button
+                    ref={closeButtonRef}
+                    type="button"
+                    onClick={() => closePanel()}
+                    aria-label={content.chat.closeLabel}
+                    className="interactive-control grid size-9 shrink-0 place-items-center rounded-card text-muted-foreground hover:bg-muted hover:text-foreground"
+                  >
+                    <Icon name="close" />
+                  </button>
+                </div>
               </div>
 
               <div
@@ -335,16 +346,6 @@ export function ChatWidget() {
                 aria-busy={isSending}
                 onScroll={handleConversationScroll}
               >
-                <div className="flex justify-end">
-                  <button
-                    type="button"
-                    onClick={handleNewConversation}
-                    className="interactive-control rounded-card px-1 py-0.5 text-xs text-muted-foreground hover:text-foreground"
-                  >
-                    {content.chat.newConversationLabel}
-                  </button>
-                </div>
-
                 <div className="flex max-w-[18rem] items-start gap-3">
                   <img
                     src={content.chat.avatar.src}
