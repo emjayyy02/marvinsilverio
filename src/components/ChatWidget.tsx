@@ -11,12 +11,31 @@ import {
   type ChatMessage,
 } from '../lib/portfolioAssistant'
 
-const REQUEST_TIMEOUT_MS = 30_000
+const INITIAL_RESPONSE_TIMEOUT_MS = 30_000
+const STREAM_INACTIVITY_TIMEOUT_MS = 25_000
+const ABSOLUTE_REQUEST_TIMEOUT_MS = 90_000
 
 type ActiveRequest = {
   controller: AbortController
   id: number
-  timeoutId: number
+  initialTimeoutId: number | null
+  inactivityTimeoutId: number | null
+  absoluteTimeoutId: number | null
+}
+
+function clearRequestTimers(request: ActiveRequest) {
+  if (request.initialTimeoutId !== null) {
+    window.clearTimeout(request.initialTimeoutId)
+    request.initialTimeoutId = null
+  }
+  if (request.inactivityTimeoutId !== null) {
+    window.clearTimeout(request.inactivityTimeoutId)
+    request.inactivityTimeoutId = null
+  }
+  if (request.absoluteTimeoutId !== null) {
+    window.clearTimeout(request.absoluteTimeoutId)
+    request.absoluteTimeoutId = null
+  }
 }
 
 export function ChatWidget() {
@@ -64,7 +83,7 @@ export function ChatWidget() {
 
       const activeRequest = activeRequestRef.current
       if (activeRequest) {
-        window.clearTimeout(activeRequest.timeoutId)
+        clearRequestTimers(activeRequest)
         activeRequest.controller.abort()
         activeRequestRef.current = null
       }
@@ -145,19 +164,61 @@ export function ChatWidget() {
     const controller = new AbortController()
     let didTimeout = false
     let receivedAssistantContent = false
-    const timeoutId = window.setTimeout(() => {
+    const activeRequest: ActiveRequest = {
+      controller,
+      id: requestId,
+      initialTimeoutId: null,
+      inactivityTimeoutId: null,
+      absoluteTimeoutId: null,
+    }
+    activeRequestRef.current = activeRequest
+
+    const isCurrentRequest = () => (
+      isMountedRef.current
+      && requestIdRef.current === requestId
+      && activeRequestRef.current?.id === requestId
+    )
+
+    const abortCurrentRequestForTimeout = () => {
+      if (!isCurrentRequest()) return
+
       didTimeout = true
+      clearRequestTimers(activeRequest)
       controller.abort()
-    }, REQUEST_TIMEOUT_MS)
+    }
 
-    activeRequestRef.current = { controller, id: requestId, timeoutId }
+    const startInactivityTimer = () => {
+      if (activeRequest.inactivityTimeoutId !== null) {
+        window.clearTimeout(activeRequest.inactivityTimeoutId)
+      }
+      activeRequest.inactivityTimeoutId = window.setTimeout(
+        abortCurrentRequestForTimeout,
+        STREAM_INACTIVITY_TIMEOUT_MS,
+      )
+    }
 
-    const isCurrentRequest = () => isMountedRef.current && requestIdRef.current === requestId
+    activeRequest.initialTimeoutId = window.setTimeout(
+      abortCurrentRequestForTimeout,
+      INITIAL_RESPONSE_TIMEOUT_MS,
+    )
+    activeRequest.absoluteTimeoutId = window.setTimeout(
+      abortCurrentRequestForTimeout,
+      ABSOLUTE_REQUEST_TIMEOUT_MS,
+    )
 
     try {
       await streamPortfolioAssistantResponse(requestMessages, (chunk) => {
         if (!isCurrentRequest()) return
-        if (chunk.trim()) receivedAssistantContent = true
+
+        if (chunk.trim()) {
+          receivedAssistantContent = true
+
+          if (activeRequest.initialTimeoutId !== null) {
+            window.clearTimeout(activeRequest.initialTimeoutId)
+            activeRequest.initialTimeoutId = null
+          }
+          startInactivityTimer()
+        }
 
         setMessages((currentMessages) => {
           const assistantMessage = currentMessages.at(-1)
@@ -198,7 +259,7 @@ export function ChatWidget() {
         setError(content.chat.errorMessage)
       }
     } finally {
-      window.clearTimeout(timeoutId)
+      clearRequestTimers(activeRequest)
 
       if (isCurrentRequest()) {
         activeRequestRef.current = null
@@ -250,7 +311,7 @@ export function ChatWidget() {
 
     const activeRequest = activeRequestRef.current
     if (activeRequest) {
-      window.clearTimeout(activeRequest.timeoutId)
+      clearRequestTimers(activeRequest)
       activeRequest.controller.abort()
       activeRequestRef.current = null
     }
