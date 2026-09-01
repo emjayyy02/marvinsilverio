@@ -1,24 +1,73 @@
-import { useCallback, useEffect, useId, useRef, useState } from 'react'
+import { type FormEvent, useCallback, useEffect, useId, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { content } from '../data/content'
 import { Icon } from './Icon'
 import { usePrefersReducedMotion } from '../lib/motionPreference'
 import { motionDuration, motionEase } from '../lib/motionTokens'
+import {
+  buildConversationWindow,
+  PortfolioAssistantRequestError,
+  streamPortfolioAssistantResponse,
+  type ChatMessage,
+} from '../lib/portfolioAssistant'
+
+const REQUEST_TIMEOUT_MS = 30_000
+
+type ActiveRequest = {
+  controller: AbortController
+  id: number
+  timeoutId: number
+}
 
 export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
+  const [draft, setDraft] = useState('')
+  const [messages, setMessages] = useState<ChatMessage[]>([])
+  const [isSending, setIsSending] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [retryMessages, setRetryMessages] = useState<ChatMessage[] | null>(null)
   const [isMobileModal, setIsMobileModal] = useState(() => window.matchMedia('(max-width: 767px)').matches)
   const shouldReduceMotion = usePrefersReducedMotion()
   const triggerRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const conversationRef = useRef<HTMLDivElement>(null)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const shouldAutoScrollRef = useRef(true)
+  const sendingRef = useRef(false)
+  const isMountedRef = useRef(true)
+  const requestIdRef = useRef(0)
+  const activeRequestRef = useRef<ActiveRequest | null>(null)
   const panelId = useId()
   const headingId = useId()
+  const descriptionId = useId()
 
   const closePanel = useCallback((restoreFocus = true) => {
     setIsOpen(false)
     if (restoreFocus) {
       window.requestAnimationFrame(() => triggerRef.current?.focus())
+    }
+  }, [])
+
+  const openPanel = () => {
+    shouldAutoScrollRef.current = true
+    setIsOpen(true)
+  }
+
+  useEffect(() => {
+    isMountedRef.current = true
+
+    return () => {
+      isMountedRef.current = false
+      requestIdRef.current += 1
+
+      const activeRequest = activeRequestRef.current
+      if (activeRequest) {
+        window.clearTimeout(activeRequest.timeoutId)
+        activeRequest.controller.abort()
+        activeRequestRef.current = null
+      }
     }
   }, [])
 
@@ -33,7 +82,11 @@ export function ChatWidget() {
   useEffect(() => {
     if (!isOpen) return
 
-    closeButtonRef.current?.focus()
+    if (sendingRef.current) {
+      closeButtonRef.current?.focus()
+    } else {
+      inputRef.current?.focus()
+    }
     const previousOverflow = document.body.style.overflow
     if (isMobileModal) document.body.style.overflow = 'hidden'
 
@@ -46,7 +99,7 @@ export function ChatWidget() {
 
       if (event.key === 'Tab' && isMobileModal && panelRef.current) {
         const focusableElements = Array.from(
-          panelRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'),
+          panelRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'),
         )
         const firstElement = focusableElements[0]
         const lastElement = focusableElements.at(-1)
@@ -62,20 +115,21 @@ export function ChatWidget() {
       }
     }
 
-    const handlePointerDown = (event: PointerEvent) => {
-      const target = event.target as Node
-      if (panelRef.current?.contains(target) || triggerRef.current?.contains(target)) return
-      closePanel()
-    }
-
     document.addEventListener('keydown', handleKeyDown)
-    document.addEventListener('pointerdown', handlePointerDown)
     return () => {
       document.body.style.overflow = previousOverflow
       document.removeEventListener('keydown', handleKeyDown)
-      document.removeEventListener('pointerdown', handlePointerDown)
     }
   }, [closePanel, isMobileModal, isOpen])
+
+  useEffect(() => {
+    if (!isOpen || !shouldAutoScrollRef.current) return
+
+    messagesEndRef.current?.scrollIntoView({
+      behavior: shouldReduceMotion ? 'auto' : 'smooth',
+      block: 'end',
+    })
+  }, [error, isOpen, isSending, messages, shouldReduceMotion])
 
   const panelMotion = shouldReduceMotion
     ? { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 } }
@@ -84,6 +138,144 @@ export function ChatWidget() {
         animate: { opacity: 1, y: 0, scale: 1 },
         exit: { opacity: 0, y: 8, scale: 0.98 },
       }
+
+  const runAssistantRequest = async (requestMessages: readonly ChatMessage[]) => {
+    const requestId = requestIdRef.current + 1
+    requestIdRef.current = requestId
+    const controller = new AbortController()
+    let didTimeout = false
+    let receivedAssistantContent = false
+    const timeoutId = window.setTimeout(() => {
+      didTimeout = true
+      controller.abort()
+    }, REQUEST_TIMEOUT_MS)
+
+    activeRequestRef.current = { controller, id: requestId, timeoutId }
+
+    const isCurrentRequest = () => isMountedRef.current && requestIdRef.current === requestId
+
+    try {
+      await streamPortfolioAssistantResponse(requestMessages, (chunk) => {
+        if (!isCurrentRequest()) return
+        if (chunk.trim()) receivedAssistantContent = true
+
+        setMessages((currentMessages) => {
+          const assistantMessage = currentMessages.at(-1)
+          if (assistantMessage?.role !== 'assistant') return currentMessages
+
+          return [
+            ...currentMessages.slice(0, -1),
+            { ...assistantMessage, content: assistantMessage.content + chunk },
+          ]
+        })
+      }, { signal: controller.signal })
+    } catch (requestError) {
+      if (import.meta.env.DEV) {
+        console.error('[portfolio assistant] Request failed.', requestError)
+      }
+
+      if (!isCurrentRequest()) return
+
+      if (!receivedAssistantContent) {
+        setMessages((currentMessages) => {
+          const assistantMessage = currentMessages.at(-1)
+          return assistantMessage?.role === 'assistant' && !assistantMessage.content.trim()
+            ? currentMessages.slice(0, -1)
+            : currentMessages
+        })
+        setRetryMessages([...requestMessages])
+      } else {
+        setRetryMessages(null)
+      }
+
+      if (receivedAssistantContent) {
+        setError(content.chat.interruptedErrorMessage)
+      } else if (didTimeout) {
+        setError(content.chat.timeoutErrorMessage)
+      } else if (requestError instanceof PortfolioAssistantRequestError && requestError.code === 'rate-limit') {
+        setError(content.chat.rateLimitErrorMessage)
+      } else {
+        setError(content.chat.errorMessage)
+      }
+    } finally {
+      window.clearTimeout(timeoutId)
+
+      if (isCurrentRequest()) {
+        activeRequestRef.current = null
+        sendingRef.current = false
+        setIsSending(false)
+      }
+    }
+  }
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const userMessage = draft.trim()
+
+    if (!userMessage || sendingRef.current) return
+
+    const requestMessages = buildConversationWindow(messages, userMessage)
+    sendingRef.current = true
+    shouldAutoScrollRef.current = true
+    setMessages((currentMessages) => [
+      ...currentMessages,
+      { role: 'user', content: userMessage },
+      { role: 'assistant', content: '' },
+    ])
+    setDraft('')
+    setError(null)
+    setRetryMessages(null)
+    setIsSending(true)
+    void runAssistantRequest(requestMessages)
+  }
+
+  const handleRetry = () => {
+    if (!retryMessages || sendingRef.current) return
+
+    const failedRequestMessages = [...retryMessages]
+    sendingRef.current = true
+    shouldAutoScrollRef.current = true
+    setMessages((currentMessages) => [
+      ...currentMessages,
+      { role: 'assistant', content: '' },
+    ])
+    setError(null)
+    setRetryMessages(null)
+    setIsSending(true)
+    void runAssistantRequest(failedRequestMessages)
+  }
+
+  const handleNewConversation = () => {
+    requestIdRef.current += 1
+
+    const activeRequest = activeRequestRef.current
+    if (activeRequest) {
+      window.clearTimeout(activeRequest.timeoutId)
+      activeRequest.controller.abort()
+      activeRequestRef.current = null
+    }
+
+    sendingRef.current = false
+    shouldAutoScrollRef.current = true
+    setMessages([])
+    setDraft('')
+    setError(null)
+    setRetryMessages(null)
+    setIsSending(false)
+
+    window.requestAnimationFrame(() => {
+      if (conversationRef.current) conversationRef.current.scrollTop = 0
+      inputRef.current?.focus()
+    })
+  }
+
+  const handleConversationScroll = () => {
+    const conversation = conversationRef.current
+    if (!conversation) return
+
+    const distanceFromBottom = conversation.scrollHeight - conversation.scrollTop - conversation.clientHeight
+    shouldAutoScrollRef.current = distanceFromBottom < 48
+  }
 
   return (
     <>
@@ -105,41 +297,125 @@ export function ChatWidget() {
               role="dialog"
               aria-modal={isMobileModal ? true : undefined}
               aria-labelledby={headingId}
+              aria-describedby={descriptionId}
               data-lenis-prevent
-              className="fixed inset-x-4 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-[60] rounded-card border border-border bg-surface p-5 shadow-card md:inset-x-auto md:right-6 md:w-[22rem]"
+              className="fixed inset-x-4 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-[60] flex h-[30rem] max-h-[calc(100dvh-7rem)] flex-col overflow-hidden rounded-card border border-border bg-surface shadow-card md:inset-x-auto md:right-6 md:w-[22rem]"
               transition={{ duration: shouldReduceMotion ? 0 : motionDuration.normal, ease: motionEase.out }}
             >
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <h2 id={headingId} className="text-xl font-medium tracking-[-0.03em] text-foreground">{content.chat.heading}</h2>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{content.chat.description}</p>
+              <div className="flex shrink-0 items-center justify-between gap-4 border-b border-border px-5 py-4">
+                <div className="flex min-w-0 items-center gap-3">
+                  <span className="relative size-10 shrink-0">
+                    <img
+                      src={content.chat.avatar.src}
+                      alt={content.chat.avatar.alt}
+                      className="size-10 rounded-full border border-border object-cover"
+                    />
+                    <span aria-hidden="true" className="absolute bottom-0 right-0 size-2.5 rounded-full border-2 border-surface bg-emerald-500" />
+                  </span>
+                  <div className="min-w-0">
+                    <h2 id={headingId} className="text-base font-medium tracking-[-0.02em] text-foreground">{content.chat.heading}</h2>
+                    <p id={descriptionId} className="mt-0.5 truncate text-xs text-muted-foreground">{content.chat.description}</p>
+                  </div>
                 </div>
                 <button
                   ref={closeButtonRef}
                   type="button"
                   onClick={() => closePanel()}
                   aria-label={content.chat.closeLabel}
-                  className="interactive-control button-secondary grid size-11 shrink-0 place-items-center rounded-card border border-border bg-muted text-foreground"
+                  className="interactive-control grid size-9 shrink-0 place-items-center rounded-card text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
                   <Icon name="close" />
                 </button>
               </div>
 
-              <div className="mt-5 grid gap-2">
-                {content.contacts.map((contact) => (
-                  <a
-                    key={contact.label}
-                    href={contact.href}
-                    target={contact.href.startsWith('http') ? '_blank' : undefined}
-                    rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    onClick={() => closePanel()}
-                    className="interactive-control button-secondary group flex min-h-11 items-center justify-between rounded-card border border-border bg-muted px-3.5 py-3 text-sm font-medium text-foreground"
+              <div
+                ref={conversationRef}
+                className="min-h-0 flex-1 space-y-4 overflow-y-auto px-5 py-5"
+                aria-live="polite"
+                aria-busy={isSending}
+                onScroll={handleConversationScroll}
+              >
+                <div className="flex justify-end">
+                  <button
+                    type="button"
+                    onClick={handleNewConversation}
+                    className="interactive-control rounded-card px-1 py-0.5 text-xs text-muted-foreground hover:text-foreground"
                   >
-                    <span className="flex items-center gap-3"><Icon name={contact.icon} className="size-5" />{contact.label}</span>
-                    <Icon name="arrow" className="button-arrow size-4 group-hover:translate-x-0.5" />
-                  </a>
+                    {content.chat.newConversationLabel}
+                  </button>
+                </div>
+
+                <div className="flex max-w-[18rem] items-start gap-3">
+                  <img
+                    src={content.chat.avatar.src}
+                    alt=""
+                    className="size-8 shrink-0 rounded-full border border-border object-cover"
+                  />
+                  <p className="rounded-card bg-muted px-3.5 py-3 text-sm leading-6 text-foreground">
+                    {content.chat.greeting}
+                  </p>
+                </div>
+
+                {messages.map((message, index) => (
+                  message.role === 'assistant' ? (
+                    <div key={`${message.role}-${index}`} className="flex max-w-[18rem] items-start gap-3">
+                      <img
+                        src={content.chat.avatar.src}
+                        alt=""
+                        className="size-8 shrink-0 rounded-full border border-border object-cover"
+                      />
+                      <p className="rounded-card bg-muted px-3.5 py-3 text-sm leading-6 text-foreground">
+                        {message.content || content.chat.thinkingMessage}
+                      </p>
+                    </div>
+                  ) : (
+                    <div key={`${message.role}-${index}`} className="flex justify-end">
+                      <p className="max-w-[16rem] rounded-card bg-primary px-3.5 py-3 text-sm leading-6 text-primary-foreground">{message.content}</p>
+                    </div>
+                  )
                 ))}
+
+                {error && (
+                  <div role="status" className="flex items-center justify-between gap-3 text-xs leading-5 text-muted-foreground">
+                    <p>{error}</p>
+                    {retryMessages && (
+                      <button
+                        type="button"
+                        onClick={handleRetry}
+                        className="interactive-control shrink-0 rounded-card border border-border bg-surface px-2.5 py-1 font-medium text-foreground hover:bg-muted"
+                      >
+                        {content.chat.retryLabel}
+                      </button>
+                    )}
+                  </div>
+                )}
+                <div ref={messagesEndRef} aria-hidden="true" className="h-px" />
               </div>
+
+              <form onSubmit={handleSubmit} className="flex min-w-0 shrink-0 items-end gap-2 border-t border-border bg-muted/40 p-4">
+                <div className="min-w-0 flex-1">
+                  <label htmlFor="portfolio-chat-message" className="sr-only">Message M</label>
+                  <input
+                    ref={inputRef}
+                    id="portfolio-chat-message"
+                    type="text"
+                    value={draft}
+                    onChange={(event) => setDraft(event.target.value)}
+                    disabled={isSending}
+                    placeholder={content.chat.inputPlaceholder}
+                    maxLength={750}
+                    className="min-h-11 w-full min-w-0 rounded-card border border-border bg-surface px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSending || !draft.trim()}
+                  aria-label="Send message"
+                  className="interactive-control button-primary grid size-11 shrink-0 place-items-center rounded-card bg-primary text-primary-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-45"
+                >
+                  <Icon name="arrow" className="size-4 -rotate-45" />
+                </button>
+              </form>
             </motion.div>
           </>
         )}
@@ -148,7 +424,7 @@ export function ChatWidget() {
       <button
         ref={triggerRef}
         type="button"
-        onClick={() => setIsOpen((open) => !open)}
+        onClick={openPanel}
         aria-label={content.chat.triggerLabel}
         aria-expanded={isOpen}
         aria-controls={panelId}

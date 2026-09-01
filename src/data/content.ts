@@ -29,7 +29,20 @@ export interface ChatWidgetContent {
   triggerLabel: string
   heading: string
   description: string
+  greeting: string
+  inputPlaceholder: string
+  thinkingMessage: string
+  errorMessage: string
+  timeoutErrorMessage: string
+  rateLimitErrorMessage: string
+  interruptedErrorMessage: string
+  retryLabel: string
+  newConversationLabel: string
   closeLabel: string
+  avatar: {
+    src: string
+    alt: string
+  }
 }
 
 export interface ProfileImageContent {
@@ -88,8 +101,8 @@ export const content = {
     },
     contact: {
       eyebrow: '07 / Contact',
-      title: 'Start a conversation.',
-      description: 'Choose the channel that works best for you.',
+      title: 'Have an idea worth building?',
+      description: "Let's turn it into something that works.",
       panelCopy: 'Choose a channel.',
     },
   },
@@ -118,10 +131,23 @@ export const content = {
     { label: 'Instagram', href: 'https://www.instagram.com/_emm.jayyy/', icon: 'instagram' },
   ] satisfies ContactLink[],
   chat: {
-    triggerLabel: 'Contact Marvin',
-    heading: 'Choose a channel.',
-    description: 'Reach me through any of these.',
-    closeLabel: 'Close contact panel',
+    triggerLabel: 'Need a hand?',
+    heading: 'M',
+    description: 'Portfolio assistant',
+    greeting: "Hey! I'm M. I can help you explore Marvin's projects, skills, and experience.",
+    inputPlaceholder: 'Ask M something...',
+    thinkingMessage: 'M is thinking...',
+    errorMessage: "M couldn't respond right now. Please try again.",
+    timeoutErrorMessage: 'M took too long to respond. Please try again.',
+    rateLimitErrorMessage: 'M needs a quick breather. Try again in a moment.',
+    interruptedErrorMessage: "M's response was interrupted. Please try again.",
+    retryLabel: 'Retry',
+    newConversationLabel: 'New conversation',
+    closeLabel: 'Close assistant',
+    avatar: {
+      src: '/images/m-assistant-avatar.jpg',
+      alt: 'M assistant avatar',
+    },
   } satisfies ChatWidgetContent,
   footer: {
     philosophy: [
