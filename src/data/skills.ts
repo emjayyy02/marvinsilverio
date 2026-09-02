@@ -36,10 +36,13 @@ export const skillCategories: SkillCategory[] = [
     ],
   },
   {
-    id: 'programming',
-    title: 'Programming',
+    id: 'backend-data-deployment',
+    title: 'Backend, Data & Deployment',
     skills: [
       { id: 'python', name: 'Python', description: 'Scripts and automation logic', status: 'current', logo: brand('python') },
+      { id: 'supabase', name: 'Supabase', description: 'Backend and database services', status: 'current', logo: brand('supabase') },
+      { id: 'cloudflare-workers', name: 'Cloudflare Workers', description: 'Serverless edge functions', status: 'current', logo: brand('cloudflareworkers') },
+      { id: 'vercel', name: 'Vercel', description: 'Frontend and serverless deployment', status: 'current', logo: brand('vercel') },
     ],
   },
   {
@@ -47,6 +50,7 @@ export const skillCategories: SkillCategory[] = [
     title: 'Automation',
     skills: [
       { id: 'n8n', name: 'n8n', description: 'Workflow automation', status: 'current', logo: brand('n8n') },
+      { id: 'make', name: 'Make', description: 'Visual automation and data workflows', status: 'current', logo: brand('make') },
       { id: 'zapier', name: 'Zapier', description: 'App-to-app workflows', status: 'current', logo: brand('zapier') },
     ],
   },
@@ -54,10 +58,12 @@ export const skillCategories: SkillCategory[] = [
     id: 'ai-llm-workflows',
     title: 'AI / LLM Workflows',
     skills: [
-      { id: 'openrouter', name: 'OpenRouter', description: 'LLM routing and integration', status: 'current', logo: brand('openrouter') },
-      { id: 'llm-integrations', name: 'LLM integrations', description: 'Model-assisted workflows', status: 'current', logo: concept('LLM') },
+      { id: 'ai-agents', name: 'AI Agents', description: 'Agent-based AI workflows and automation', status: 'current', logo: concept('AGT') },
+      { id: 'openai', name: 'OpenAI', description: 'AI models and API integrations', status: 'current', logo: brand('openai') },
+      { id: 'gemini-api', name: 'Gemini API', description: 'Google AI model integrations', status: 'current', logo: brand('googlegemini') },
+      { id: 'openrouter', name: 'OpenRouter', description: 'Multi-model routing and integration', status: 'current', logo: brand('openrouter') },
+      { id: 'groq-api', name: 'Groq API', description: 'Fast LLM inference integrations', status: 'current', logo: concept('API') },
       { id: 'prompt-engineering', name: 'Prompt Engineering', description: 'Task-focused model instructions', status: 'current', logo: concept('PR') },
-      { id: 'structured-output', name: 'Structured Output / JSON Schema', description: 'Validated model responses', status: 'current', logo: concept('{}') },
     ],
   },
   {
@@ -68,6 +74,16 @@ export const skillCategories: SkillCategory[] = [
       { id: 'webhooks', name: 'Webhooks', description: 'Event-driven integrations', status: 'current', logo: concept('WH') },
       { id: 'rest-apis', name: 'REST APIs', description: 'Service integration', status: 'current', logo: concept('API') },
       { id: 'json', name: 'JSON', description: 'Structured data exchange', status: 'current', logo: concept('{}') },
+      { id: 'local-storage', name: 'Local Storage', description: 'Browser-side persistence', status: 'current', logo: concept('LS') },
+    ],
+  },
+  {
+    id: 'crm-operations',
+    title: 'CRM & Operations',
+    skills: [
+      { id: 'hubspot', name: 'HubSpot', description: 'CRM, deals and sales automation', status: 'current', logo: brand('hubspot') },
+      { id: 'airtable', name: 'Airtable', description: 'Operational data and lightweight CRM', status: 'current', logo: brand('airtable') },
+      { id: 'gohighlevel', name: 'GoHighLevel', description: 'CRM and workflow familiarity', status: 'current', logo: concept('CRM') },
     ],
   },
   {
@@ -78,6 +94,7 @@ export const skillCategories: SkillCategory[] = [
       { id: 'gmail', name: 'Gmail', description: 'Email workflow integration', status: 'current', logo: brand('gmail') },
       { id: 'google-workspace', name: 'Google Workspace', description: 'Collaborative business tools', status: 'current', logo: brand('googleworkspace') },
       { id: 'microsoft-365', name: 'Microsoft 365', description: 'Documents and productivity', status: 'current', logo: brand('microsoft365') },
+      { id: 'slack', name: 'Slack', description: 'Team alerts and workflow notifications', status: 'current', logo: brand('slack') },
     ],
   },
   {
@@ -85,7 +102,6 @@ export const skillCategories: SkillCategory[] = [
     title: 'Design / Build Tools',
     skills: [
       { id: 'canva', name: 'Canva', description: 'Visual asset creation', status: 'current', logo: brand('canva') },
-      { id: 'supabase', name: 'Supabase', description: 'Backend application services', status: 'current', logo: brand('supabase') },
     ],
   },
   {
@@ -96,13 +112,6 @@ export const skillCategories: SkillCategory[] = [
       { id: 'github', name: 'GitHub', description: 'Source collaboration', status: 'current', logo: brand('github') },
       { id: 'visual-studio-code', name: 'Visual Studio Code', description: 'Code editing', status: 'current', logo: brand('vscode') },
       { id: 'npm', name: 'npm', description: 'Package management', status: 'current', logo: brand('npm') },
-    ],
-  },
-  {
-    id: 'application-concepts',
-    title: 'Application Concepts',
-    skills: [
-      { id: 'local-storage', name: 'Local Storage', description: 'Browser-side persistence', status: 'current', logo: concept('LS') },
     ],
   },
 ]
