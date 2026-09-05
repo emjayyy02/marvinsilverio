@@ -9,38 +9,39 @@ import { ProfilePortrait } from './ProfilePortrait'
 export function Hero() {
   const shouldReduceMotion = usePrefersReducedMotion()
   const entrance = (delay: number) => ({
-    initial: { opacity: 0, y: shouldReduceMotion ? 0 : 22 },
+    initial: shouldReduceMotion ? false as const : { opacity: 0, y: 22 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: shouldReduceMotion ? motionDuration.fast : motionDuration.entrance, delay: shouldReduceMotion ? 0 : delay, ease: motionEase.out },
+    transition: { duration: shouldReduceMotion ? 0 : motionDuration.entrance, delay: shouldReduceMotion ? 0 : delay, ease: motionEase.out },
   })
 
   return (
-    <section id="top" className="hero-grid border-b border-border" aria-labelledby="hero-heading">
-      <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24 lg:py-28">
-        <div className="grid gap-10 md:grid-cols-[12rem_minmax(0,1fr)] md:items-center md:gap-12 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-16">
-          <motion.div {...entrance(0.08)} className="w-40 sm:w-44 md:w-full">
-            <ProfilePortrait image={content.person.profileImage} />
-          </motion.div>
+    <section id="top" className="border-b border-border" aria-labelledby="hero-heading">
+      <div className="mx-auto flex min-h-[calc(90svh-4rem)] max-w-6xl flex-col items-center justify-center px-5 py-12 text-center sm:px-8 sm:py-16">
+        <motion.p {...entrance(0)} className="inline-flex max-w-full items-center gap-2 rounded-full border border-profile-mark/20 bg-profile-mark/10 px-4 py-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-profile-mark">
+          <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full bg-current" />
+          <span className="text-balance">Open to automation specialist roles</span>
+        </motion.p>
 
-          <div className="min-w-0 text-left">
-            <motion.h1 {...entrance(0.14)} id="hero-heading" className="inline-flex max-w-full items-center gap-2 text-4xl font-medium tracking-[-0.04em] text-foreground sm:gap-3 sm:text-6xl lg:text-7xl">
-              <span>{content.person.name}</span>
-              <span aria-hidden="true" className="relative top-[0.03em] grid size-4 shrink-0 place-items-center rounded-full bg-profile-mark text-profile-mark-foreground sm:size-5">
-                <Icon name="check" className="size-3 sm:size-3.5" />
-              </span>
-            </motion.h1>
-            <motion.p {...entrance(0.21)} className="mt-4 max-w-[46rem] text-balance text-2xl font-medium tracking-[-0.03em] text-foreground sm:text-3xl lg:text-4xl">
-              {content.person.professionalTitle}
-            </motion.p>
-            <motion.p {...entrance(0.29)} className="mt-6 max-w-[46rem] text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-              {content.person.heroSummary}
-            </motion.p>
-            <motion.div {...entrance(0.37)} className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap">
-              <RouteLink href={content.person.primaryAction.href} className="interactive-control button-primary inline-flex min-h-11 items-center justify-center rounded-card bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground">{content.person.primaryAction.label}</RouteLink>
-              <ResumeAction resumeUrl={content.person.resumeUrl} />
-            </motion.div>
-          </div>
-        </div>
+        <motion.div {...entrance(0.08)} className="mt-6 w-32 shrink-0 rounded-full ring-1 ring-profile-mark sm:w-40">
+          <ProfilePortrait image={content.person.profileImage} />
+        </motion.div>
+
+        <motion.h1 {...entrance(0.16)} id="hero-heading" className="mt-6 inline-flex max-w-full items-center justify-center gap-2 text-4xl font-medium tracking-[-0.04em] text-foreground sm:gap-3 sm:text-6xl lg:text-7xl">
+          <span>{content.person.name}</span>
+          <span aria-hidden="true" className="relative top-[0.03em] grid size-4 shrink-0 place-items-center rounded-full bg-profile-mark text-profile-mark-foreground sm:size-5">
+            <Icon name="check" className="size-3 sm:size-3.5" />
+          </span>
+        </motion.h1>
+        <motion.p {...entrance(0.24)} className="mt-3 max-w-full text-balance text-lg font-medium tracking-[-0.03em] text-muted-foreground sm:text-xl lg:text-2xl">
+          {content.person.professionalTitle}
+        </motion.p>
+        <motion.p {...entrance(0.32)} className="mt-5 max-w-[26rem] text-pretty text-base leading-7 text-muted-foreground">
+          {content.person.heroSummary}
+        </motion.p>
+        <motion.div {...entrance(0.40)} className="mt-7 flex flex-wrap items-center justify-center gap-3">
+          <RouteLink href={content.person.primaryAction.href} className="interactive-control button-primary inline-flex min-h-11 items-center justify-center rounded-card bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground">{content.person.primaryAction.label}</RouteLink>
+          <ResumeAction resumeUrl={content.person.resumeUrl} />
+        </motion.div>
       </div>
     </section>
   )
