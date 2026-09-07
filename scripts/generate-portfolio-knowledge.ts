@@ -31,6 +31,19 @@ function generatePortfolioKnowledge() {
     lines.push('')
   }
 
+lines.push('## Skills & Capabilities')
+lines.push('')
+
+for (const category of portfolioData.skills) {
+  lines.push(`### ${category.category}`)
+
+  for (const skill of category.skills) {
+    lines.push(`- ${skill.name}: ${skill.description}`)
+  }
+
+  lines.push('')
+}
+
   lines.push('## Certifications')
   lines.push('')
 
@@ -55,6 +68,21 @@ function generatePortfolioKnowledge() {
 
     lines.push('')
   }
+
+  lines.push('## Personal Context')
+lines.push('')
+
+if (portfolioData.personalContext.age) {
+  lines.push(`Age: ${portfolioData.personalContext.age}`)
+}
+
+if (portfolioData.personalContext.location) {
+  lines.push(`Location: ${portfolioData.personalContext.location}`)
+}
+
+if (portfolioData.personalContext.currentStatus) {
+  lines.push(`Current status: ${portfolioData.personalContext.currentStatus}`)
+}
 
   return lines.join('\n')
 }
