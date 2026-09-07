@@ -12,6 +12,7 @@
     "typecheck": "tsc -b",
     "lint": "oxlint .",
     "preview": "vite preview"
+    "generate:portfolio-knowledge": "tsx scripts/generate-portfolio-knowledge.ts"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",
