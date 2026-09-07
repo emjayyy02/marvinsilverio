@@ -1,41 +1,38 @@
 import { projects } from './projectCatalog'
 import { content } from './content'
 
-
 export interface PortfolioProject {
-  id: string;
-  title: string;
-  category: string;
-  summary: string;
-  technologies: string[];
-  featured?: boolean;
-  workflow?: string[];
+  id: string
+  title: string
+  category: string
+  summary: string
+  technologies: string[]
+  featured?: boolean
 }
 
 export interface PortfolioCertification {
-  provider: string;
-  title: string;
-  issued: string;
-  credentialUrl?: string;
+  provider: string
+  title: string
+  issued: string
 }
 
 export interface PortfolioEducation {
-  degree: string;
-  institution: string;
-  location?: string;
-  period: string;
+  degree: string
+  institution: string
+  location?: string
+  period: string
 }
 
 export interface PortfolioData {
   identity: {
-    name: string;
-    nickname: string;
-    role: string;
-    description: string;
-  };
-  projects: PortfolioProject[];
-  certifications: PortfolioCertification[];
-  education: PortfolioEducation[];
+    name: string
+    nickname: string
+    role: string
+    description: string
+  }
+  projects: PortfolioProject[]
+  certifications: PortfolioCertification[]
+  education: PortfolioEducation[]
 }
 
 export const portfolioData = {
@@ -51,7 +48,7 @@ export const portfolioData = {
     title: project.title,
     category: project.type,
     summary: project.summary,
-    technologies: project.technologies,
+    technologies: project.cardTechnologies,
     featured: project.featured,
   })),
 
@@ -69,4 +66,4 @@ export const portfolioData = {
       period: content.education.period,
     },
   ],
-};
+} satisfies PortfolioData
