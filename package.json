@@ -11,7 +11,7 @@
     "build": "tsc -b && vite build",
     "typecheck": "tsc -b",
     "lint": "oxlint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
     "generate:portfolio-knowledge": "tsx scripts/generate-portfolio-knowledge.ts"
   },
   "dependencies": {
@@ -32,6 +32,7 @@
     "@vitejs/plugin-react": "^6.0.4",
     "impeccable": "^3.6.0",
     "oxlint": "^1.75.0",
+    "tsx": "^4.23.13",
     "typescript": "^7.0.2",
     "vite": "^8.2.0"
   }
