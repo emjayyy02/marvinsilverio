@@ -72,28 +72,23 @@ export function Certifications() {
 
   return (
     <>
-      <section id="certifications" className="border-b border-border" aria-labelledby="certifications-heading">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[minmax(14rem,0.55fr)_minmax(0,1.45fr)] lg:gap-16 lg:py-24">
+      <section id="certifications" className="border-b border-border bg-surface" aria-labelledby="certifications-heading">
+        <div className="mx-auto grid max-w-6xl gap-8 px-5 py-14 sm:px-8 sm:py-16 lg:grid-cols-[minmax(14rem,0.55fr)_minmax(0,1.45fr)] lg:gap-14 lg:py-20">
           <Reveal>
             <SectionHeading
               id="certifications-heading"
               eyebrow={section.eyebrow}
               title={section.title}
-              description={section.description}
             />
           </Reveal>
           <Reveal delay={0.16}>
             <ul className="max-w-2xl border-y border-border" aria-label="Certifications">
               {content.certifications.map((certification, index) => (
-                <li key={certification.name} className={`min-w-0 py-5 sm:py-6 ${index > 0 ? 'border-t border-border' : ''}`}>
-                  <article className="flex min-w-0 flex-col gap-5 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
+                <li key={certification.name} className={`min-w-0 py-4 sm:py-5 ${index > 0 ? 'border-t border-border' : ''}`}>
+                  <article className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
                     <div className="min-w-0">
-                      <p aria-label={certification.issuer} className="flex items-baseline gap-2 text-sm text-foreground">
-                        <span className="font-semibold tracking-[-0.02em]">n8n</span>
-                        <span aria-hidden="true" className="h-4 w-px bg-border" />
-                        <span>academy</span>
-                      </p>
-                      <h3 className="mt-3 max-w-xl text-lg font-medium leading-snug tracking-[-0.025em] text-foreground sm:text-xl">
+                      <p className="text-sm font-medium text-foreground">{certification.issuer}</p>
+                      <h3 className="mt-1 max-w-xl text-base font-medium leading-snug tracking-[-0.02em] text-foreground sm:text-lg">
                         {certification.name}
                       </h3>
                       <p className="mt-2 font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground">Issued {certification.issued}</p>
@@ -106,7 +101,7 @@ export function Certifications() {
                       className="interactive-control button-secondary inline-flex min-h-11 shrink-0 items-center justify-center gap-2 self-start rounded-card border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground sm:self-auto"
                     >
                       View Certificate
-                      <Icon name="image" className="size-4" />
+                      <span aria-hidden="true">↗</span>
                     </button>
                   </article>
                 </li>

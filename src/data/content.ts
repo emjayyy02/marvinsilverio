@@ -78,6 +78,7 @@ export const content = {
       eyebrow: '02 / Featured build',
       title: 'AI assistance with deterministic control.',
       description: 'A support-operations workflow that uses an LLM for interpretation while keeping validation, routing, review policy, and failure handling inside the workflow.',
+      architecture: 'Classify → Validate → Review → Route → Draft',
     },
     projects: {
       eyebrow: '03 / Selected projects',
@@ -93,7 +94,6 @@ export const content = {
     certifications: {
       eyebrow: '05 / Certifications',
       title: 'Certifications.',
-      description: 'Training and certifications supporting my hands-on automation work.',
     },
     education: {
       eyebrow: '06 / Education',
@@ -110,7 +110,7 @@ export const content = {
     {
       name: 'In Practice: AI, Testing & Best Practices',
       issuer: 'n8n Academy',
-      issued: 'August 2026',
+      issued: 'Aug 2026',
       image: {
         src: '/images/n8n-academy-ai-testing-best-practices-certificate.png',
         alt: 'n8n Academy certificate for In Practice: AI, Testing & Best Practices',

@@ -7,8 +7,8 @@ export function Contact() {
   const section = content.sections.contact
 
   return (
-    <section id="contact" aria-labelledby="contact-heading">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[minmax(14rem,0.55fr)_minmax(0,1.45fr)] lg:gap-16 lg:py-24">
+    <section id="contact" className="bg-surface" aria-labelledby="contact-heading">
+      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[minmax(14rem,0.55fr)_minmax(0,1.45fr)] lg:gap-14 lg:py-20">
         <Reveal>
           <SectionHeading id="contact-heading" eyebrow={section.eyebrow} title={section.title} description={section.description} />
         </Reveal>

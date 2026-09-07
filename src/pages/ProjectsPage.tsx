@@ -53,7 +53,7 @@ export function ProjectsPage() {
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
           <div className="mb-10 max-w-2xl">
             <h2 id="archive-heading" tabIndex={-1} className="scroll-mt-24 text-3xl font-medium tracking-[-0.04em] text-foreground sm:text-4xl">Project archive</h2>
-            <p className="mt-3 text-base leading-7 text-muted-foreground">Each entry opens a focused portfolio case study. Full technical documentation stays in the linked source repository.</p>
+            <p className="mt-3 text-base leading-7 text-muted-foreground">Primary projects include focused case studies and source repositories.</p>
           </div>
           <div className="grid items-stretch gap-4 md:grid-cols-2">
             {visibleProjects.map((project, index) => (

@@ -15,6 +15,12 @@ export interface CaseStudySection {
   evidenceLayout?: 'wide' | 'medium' | 'paired'
 }
 
+export interface ProjectLink {
+  label: string
+  href: string
+  type?: 'primary' | 'secondary'
+}
+
 export interface Project {
   slug: string
   number: string
@@ -26,6 +32,7 @@ export interface Project {
   cardTechnologies: string[]
   technologies: string[]
   sourceUrl: string
+  links?: ProjectLink[]
   featured: boolean
   selected: boolean
   previewImage: ProjectScreenshot
@@ -67,7 +74,7 @@ const workflow = {
 }
 
 const nova = {
-  desktop: shot('/images/novatech-desktop.png', 'NovaTech Solutions desktop landing page with navigation, hero, automation-agency positioning, calls to action, and services.', 'The desktop opening establishes the fictional agency offer, a clear conversion path, and the first service group.', 1920, 897),
+  desktop: shot('/images/novatech-desktop.png', 'NovaTech Solutions header and hero with service positioning, a primary call to action, and a connected-systems illustration.', 'The revised desktop hero presents the fictional automation-agency offer and conversion path in one focused view.', 1425, 950),
   whyUs: shot('/images/novatech-why-us.png', 'NovaTech Solutions why-us features and five-step process timeline on desktop.', 'Feature grouping and a horizontal process sequence turn the fictional brief into a complete agency landing-page structure.', 1912, 893),
   pricing: shot('/images/novatech-pricing.png', 'Three-tier NovaTech pricing section with Starter, Professional, and Enterprise plans.', 'The pricing layout practices comparison hierarchy while clearly emphasizing one illustrative plan.', 1914, 897),
   testimonials: shot('/images/novatech-testimonials.png', 'Three fictional NovaTech testimonial cards within the learning-project landing page.', 'The testimonial section is part of the fictional client exercise, not evidence of real customers.', 1918, 893),
@@ -86,10 +93,14 @@ const projectRecords = [
     title: 'AI Support Operations Triage System',
     type: 'AI-assisted workflow automation',
     summary: 'Structured AI interpretation surrounded by deterministic validation, review policy, routing, and failure handling.',
-    description: 'A controlled support-operations workflow that turns unstructured customer messages into validated operational records without giving the language model authority over consequential decisions.',
+    description: 'Turns unstructured support requests into validated records while keeping consequential decisions under deterministic control.',
     cardTechnologies: ['n8n', 'JavaScript', 'OpenRouter', 'Google Sheets', 'Webhooks'],
     technologies: ['n8n', 'JavaScript', 'OpenRouter', 'Google Sheets', 'Webhooks', 'JSON'],
     sourceUrl: 'https://github.com/emjayyy02/project-05-ai-support-operations',
+    links: [
+      { label: 'View Case Study', href: '/projects/ai-support-operations', type: 'primary' },
+      { label: 'View Source', href: 'https://github.com/emjayyy02/project-05-ai-support-operations', type: 'secondary' },
+    ],
     featured: true,
     selected: false,
     previewImage: support.architecture,
@@ -199,11 +210,15 @@ const projectRecords = [
     number: '03',
     title: 'Workflow Operations Manager',
     type: 'Frontend operations dashboard',
-    summary: 'A vanilla JavaScript operations dashboard powered by nested data, derived analytics, persistence, and keyboard workflows.',
+    summary: 'A lightweight operations dashboard powered by stored data, derived metrics, and workflow controls.',
     description: 'A browser workspace combining project and task management, dashboard analytics, calendar and report views, search, keyboard workflows, and persistent settings around one shared data model.',
     cardTechnologies: ['JavaScript', 'HTML', 'CSS', 'Local Storage'],
     technologies: ['JavaScript', 'HTML', 'CSS', 'Local Storage', 'Open-Meteo API'],
     sourceUrl: 'https://github.com/emjayyy02/project-03-workflow-ops-manager',
+    links: [
+      { label: 'View Case Study', href: '/projects/workflow-operations-manager', type: 'primary' },
+      { label: 'View Source', href: 'https://github.com/emjayyy02/project-03-workflow-ops-manager', type: 'secondary' },
+    ],
     featured: false, selected: true, previewImage: workflow.dashboard, heroScreenshot: workflow.dashboard,
     caseStudy: {
       sections: [
@@ -261,9 +276,9 @@ const projectRecords = [
     slug: 'novatech-solutions',
     number: '02',
     title: 'NovaTech Solutions',
-    type: 'Fictional agency landing page',
-    summary: 'A responsive fictional automation-agency site built to practice complete marketing-page structure and interaction.',
-    description: 'A fictional automation-agency learning project that practices mobile-first layout, marketing hierarchy, responsive sections, FAQ interaction, active navigation, and front-end form validation without presenting the work as a real client engagement.',
+    type: 'Fictional automation agency',
+    summary: 'A responsive automation-agency website focused on clear service positioning, conversion flow, and polished frontend interaction.',
+    description: 'A responsive automation-agency website focused on clear service positioning, conversion flow, and polished frontend interaction.',
     cardTechnologies: ['HTML', 'CSS', 'JavaScript'],
     technologies: ['HTML', 'CSS', 'JavaScript'],
     sourceUrl: 'https://github.com/emjayyy02/project-02-novatech-solutions',
@@ -308,7 +323,7 @@ const projectRecords = [
     number: '01',
     title: 'Personal Developer Profile',
     type: 'React portfolio system',
-    summary: 'A React portfolio with centralized content, a custom theme transition, restrained motion, and scalable project routes.',
+    summary: 'A responsive React portfolio with centralized content, scalable project routes, accessible themes, and restrained motion.',
     description: 'An evolving React and TypeScript portfolio with centralized content, a custom grayscale identity, accessible light and dark themes, purposeful motion, responsive interactions, and data-driven case studies.',
     cardTechnologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Motion'],
     technologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Motion', 'Lenis', 'CSS', 'Local Storage', 'GitHub'],
@@ -361,11 +376,15 @@ const projectRecords = [
     number: '04',
     title: 'Invoice Collections Automation',
     type: 'Finance workflow automation',
-    summary: 'Invoice intake with validation, idempotency, deterministic priority routing, persistence, and bounded HTTP retries.',
+    summary: 'Automates invoice intake, validation, discrepancy checks, and priority routing.',
     description: 'A production-style accounts-receivable workflow designed around bad input, duplicates, downstream outages, retry limits, and operational investigation.',
     cardTechnologies: ['n8n', 'JavaScript', 'Google Sheets', 'Gmail', 'Webhooks'],
     technologies: ['n8n', 'JavaScript', 'Google Sheets', 'Gmail', 'HTTP APIs', 'Webhooks'],
     sourceUrl: 'https://github.com/emjayyy02/project-04-invoice-collections-automation',
+    links: [
+      { label: 'View Case Study', href: '/projects/invoice-collections-automation', type: 'primary' },
+      { label: 'View Source', href: 'https://github.com/emjayyy02/project-04-invoice-collections-automation', type: 'secondary' },
+    ],
     featured: false, selected: true, previewImage: invoice.architecture, heroScreenshot: invoice.architecture,
     caseStudy: {
       sections: [

@@ -47,6 +47,9 @@ export function FeaturedBuild() {
                 </div>
                 <h3 className="mt-5 text-3xl font-medium tracking-[-0.04em] text-foreground sm:text-4xl">{project.title}</h3>
                 <p className="mt-4 max-w-[34rem] text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">{project.description}</p>
+                <p className="mt-3 max-w-[34rem] font-mono text-xs leading-5 text-muted-foreground" aria-label="Workflow architecture">
+                  {section.architecture}
+                </p>
                 <div className="mt-6">
                   <TechLogoList technologies={project.cardTechnologies} label="Featured build representative technologies" compact />
                 </div>

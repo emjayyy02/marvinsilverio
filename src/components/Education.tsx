@@ -8,7 +8,7 @@ export function Education() {
 
   return (
     <section id="education" className="border-b border-border" aria-labelledby="education-heading">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[minmax(14rem,0.55fr)_minmax(0,1.45fr)] lg:gap-16 lg:py-24">
+      <div className="mx-auto grid max-w-6xl gap-8 px-5 py-14 sm:px-8 sm:py-16 lg:grid-cols-[minmax(14rem,0.55fr)_minmax(0,1.45fr)] lg:gap-14 lg:py-20">
         <Reveal>
           <SectionHeading id="education-heading" eyebrow={section.eyebrow} title={section.title} />
         </Reveal>
