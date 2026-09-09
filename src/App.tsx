@@ -4,7 +4,7 @@ import { ReactLenis } from 'lenis/react'
 import { ChatWidget } from './components/ChatWidget'
 import { Footer } from './components/Footer'
 import { Nav } from './components/Nav'
-import { getProjectBySlug } from './data/projects'
+import { getProjectBySlug, hasCaseStudy } from './data/projects'
 import { prefersReducedMotion, usePrefersReducedMotion } from './lib/motionPreference'
 import { useRouter } from './lib/router'
 import { safeDecodeURIComponent } from './lib/safeDecodeURIComponent'
@@ -33,7 +33,7 @@ export default function App() {
   } else if (location.pathname === '/skills') {
     page = <SkillsPage />
     title = 'Skills & Capabilities — Marvin Silverio'
-  } else if (project) {
+  } else if (hasCaseStudy(project)) {
     page = <ProjectPage project={project} />
     title = `${project.title} — Marvin Silverio`
   }

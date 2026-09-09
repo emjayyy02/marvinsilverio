@@ -21,6 +21,11 @@ export interface ProjectLink {
   type?: 'primary' | 'secondary'
 }
 
+export interface ProjectCaseStudy {
+  sections: CaseStudySection[]
+  takeaways: string[]
+}
+
 export interface Project {
   slug: string
   number: string
@@ -31,14 +36,16 @@ export interface Project {
   description: string
   cardTechnologies: string[]
   technologies: string[]
-  sourceUrl: string
+  sourceUrl?: string
   links?: ProjectLink[]
   featured: boolean
   selected: boolean
   previewImage: ProjectScreenshot
   heroScreenshot: ProjectScreenshot
-  caseStudy: { sections: CaseStudySection[]; takeaways: string[] }
+  caseStudy?: ProjectCaseStudy
 }
+
+export type ProjectWithCaseStudy = Project & { caseStudy: ProjectCaseStudy }
 
 const shot = (src: string, alt: string, caption: string, width: number, height: number): ProjectScreenshot => ({ src, alt, caption, width, height })
 
@@ -82,11 +89,32 @@ const nova = {
   mobile: shot('/images/novatech-mobile-hero.png', 'NovaTech Solutions hero and calls to action reflowed into a narrow mobile layout.', 'The mobile-first implementation keeps the positioning and primary actions readable on a 431-pixel viewport.', 431, 823),
 }
 
+const offangle = {
+  desktop: shot('/images/offangle-desktop.png', 'Offangle Valorant coaching landing page with a purple tactical design, large Same Game Different Angle headline, coaching call to action, and map-analysis illustration.', 'The desktop hero presents the fictional coaching concept, focused call to action, and tactical map-analysis visual.', 1440, 900),
+}
+
 const portfolio = {
   preview: shot('/images/portfolio-build-preview.png', 'Marvin Silverio portfolio hero with the pixel-art tarsier, professional summary, and featured-project action.', 'The identity combines a restrained editorial layout, neutral theme tokens, and a small grayscale pixel-art tarsier.', 1425, 549),
 }
 
 const projectRecords = [
+  {
+    slug: 'offangle',
+    number: '06',
+    title: 'Offangle',
+    type: 'Valorant coaching landing page',
+    summary: 'A responsive Valorant coaching landing page built around clear positioning, strong visual hierarchy, and a focused conversion path.',
+    description: 'A responsive Valorant coaching landing page built around clear positioning, strong visual hierarchy, and a focused conversion path.',
+    cardTechnologies: ['HTML', 'CSS', 'JavaScript'],
+    technologies: ['HTML', 'CSS', 'JavaScript'],
+    links: [
+      { label: 'Live Site ↗', href: 'https://fictional-valorant-coaching.nivramqtzx.workers.dev/', type: 'primary' },
+    ],
+    featured: false,
+    selected: true,
+    previewImage: offangle.desktop,
+    heroScreenshot: offangle.desktop,
+  },
   {
     slug: 'ai-support-operations',
     number: '05',
@@ -281,42 +309,10 @@ const projectRecords = [
     description: 'A responsive automation-agency website focused on clear service positioning, conversion flow, and polished frontend interaction.',
     cardTechnologies: ['HTML', 'CSS', 'JavaScript'],
     technologies: ['HTML', 'CSS', 'JavaScript'],
-    sourceUrl: 'https://github.com/emjayyy02/project-02-novatech-solutions',
+    links: [
+      { label: 'Live Site ↗', href: 'https://project-02-novatech-solutions.nivramqtzx.workers.dev/', type: 'primary' },
+    ],
     featured: false, selected: true, previewImage: nova.desktop, heroScreenshot: nova.desktop,
-    caseStudy: {
-      sections: [
-        {
-          id: 'purpose', title: 'Purpose and scope',
-          paragraphs: ['NovaTech Solutions is a fictional AI and automation agency created for learning and portfolio practice. It is not a real company, client, service offer, testimonial source, or pricing commitment.', 'The project simulated a complete business brief: position an automation agency, explain services and process, build trust, compare plans, answer objections, and lead a visitor toward contact. The evidence is the frontend structure and interaction, not a business outcome.'],
-        },
-        {
-          id: 'layout-design', title: 'Layout and design system',
-          paragraphs: ['The page uses a mobile-first CSS foundation, reusable color and type variables, responsive Grid and Flexbox layouts, and a multi-section marketing hierarchy. Relative units and min-width breakpoints grow one-column layouts into desktop grids.', 'The Why Us group and five-step process provide a second rhythm after services. A nested media-query bug in this region became a concrete lesson in keeping responsive rules at predictable stylesheet levels.'],
-          screenshots: [nova.whyUs], evidenceLayout: 'wide',
-        },
-        {
-          id: 'responsive-navigation', title: 'Responsive structure and navigation',
-          paragraphs: ['Navigation smooth-scrolls between sections and uses Intersection Observer to highlight the active destination without a heavy scroll listener. Hero actions, headings, and service content reflow for narrow screens while preserving reading order.', 'The mobile view demonstrates the original mobile-first build. One honest limitation remains: the navigation does not yet include a hamburger menu.'],
-          screenshots: [nova.mobile], evidenceLayout: 'medium',
-        },
-        {
-          id: 'services-pricing', title: 'Services and pricing comparison',
-          paragraphs: ['Service cards explain websites, workflow automation, and integrated systems as parts of the fictional offer. Pricing practices three-way comparison, feature scanning, and emphasis on one illustrative plan.', 'These plans are interface content inside a learning exercise, not public commercial prices or evidence of services delivered.'],
-          screenshots: [nova.pricing], evidenceLayout: 'wide',
-        },
-        {
-          id: 'testimonials', title: 'Testimonials as fictional content',
-          paragraphs: ['The testimonial section practices social-proof composition and responsive spacing. Its names, organizations, and outcomes belong to the fictional brief and are shown only to explain the landing-page structure.', 'The case study preserves that boundary instead of converting fictional marketing copy into a real-world claim.'],
-          screenshots: [nova.testimonials], evidenceLayout: 'wide',
-        },
-        {
-          id: 'faq-contact', title: 'FAQ and front-end form validation',
-          paragraphs: ['The FAQ uses native buttons for keyboard-accessible single-open behavior. The contact form layers custom rules over browser validation and provides inline feedback plus a simulated sending state instead of alerts.', 'A runtime variable error once prevented the accordion from running; isolating it in the console reinforced checking execution errors before treating an interaction as a CSS issue. The form remains front-end only and does not send email.'],
-          screenshots: [nova.faqContact], evidenceLayout: 'wide',
-        },
-      ],
-      takeaways: ['A complete landing page needs a conversion path, not just attractive sections.', 'Mobile-first CSS makes responsive growth easier to reason about.', 'Intersection Observer can connect navigation state to page structure efficiently.', 'Browser-console debugging often resolves interactions that appear visually broken.', 'Fictional client content must stay clearly labelled as fictional.'],
-    },
   },
   {
     slug: 'personal-developer-profile',
@@ -328,7 +324,7 @@ const projectRecords = [
     cardTechnologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Motion'],
     technologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Motion', 'Lenis', 'CSS', 'Local Storage', 'GitHub'],
     sourceUrl: 'https://github.com/emjayyy02/project-01-personal-developer-profile',
-    featured: false, selected: true, previewImage: portfolio.preview, heroScreenshot: portfolio.preview,
+    featured: false, selected: false, previewImage: portfolio.preview, heroScreenshot: portfolio.preview,
     caseStudy: {
       sections: [
         {
@@ -438,8 +434,26 @@ const projectRecords = [
 
 export const projects: Project[] = [...projectRecords].sort((left, right) => Number(right.number) - Number(left.number))
 export const featuredProject = projects.find((project) => project.featured)!
-export const selectedProjects = projects.filter((project) => project.selected)
+
+const homepageProjectSlugs = [
+  'invoice-collections-automation',
+  'workflow-operations-manager',
+  'novatech-solutions',
+  'offangle',
+] as const
+
+function getRequiredProjectBySlug(slug: string) {
+  const project = projects.find((candidate) => candidate.slug === slug)
+  if (!project) throw new Error(`Missing required project: ${slug}`)
+  return project
+}
+
+export const selectedProjects = homepageProjectSlugs.map(getRequiredProjectBySlug)
 
 export function getProjectBySlug(slug: string) {
   return projects.find((project) => project.slug === slug)
+}
+
+export function hasCaseStudy(project: Project | undefined): project is ProjectWithCaseStudy {
+  return Boolean(project?.caseStudy)
 }

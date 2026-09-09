@@ -2,10 +2,10 @@ import { Icon } from '../components/Icon'
 import { Reveal } from '../components/Reveal'
 import { ScrollToTop } from '../components/ScrollToTop'
 import { TechLogoList } from '../components/TechLogoList'
-import type { CaseStudySection, Project, ProjectScreenshot } from '../data/projects'
+import type { CaseStudySection, ProjectScreenshot, ProjectWithCaseStudy } from '../data/projects'
 import { RouteLink } from '../lib/router'
 
-export function ProjectPage({ project }: { project: Project }) {
+export function ProjectPage({ project }: { project: ProjectWithCaseStudy }) {
   return (
     <>
       <header className="hero-grid border-b border-border">
@@ -23,10 +23,12 @@ export function ProjectPage({ project }: { project: Project }) {
             </div>
             <div className="border-t border-border pt-5 lg:border-t-0 lg:pt-0">
               {project.status && <p className="mb-4 font-mono text-[0.64rem] uppercase tracking-[0.12em] text-muted-foreground">{project.status}</p>}
-              <a href={project.sourceUrl} target="_blank" rel="noreferrer" className="interactive-control button-primary group inline-flex min-h-11 items-center gap-2 rounded-card bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground">
-                View Source
-                <Icon name="arrow" className="button-arrow size-4 group-hover:translate-x-0.5" />
-              </a>
+              {project.sourceUrl && (
+                <a href={project.sourceUrl} target="_blank" rel="noreferrer" className="interactive-control button-primary group inline-flex min-h-11 items-center gap-2 rounded-card bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground">
+                  View Source
+                  <Icon name="arrow" className="button-arrow size-4 group-hover:translate-x-0.5" />
+                </a>
+              )}
             </div>
           </div>
         </div>

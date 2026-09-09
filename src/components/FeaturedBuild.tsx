@@ -61,15 +61,17 @@ export function FeaturedBuild() {
                   >
                     View Case Study
                   </RouteLink>
-                  <a
-                    href={project.sourceUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="interactive-control button-secondary group inline-flex min-h-11 items-center justify-center gap-2 rounded-card border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground"
-                  >
-                    View Source
-                    <Icon name="arrow" className="button-arrow size-4 group-hover:translate-x-0.5" />
-                  </a>
+                  {project.sourceUrl && (
+                    <a
+                      href={project.sourceUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="interactive-control button-secondary group inline-flex min-h-11 items-center justify-center gap-2 rounded-card border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground"
+                    >
+                      View Source
+                      <Icon name="arrow" className="button-arrow size-4 group-hover:translate-x-0.5" />
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
