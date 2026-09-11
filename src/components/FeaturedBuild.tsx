@@ -10,6 +10,7 @@ export function FeaturedBuild() {
   const project = featuredProject
   const preview = project.heroScreenshot
   const section = content.sections.featuredBuild
+  const links = project.links ?? []
 
   return (
     <section id="featured-build" className="border-b border-border bg-surface" aria-labelledby="featured-build-heading">
@@ -54,24 +55,23 @@ export function FeaturedBuild() {
                   <TechLogoList technologies={project.cardTechnologies} label="Featured build representative technologies" compact />
                 </div>
 
-                <div className="mt-8 flex flex-col gap-3 border-t border-border pt-5 sm:flex-row">
-                  <RouteLink
-                    href={`/projects/${project.slug}`}
-                    className="interactive-control button-primary inline-flex min-h-11 items-center justify-center rounded-card bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground"
-                  >
-                    View Case Study
-                  </RouteLink>
-                  {project.sourceUrl && (
-                    <a
-                      href={project.sourceUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="interactive-control button-secondary group inline-flex min-h-11 items-center justify-center gap-2 rounded-card border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground"
-                    >
-                      View Source
-                      <Icon name="arrow" className="button-arrow size-4 group-hover:translate-x-0.5" />
-                    </a>
-                  )}
+                <div className="mt-8 grid gap-3 border-t border-border pt-5 sm:grid-cols-2">
+                  {links.map((link, index) => {
+                    const isPrimary = link.type === 'primary'
+                    const className = `interactive-control ${isPrimary ? 'button-primary bg-primary text-primary-foreground sm:col-span-2' : 'button-secondary group border border-border bg-background text-foreground'} inline-flex min-h-11 items-center justify-center gap-2 rounded-card px-4 py-2.5 text-center text-sm font-medium`
+                    const content = (
+                      <>
+                        {link.label}
+                        {!isPrimary && <Icon name="arrow" className="button-arrow size-4 group-hover:translate-x-0.5" />}
+                      </>
+                    )
+
+                    return link.href.startsWith('http') ? (
+                      <a key={`${link.label}-${link.href}`} href={link.href} target="_blank" rel="noreferrer" className={className}>{content}</a>
+                    ) : (
+                      <RouteLink key={`${link.label}-${link.href}`} href={link.href} className={`${className} ${index === 0 ? 'sm:col-span-2' : ''}`}>{content}</RouteLink>
+                    )
+                  })}
                 </div>
               </div>
             </div>

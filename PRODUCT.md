@@ -28,7 +28,7 @@ The product is a responsive, static web portfolio used across desktop and mobile
 - Light and dark themes only, persisted locally and initialized from the operating-system preference.
 - Hero, section, and panel motion remains restrained and respects reduced motion.
 - General portfolio, certification, Education, contact, and footer content stays centralized in `src/data/content.ts`; the current toolkit and its categories live in `src/data/skills.ts`; structured project records are exposed through `src/data/projects.ts` and maintained in one project catalog.
-- Project 05 is the featured build. Projects 04, 03, 02, and 01 appear as selected projects, while all verified projects are available through a four-per-page `/projects` archive and dedicated case-study routes. Experience remains hidden until Marvin supplies a real entry.
+- Revenue Recovery OS is the featured build. Invoice Collections Automation, AI Support Operations Triage System, Workflow Operations Manager, and NovaTech Solutions appear—in that exact order—as selected projects, while all verified projects remain available through a four-per-page `/projects` archive and supported case-study routes. Experience remains hidden until Marvin supplies a real entry.
 - A small dependency-free History API router supports the homepage, `/skills`, reload-safe project archive query pagination, and project detail URLs.
 - No fabricated roles, organizations, certifications, metrics, testimonials, or project outcomes.
 
@@ -45,8 +45,8 @@ The product is a responsive, static web portfolio used across desktop and mobile
 
 - Existing contact details and learning-stack information in `src/data/content.ts`.
 - Structured descriptions, verified card preview images, representative card technologies, full stacks, source URLs, screenshots, evidence captions, and case-study sections for Projects 01–05 in the centralized project catalog.
-- Projects 01–05 have public source repositories and verified README documentation. Project 05 includes evaluation and reliability evidence for its AI-assisted support workflow.
-- Project 05 uses eight verified evidence screenshots, Project 04 uses six, Project 03 uses eight, Project 02 uses six, and Project 01 uses the verified portfolio preview.
+- Revenue Recovery OS has a verified local README, concise portfolio case-study source, public read-only demo, and final sanitized evidence. Project 05 includes evaluation and reliability evidence for its AI-assisted support workflow.
+- Revenue Recovery OS uses five final evidence screenshots. Project 05 uses eight verified evidence screenshots, Project 04 uses six, Project 03 uses eight, Project 02 uses six, and Project 01 uses the verified portfolio preview.
 - Certification list entries supplied for this layout pass live in `src/data/content.ts`; their exact public wording and issuing organizations remain user-owned content.
 
 ## Product Principles

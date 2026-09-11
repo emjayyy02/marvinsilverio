@@ -15,6 +15,11 @@ export interface CaseStudySection {
   evidenceLayout?: 'wide' | 'medium' | 'paired'
 }
 
+export interface CaseStudyFaq {
+  question: string
+  answer: string
+}
+
 export interface ProjectLink {
   label: string
   href: string
@@ -24,6 +29,7 @@ export interface ProjectLink {
 export interface ProjectCaseStudy {
   sections: CaseStudySection[]
   takeaways: string[]
+  faqs?: CaseStudyFaq[]
 }
 
 export interface Project {
@@ -97,7 +103,131 @@ const portfolio = {
   preview: shot('/images/portfolio-build-preview.png', 'Marvin Silverio portfolio hero with the pixel-art tarsier, professional summary, and featured-project action.', 'The identity combines a restrained editorial layout, neutral theme tokens, and a small grayscale pixel-art tarsier.', 1425, 549),
 }
 
+const revenueRecovery = {
+  dashboard: shot('/images/revenue-recovery-dashboard.png', 'Revenue Recovery OS dashboard showing fictional revenue exposure, at-risk and critical accounts, confirmed recovery outcomes, and complete risk coverage.', 'The public dashboard connects customer risk, account-value exposure, recovery activity, and confirmed outcomes without presenting account value as predicted loss.', 1425, 1326),
+  customer360: shot('/images/revenue-recovery-customer-360.png', 'Revenue Recovery OS Customer 360 view for fictional customer Apex Digital with a 75 out of 100 critical risk score and four explained signals.', 'Customer 360 keeps the score beside its source signals, account context, recommended playbook, activity timeline, and intervention history.', 1425, 1347),
+  approvals: shot('/images/revenue-recovery-approvals.png', 'Revenue Recovery OS approvals workspace showing pending review, approved, failed, sent, recovered, and not-recovered intervention states using fictional data.', 'The recovery lifecycle separates human decisions, technical execution, failure details, and final business outcomes; public-demo actions are disabled.', 1425, 1975),
+  analytics: shot('/images/revenue-recovery-analytics.png', 'Revenue Recovery OS analytics showing 50 percent recovery success, 24 of 24 accounts scored, risk distribution, and fictional revenue exposure.', 'Analytics derives success from confirmed outcomes and reports risk coverage and account-value exposure from the fixed fictional demo snapshot.', 1425, 1379),
+  workflow: shot('/images/revenue-recovery-n8n-workflow.png', 'Sanitized n8n canvas for the Revenue Recovery OS intervention executor with validation, Slack notification, and success and failure callbacks.', 'The development workflow performs external notification and reports execution results back to the application without exposing credentials or endpoint details.', 1440, 900),
+}
+
 const projectRecords = [
+  {
+    slug: 'revenue-recovery-os',
+    number: '06',
+    title: 'Revenue Recovery OS',
+    type: 'Customer recovery operations system',
+    summary: 'Connects customer signals to explainable risk, human-approved recovery actions, and confirmed outcomes in a secured read-only demo.',
+    description: 'An explainable churn-risk and recovery operations system that turns customer signals into human-approved interventions and tracked outcomes.',
+    cardTechnologies: ['React', 'TypeScript', 'Cloudflare Workers', 'Supabase', 'n8n'],
+    technologies: ['React', 'TypeScript', 'Cloudflare Workers', 'Supabase', 'PostgreSQL', 'n8n', 'Slack', 'Vitest', 'Vercel'],
+    sourceUrl: 'https://github.com/emjayyy02/project-06-revenue-recovery-os',
+    links: [
+      { label: 'View Case Study', href: '/projects/revenue-recovery-os', type: 'primary' },
+      { label: 'Live Demo', href: 'https://revenue-recovery-os-et.vercel.app', type: 'secondary' },
+      { label: 'View Source', href: 'https://github.com/emjayyy02/project-06-revenue-recovery-os', type: 'secondary' },
+    ],
+    featured: true,
+    selected: false,
+    previewImage: revenueRecovery.dashboard,
+    heroScreenshot: revenueRecovery.dashboard,
+    caseStudy: {
+      sections: [
+        {
+          id: 'recovery-overview',
+          title: 'Overview',
+          paragraphs: [
+            'Revenue Recovery OS connects customer-risk evidence with accountable recovery work. A React workspace presents account context, a Cloudflare Worker owns business rules, Supabase and PostgreSQL store operational state, and n8n handles external execution.',
+            'The public version is a secured, read-only demonstration using fictional and sanitized portfolio data. It proves the implemented system architecture without claiming real customers, recovered revenue, or commercial readiness.',
+          ],
+        },
+        {
+          id: 'recovery-business-problem',
+          title: 'The business problem',
+          paragraphs: [
+            'Usage decline, failed payments, support friction, and negative feedback can each signal concern without telling an account owner which customers need attention first, how much account value is exposed, or whether anyone followed through.',
+            'The project turns those fragmented signals into an operational record that connects evidence, prioritization, approval, execution, and confirmed outcomes. It models a designed business scenario rather than measured impact at a client organization.',
+          ],
+        },
+        {
+          id: 'recovery-system-flow',
+          title: 'System flow and architecture',
+          paragraphs: [
+            'Customer events create risk signals and a deterministic score. Eligible accounts receive an existing recovery playbook; a human reviews the recommendation before execution; callbacks record the technical result; and a separate decision records the confirmed business outcome.',
+            'Business state remains in the application and database while n8n performs external work. The public path runs from Vercel through the Worker to a separate Demo Supabase project, with business mutations denied before privileged work begins.',
+          ],
+          points: ['Customer signals → explainable risk', 'Recommendation → human approval', 'Execution → success or failure callback', 'Confirmed outcome → recovery analytics'],
+        },
+        {
+          id: 'recovery-explainable-risk',
+          title: 'Explainable risk and Customer 360',
+          paragraphs: [
+            'Risk is rule-based rather than AI-owned. Every positive signal keeps its source event, weight, severity, and explanation, so an operator can see why an account is Low, Medium, High, or Critical.',
+            'Customer 360 places those signals beside account value, ownership, health, recent activity, the recommended playbook, and intervention history. Revenue Exposure sums High and Critical account values; it is not a prediction of exact financial loss.',
+          ],
+          screenshots: [revenueRecovery.customer360], evidenceLayout: 'wide',
+        },
+        {
+          id: 'recovery-lifecycle',
+          title: 'Human-approved recovery lifecycle',
+          paragraphs: [
+            'Sensitive actions move through pending approval, approval or rejection, explicit execution, callback confirmation, and a manually recorded outcome. Approval does not automatically dispatch work, keeping responsibility visible at each transition.',
+            'Technical execution and business recovery are deliberately separate. Sent means delivery completed; recovered and not recovered are final outcomes. Success rate excludes interventions still awaiting a result.',
+          ],
+          screenshots: [revenueRecovery.approvals], evidenceLayout: 'wide',
+        },
+        {
+          id: 'recovery-ai-boundary',
+          title: 'AI assistance without AI authority',
+          paragraphs: [
+            'AI can draft a risk summary, next action, and outreach message for review. It cannot calculate authoritative risk, choose the playbook, approve or execute an intervention, or record a customer outcome.',
+            'Provider output is schema-validated and falls back to deterministic assistance when credentials, network access, or valid output are unavailable. The public demo always uses that fallback and never calls the external provider.',
+          ],
+        },
+        {
+          id: 'recovery-reliability',
+          title: 'Reliability and failure handling',
+          paragraphs: [
+            'The Worker records attempts, timestamps, and errors around execution. Webhook acceptance is not treated as completion: an intervention remains in progress until a callback reports success or failure, and failed work can be reviewed before a manual retry.',
+            'The sanitized n8n workflow validates its payload, sends a Slack notification on the valid development path, and calls back with a result. V1 exposes remaining limits instead of claiming automatic retries, exactly-once delivery, or complete missing-callback reconciliation.',
+          ],
+          screenshots: [revenueRecovery.workflow], evidenceLayout: 'wide',
+        },
+        {
+          id: 'recovery-public-security',
+          title: 'Public deployment and security boundary',
+          paragraphs: [
+            'The public deployment uses an isolated fictional Demo Supabase database. The Cloudflare Worker allows reads and deterministic assistance while returning a read-only error for business mutations before external execution or privileged database work.',
+            'Database hardening enables row-level security on six application tables and revokes direct browser-role access. Secrets stay server-side, exact-origin CORS limits browser access, and the documented boundary remains a portfolio V1—not enterprise authentication or multi-tenant SaaS security.',
+          ],
+        },
+        {
+          id: 'recovery-final-result',
+          title: 'Final result',
+          paragraphs: [
+            'The fixed public snapshot contains 24 fictional customers, seven at-risk accounts, two critical accounts, ₱1,569,000 in account-value exposure, one recovered customer, a 50 percent success rate, and risk coverage for all 24 accounts.',
+            'The result is a working full-stack portfolio system that joins explainable prioritization, human control, external orchestration, persistent lifecycle state, and outcome analytics while keeping its evidence and limits explicit.',
+          ],
+          screenshots: [revenueRecovery.analytics], evidenceLayout: 'wide',
+        },
+      ],
+      takeaways: ['Explainable rules make customer-risk prioritization inspectable.', 'A workflow can perform external work while the application remains the system of record.', 'Technical delivery and confirmed business recovery need separate states and metrics.', 'AI assistance stays useful when deterministic fallback and human authority remain intact.', 'Deployment boundaries, database permissions, and sanitized exports are part of product reliability.'],
+      faqs: [
+        {
+          question: 'How does this actually solve a business problem?',
+          answer: 'It turns fragmented customer-risk signals into prioritized recovery work, giving account owners one place to see which accounts need attention, why they were prioritized, and what action is pending.',
+        },
+        {
+          question: 'What does the automation actually control?',
+          answer: 'Business state and decision rules stay in the application and database, while n8n handles approved external work and callbacks record technical results and confirmed business outcomes.',
+        },
+        {
+          question: 'Is this using real customer or revenue data?',
+          answer: 'No. The public demo uses fictional and sanitized portfolio data and is read-only, demonstrating the implemented architecture without claiming real customers or recovered revenue.',
+        },
+      ],
+    },
+  },
   {
     slug: 'offangle',
     number: '06',
@@ -111,7 +241,7 @@ const projectRecords = [
       { label: 'Live Site ↗', href: 'https://fictional-valorant-coaching.nivramqtzx.workers.dev/', type: 'primary' },
     ],
     featured: false,
-    selected: true,
+    selected: false,
     previewImage: offangle.desktop,
     heroScreenshot: offangle.desktop,
   },
@@ -129,8 +259,8 @@ const projectRecords = [
       { label: 'View Case Study', href: '/projects/ai-support-operations', type: 'primary' },
       { label: 'View Source', href: 'https://github.com/emjayyy02/project-05-ai-support-operations', type: 'secondary' },
     ],
-    featured: true,
-    selected: false,
+    featured: false,
+    selected: true,
     previewImage: support.architecture,
     heroScreenshot: support.architecture,
     caseStudy: {
@@ -337,7 +467,7 @@ const projectRecords = [
         },
         {
           id: 'content-architecture', title: 'Centralized content architecture',
-          paragraphs: ['General portfolio, skill, certification, and contact data lives in src/data/content.ts. Structured project metadata, routes, technologies, sections, evidence, captions, and takeaways live in one project catalog.', 'Homepage cards, the archive, and all five project routes render from shared records. Expanding a case study is primarily a data change instead of a new giant page component.'],
+          paragraphs: ['General portfolio, skill, certification, and contact data lives in src/data/content.ts. Structured project metadata, routes, technologies, sections, evidence, captions, and takeaways live in one project catalog.', 'Homepage cards, the archive, and dedicated project routes render from shared records. Expanding a case study is primarily a data change instead of a new giant page component.'],
         },
         {
           id: 'visual-identity', title: 'Visual identity and the tarsier mascot',
@@ -437,14 +567,14 @@ export const featuredProject = projects.find((project) => project.featured)!
 
 const homepageProjectSlugs = [
   'invoice-collections-automation',
+  'ai-support-operations',
   'workflow-operations-manager',
   'novatech-solutions',
-  'offangle',
 ] as const
 
 function getRequiredProjectBySlug(slug: string) {
   const project = projects.find((candidate) => candidate.slug === slug)
-  if (!project) throw new Error(`Missing required project: ${slug}`)
+  if (!project) throw new Error(`Missing homepage project: ${slug}`)
   return project
 }
 

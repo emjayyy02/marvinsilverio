@@ -11,6 +11,10 @@ const logoSources: Record<string, string> = {
   Gmail: '/icons/tech/gmail.svg',
   OpenRouter: '/icons/tech/openrouter.svg',
   GitHub: '/icons/tech/github.svg',
+  'Cloudflare Workers': '/icons/tech/cloudflareworkers.svg',
+  Supabase: '/icons/tech/supabase.svg',
+  Slack: '/icons/tech/slack.svg',
+  Vercel: '/icons/tech/vercel.svg',
 }
 
 const fallbackLabels: Record<string, string> = {
@@ -21,6 +25,8 @@ const fallbackLabels: Record<string, string> = {
   'Open-Meteo API': 'OM',
   Motion: 'MO',
   Lenis: 'LE',
+  PostgreSQL: 'PG',
+  Vitest: 'VT',
 }
 
 export function TechLogoList({

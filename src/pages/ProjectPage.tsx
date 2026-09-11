@@ -2,10 +2,17 @@ import { Icon } from '../components/Icon'
 import { Reveal } from '../components/Reveal'
 import { ScrollToTop } from '../components/ScrollToTop'
 import { TechLogoList } from '../components/TechLogoList'
-import type { CaseStudySection, ProjectScreenshot, ProjectWithCaseStudy } from '../data/projects'
+import type { CaseStudyFaq, CaseStudySection, ProjectScreenshot, ProjectWithCaseStudy } from '../data/projects'
 import { RouteLink } from '../lib/router'
 
 export function ProjectPage({ project }: { project: ProjectWithCaseStudy }) {
+  const suppliedExternalLinks = (project.links ?? []).filter((link) => link.href.startsWith('http'))
+  const externalLinks = suppliedExternalLinks.length > 0
+    ? suppliedExternalLinks
+    : project.sourceUrl
+      ? [{ label: 'View Source', href: project.sourceUrl }]
+      : []
+
   return (
     <>
       <header className="hero-grid border-b border-border">
@@ -23,12 +30,20 @@ export function ProjectPage({ project }: { project: ProjectWithCaseStudy }) {
             </div>
             <div className="border-t border-border pt-5 lg:border-t-0 lg:pt-0">
               {project.status && <p className="mb-4 font-mono text-[0.64rem] uppercase tracking-[0.12em] text-muted-foreground">{project.status}</p>}
-              {project.sourceUrl && (
-                <a href={project.sourceUrl} target="_blank" rel="noreferrer" className="interactive-control button-primary group inline-flex min-h-11 items-center gap-2 rounded-card bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground">
-                  View Source
-                  <Icon name="arrow" className="button-arrow size-4 group-hover:translate-x-0.5" />
-                </a>
-              )}
+              <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+                {externalLinks.map((link, index) => (
+                  <a
+                    key={`${link.label}-${link.href}`}
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`interactive-control ${index === 0 ? 'button-primary bg-primary text-primary-foreground' : 'button-secondary border border-border bg-background text-foreground'} group inline-flex min-h-11 items-center justify-center gap-2 rounded-card px-4 py-2.5 text-sm font-medium`}
+                  >
+                    {link.label}
+                    <Icon name="arrow" className="button-arrow size-4 group-hover:translate-x-0.5" />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -44,9 +59,14 @@ export function ProjectPage({ project }: { project: ProjectWithCaseStudy }) {
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
           {project.caseStudy.sections.map((section, index) => (
             <Reveal key={section.id} delay={index === 0 ? 0 : 0.04}>
-              <CaseStudySectionView section={section} first={index === 0} />
+              <CaseStudySectionView section={section} index={index} first={index === 0} />
             </Reveal>
           ))}
+          {project.caseStudy.faqs?.length ? (
+            <Reveal delay={0.04}>
+              <CaseStudyFaqs faqs={project.caseStudy.faqs} />
+            </Reveal>
+          ) : null}
         </div>
       </article>
 
@@ -77,7 +97,8 @@ export function ProjectPage({ project }: { project: ProjectWithCaseStudy }) {
   )
 }
 
-function CaseStudySectionView({ section, first }: { section: CaseStudySection; first: boolean }) {
+function CaseStudySectionView({ section, index, first }: { section: CaseStudySection; index: number; first: boolean }) {
+  const sectionNumber = String(index + 1).padStart(2, '0')
   const evidenceClass = section.evidenceLayout === 'paired'
     ? 'grid gap-5 lg:grid-cols-2'
     : section.evidenceLayout === 'medium'
@@ -87,6 +108,7 @@ function CaseStudySectionView({ section, first }: { section: CaseStudySection; f
   return (
     <section id={section.id} aria-labelledby={`${section.id}-heading`} className={`${first ? '' : 'mt-16 border-t border-border pt-16'} scroll-mt-24`}>
       <div className="max-w-[46rem]">
+        <p aria-hidden="true" className="mb-2 font-mono text-[0.65rem] font-medium uppercase tracking-[0.14em] text-muted-foreground">{sectionNumber}</p>
         <h2 id={`${section.id}-heading`} className="text-2xl font-medium tracking-[-0.03em] text-foreground sm:text-3xl">{section.title}</h2>
         <div className="mt-5 space-y-4 text-base leading-7 text-muted-foreground">
           {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
@@ -102,6 +124,30 @@ function CaseStudySectionView({ section, first }: { section: CaseStudySection; f
           {section.screenshots.map((screenshot) => <ProjectFigure key={screenshot.src} screenshot={screenshot} />)}
         </div>
       )}
+    </section>
+  )
+}
+
+function CaseStudyFaqs({ faqs }: { faqs: CaseStudyFaq[] }) {
+  return (
+    <section className="mt-16 border-t border-border pt-16" aria-labelledby="case-study-faq-heading">
+      <div className="max-w-[46rem]">
+        <h2 id="case-study-faq-heading" className="text-2xl font-medium tracking-[-0.03em] text-foreground sm:text-3xl">Questions, answered.</h2>
+        <dl className="mt-7 border-b border-border">
+          {faqs.map((faq) => (
+            <div key={faq.question} className="border-t border-border py-6">
+              <dt className="grid grid-cols-[1.5rem_minmax(0,1fr)] gap-x-4">
+                <span aria-hidden="true" className="font-mono text-xs font-medium tracking-[0.12em] text-muted-foreground">Q</span>
+                <span className="font-medium leading-6 text-foreground">{faq.question}</span>
+              </dt>
+              <dd className="mt-3 grid grid-cols-[1.5rem_minmax(0,1fr)] gap-x-4">
+                <span aria-hidden="true" className="font-mono text-xs font-medium tracking-[0.12em] text-muted-foreground">A</span>
+                <span className="leading-7 text-muted-foreground">{faq.answer}</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
     </section>
   )
 }

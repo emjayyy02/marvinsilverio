@@ -76,9 +76,9 @@ export const content = {
   sections: {
     featuredBuild: {
       eyebrow: '02 / Featured build',
-      title: 'AI assistance with deterministic control.',
-      description: 'A support-operations workflow that uses an LLM for interpretation while keeping validation, routing, review policy, and failure handling inside the workflow.',
-      architecture: 'Classify → Validate → Review → Route → Draft',
+      title: 'From customer signals to accountable recovery.',
+      description: 'An explainable churn-risk and recovery system that connects customer evidence, human-approved interventions, and confirmed outcomes.',
+      architecture: 'Signals → Explainable Risk → Approval → Execution → Outcome',
     },
     projects: {
       eyebrow: '03 / Selected projects',

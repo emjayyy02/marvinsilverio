@@ -14,11 +14,11 @@ A frontend-only personal portfolio focused on software development and workflow 
 - Light and dark themes with a hard-edged iris reveal that begins at the theme toggle
 - A compact `MJ` home mark, a decorative blue profile mark, and Marvin's supplied circular portrait with a one-time center-out SVG splash reveal plus a neutral load-failure fallback
 - Hero positioning as “Automation Engineer & Frontend Developer,” with selected-project and resume actions sourced from centralized identity data
-- Project 05 presented as the Featured Build with a verified workflow preview, concise card metadata, technology logos, and direct project routes
-- Projects 04–01 presented in a two-column Selected Projects grid with verified preview images, one scanning sentence, and 3–5 representative technology logos
-- A scalable `/projects` archive with four-item query-string pagination plus evidence-rich case studies for all five verified projects
+- Revenue Recovery OS presented as the Featured Build with a verified dashboard preview, concise card metadata, technology logos, case study, live demo, and source actions
+- Invoice Collections Automation, AI Support Operations Triage System, Workflow Operations Manager, and NovaTech Solutions presented—in that exact order—in the two-column Selected Projects grid with verified previews, scanning summaries, and representative technology logos
+- A scalable `/projects` archive with four-item query-string pagination for all seven projects and evidence-rich case studies for five
 - Repository screenshots placed beside the architecture, behavior, reliability, testing, and evolution claims they support
-- Narrow case-study prose with wider technical evidence, lazy-loaded supporting images, and a reduced-motion-aware back-to-top control
+- Narrow case-study prose with sequentially numbered narrative sections, optional visible FAQ rows, wider technical evidence, lazy-loaded supporting images, and a reduced-motion-aware back-to-top control
 - Meaningful document titles, route scroll/focus handling, and browser back/forward support through a small dependency-free History API router
 - A pointer- and keyboard-driven Tools & Capabilities preview globe with 11 current representative tools, local brand-colored marks, restrained instructions, damped release momentum, and no automatic rotation
 - A dedicated `/skills` archive with concise current-tool categories and no ratings, percentages, or proficiency bars
