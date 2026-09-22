@@ -11,7 +11,7 @@ export function ProjectCard({ project, archive = false }: { project: Project; ar
 
   return (
     <article className="flex h-full min-w-0 flex-col overflow-hidden rounded-card border border-border bg-background">
-      <figure className="aspect-[16/9] border-b border-border bg-muted p-2.5 sm:p-3">
+      <figure className="aspect-[16/9] w-full min-w-0 overflow-hidden border-b border-border bg-muted p-2.5 sm:p-3">
         <img
           src={preview.src}
           alt={preview.alt}
@@ -19,7 +19,7 @@ export function ProjectCard({ project, archive = false }: { project: Project; ar
           height={preview.height}
           loading="lazy"
           decoding="async"
-          className="size-full object-contain"
+          className="block h-full w-full min-w-0 max-w-full object-contain object-center"
         />
       </figure>
 

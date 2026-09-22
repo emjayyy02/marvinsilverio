@@ -16,9 +16,9 @@ export function Projects() {
           <SectionHeading id="projects-heading" eyebrow={section.eyebrow} title={section.title} description={section.description} />
         </Reveal>
 
-        <div className="mt-10 grid items-stretch gap-4 sm:mt-12 md:grid-cols-2">
+        <div className="mt-10 grid min-w-0 grid-cols-1 items-stretch gap-4 sm:mt-12 md:grid-cols-2">
           {selectedProjects.map((project, index) => (
-            <Reveal key={project.slug} delay={0.18 + index * 0.1} className="h-full">
+            <Reveal key={project.slug} delay={0.18 + index * 0.1} className="h-full min-w-0">
               <ProjectCard project={project} />
             </Reveal>
           ))}

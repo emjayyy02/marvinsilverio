@@ -55,9 +55,9 @@ export function ProjectsPage() {
             <h2 id="archive-heading" tabIndex={-1} className="scroll-mt-24 text-3xl font-medium tracking-[-0.04em] text-foreground sm:text-4xl">Project archive</h2>
             <p className="mt-3 text-base leading-7 text-muted-foreground">Primary projects include focused case studies and source repositories.</p>
           </div>
-          <div className="grid items-stretch gap-4 md:grid-cols-2">
+          <div className="grid min-w-0 grid-cols-1 items-stretch gap-4 md:grid-cols-2">
             {visibleProjects.map((project, index) => (
-              <Reveal key={project.slug} delay={index * 0.08} className="h-full">
+              <Reveal key={project.slug} delay={index * 0.08} className="h-full min-w-0">
                 <ProjectCard project={project} archive />
               </Reveal>
             ))}
