@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
-import type { RefObject } from 'react'
+import type { PointerEvent as ReactPointerEvent, RefObject } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'motion/react'
 import { useLenis } from 'lenis/react'
@@ -29,12 +29,89 @@ export function ImageLightbox({ open, src, alt, title, width, height, returnFocu
   const dialogRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const viewportRef = useRef<HTMLDivElement>(null)
+  const imageRef = useRef<HTMLImageElement>(null)
+  const dragRef = useRef({
+    active: false,
+    pointerId: null as number | null,
+    startX: 0,
+    startY: 0,
+    startScrollLeft: 0,
+    startScrollTop: 0,
+  })
   const [zoom, setZoom] = useState(minimumZoom)
+  const [isDragging, setIsDragging] = useState(false)
   const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 })
+  const stopDragging = useCallback(() => {
+    const drag = dragRef.current
+    const viewport = viewportRef.current
+    dragRef.current = { ...drag, active: false, pointerId: null }
+    setIsDragging(false)
+
+    if (viewport && drag.pointerId !== null && viewport.hasPointerCapture(drag.pointerId)) {
+      viewport.releasePointerCapture(drag.pointerId)
+    }
+  }, [])
+
+  const handleZoomChange = useCallback((requestedZoom: number) => {
+    const nextZoom = Math.max(minimumZoom, Math.min(maximumZoom, requestedZoom))
+    const viewport = viewportRef.current
+    if (!viewport || nextZoom === zoom) return
+
+    const viewportBounds = viewport.getBoundingClientRect()
+    const imageBounds = imageRef.current?.getBoundingClientRect()
+    const imageOriginX = imageBounds
+      ? imageBounds.left - viewportBounds.left - viewport.clientLeft + viewport.scrollLeft
+      : 0
+    const imageOriginY = imageBounds
+      ? imageBounds.top - viewportBounds.top - viewport.clientTop + viewport.scrollTop
+      : 0
+    const oldScale = zoom / minimumZoom
+    const centerX = (viewport.scrollLeft + viewport.clientWidth / 2 - imageOriginX) / oldScale
+    const centerY = (viewport.scrollTop + viewport.clientHeight / 2 - imageOriginY) / oldScale
+
+    setZoom(nextZoom)
+    if (nextZoom === minimumZoom) stopDragging()
+
+    requestAnimationFrame(() => {
+      const currentViewport = viewportRef.current
+      const currentImage = imageRef.current
+      if (!currentViewport || !currentImage) return
+
+      const nextViewportBounds = currentViewport.getBoundingClientRect()
+      const nextImageBounds = currentImage.getBoundingClientRect()
+      const nextImageOriginX = nextImageBounds.left - nextViewportBounds.left - currentViewport.clientLeft + currentViewport.scrollLeft
+      const nextImageOriginY = nextImageBounds.top - nextViewportBounds.top - currentViewport.clientTop + currentViewport.scrollTop
+      const nextScale = nextZoom / minimumZoom
+
+      currentViewport.scrollLeft = nextImageOriginX + centerX * nextScale - currentViewport.clientWidth / 2
+      currentViewport.scrollTop = nextImageOriginY + centerY * nextScale - currentViewport.clientHeight / 2
+    })
+  }, [stopDragging, zoom])
+
+  const handlePointerMove = useCallback((event: ReactPointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current
+    if (!drag.active || drag.pointerId !== event.pointerId) return
+
+    event.currentTarget.scrollLeft = drag.startScrollLeft - (event.clientX - drag.startX)
+    event.currentTarget.scrollTop = drag.startScrollTop - (event.clientY - drag.startY)
+  }, [])
+
+  const handlePointerEnd = useCallback((event: ReactPointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current
+    if (!drag.active || drag.pointerId !== event.pointerId) return
+
+    dragRef.current = { ...drag, active: false, pointerId: null }
+    setIsDragging(false)
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId)
+    }
+  }, [])
+
   const handleClose = useCallback(() => {
+    stopDragging()
     setZoom(minimumZoom)
     onClose()
-  }, [onClose])
+  }, [onClose, stopDragging])
 
   useLayoutEffect(() => {
     if (!open || !viewportRef.current) return
@@ -179,7 +256,7 @@ export function ImageLightbox({ open, src, alt, title, width, height, returnFocu
               <div className="flex items-center gap-1.5">
                 <button
                   type="button"
-                  onClick={() => setZoom((current) => Math.max(minimumZoom, current - zoomStep))}
+                  onClick={() => handleZoomChange(zoom - zoomStep)}
                   disabled={zoom === minimumZoom}
                   aria-label="Zoom out"
                   className="interactive-control button-secondary grid size-10 place-items-center rounded-card border border-border bg-background text-foreground disabled:cursor-not-allowed disabled:opacity-45"
@@ -189,8 +266,13 @@ export function ImageLightbox({ open, src, alt, title, width, height, returnFocu
                 <button
                   type="button"
                   onClick={() => {
+                    stopDragging()
                     setZoom(minimumZoom)
-                    viewportRef.current?.scrollTo({ top: 0, left: 0 })
+                    const viewport = viewportRef.current
+                    if (viewport) {
+                      viewport.scrollLeft = 0
+                      viewport.scrollTop = 0
+                    }
                   }}
                   disabled={zoom === minimumZoom}
                   aria-label="Reset zoom to 100 percent"
@@ -200,7 +282,7 @@ export function ImageLightbox({ open, src, alt, title, width, height, returnFocu
                 </button>
                 <button
                   type="button"
-                  onClick={() => setZoom((current) => Math.min(maximumZoom, current + zoomStep))}
+                  onClick={() => handleZoomChange(zoom + zoomStep)}
                   disabled={zoom === maximumZoom}
                   aria-label="Zoom in"
                   className="interactive-control button-secondary grid size-10 place-items-center rounded-card border border-border bg-background text-foreground disabled:cursor-not-allowed disabled:opacity-45"
@@ -213,12 +295,37 @@ export function ImageLightbox({ open, src, alt, title, width, height, returnFocu
               </output>
             </div>
 
-            <div ref={viewportRef} className="min-h-0 overflow-auto overscroll-contain bg-black" data-lenis-prevent>
+            <div
+              ref={viewportRef}
+              className={`min-h-0 overflow-auto overscroll-contain bg-black ${zoom > minimumZoom ? (isDragging ? 'cursor-grabbing' : 'cursor-grab') : 'cursor-auto'} select-none`}
+              data-lenis-prevent
+              onPointerDown={(event) => {
+                if (zoom <= minimumZoom || event.pointerType !== 'mouse' || event.button !== 0) return
+
+                const viewport = event.currentTarget
+                dragRef.current = {
+                  active: true,
+                  pointerId: event.pointerId,
+                  startX: event.clientX,
+                  startY: event.clientY,
+                  startScrollLeft: viewport.scrollLeft,
+                  startScrollTop: viewport.scrollTop,
+                }
+                viewport.setPointerCapture(event.pointerId)
+                setIsDragging(true)
+                event.preventDefault()
+              }}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerEnd}
+              onPointerCancel={handlePointerEnd}
+              onLostPointerCapture={handlePointerEnd}
+            >
               <div
                 className="grid place-items-center"
                 style={{ width: canvasWidth, height: canvasHeight, minWidth: '100%', minHeight: '100%' }}
               >
                 <img
+                  ref={imageRef}
                   src={src}
                   alt={alt}
                   width={width}
