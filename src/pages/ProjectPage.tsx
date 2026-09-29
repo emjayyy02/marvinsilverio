@@ -1,4 +1,6 @@
+import { useCallback, useRef, useState } from 'react'
 import { Icon } from '../components/Icon'
+import { ImageLightbox } from '../components/ImageLightbox'
 import { Reveal } from '../components/Reveal'
 import { ScrollToTop } from '../components/ScrollToTop'
 import { TechLogoList } from '../components/TechLogoList'
@@ -51,7 +53,7 @@ export function ProjectPage({ project }: { project: ProjectWithCaseStudy }) {
 
       <section className="border-b border-border bg-surface" aria-label={`${project.title} primary evidence`}>
         <div className="mx-auto max-w-6xl px-5 py-10 sm:px-8 sm:py-14 lg:py-16">
-          <ProjectFigure screenshot={project.heroScreenshot} priority />
+          <ProjectFigure screenshot={project.heroScreenshot} title={project.title} priority />
         </div>
       </section>
 
@@ -59,7 +61,7 @@ export function ProjectPage({ project }: { project: ProjectWithCaseStudy }) {
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
           {project.caseStudy.sections.map((section, index) => (
             <Reveal key={section.id} delay={index === 0 ? 0 : 0.04}>
-              <CaseStudySectionView section={section} index={index} first={index === 0} />
+              <CaseStudySectionView section={section} index={index} first={index === 0} projectTitle={project.title} />
             </Reveal>
           ))}
           {project.caseStudy.faqs?.length ? (
@@ -97,7 +99,7 @@ export function ProjectPage({ project }: { project: ProjectWithCaseStudy }) {
   )
 }
 
-function CaseStudySectionView({ section, index, first }: { section: CaseStudySection; index: number; first: boolean }) {
+function CaseStudySectionView({ section, index, first, projectTitle }: { section: CaseStudySection; index: number; first: boolean; projectTitle: string }) {
   const sectionNumber = String(index + 1).padStart(2, '0')
   const evidenceClass = section.evidenceLayout === 'paired'
     ? 'grid gap-5 lg:grid-cols-2'
@@ -121,7 +123,7 @@ function CaseStudySectionView({ section, index, first }: { section: CaseStudySec
       </div>
       {section.screenshots && (
         <div className={`${evidenceClass} mt-9`}>
-          {section.screenshots.map((screenshot) => <ProjectFigure key={screenshot.src} screenshot={screenshot} />)}
+          {section.screenshots.map((screenshot) => <ProjectFigure key={screenshot.src} screenshot={screenshot} title={projectTitle} />)}
         </div>
       )}
     </section>
@@ -152,21 +154,46 @@ function CaseStudyFaqs({ faqs }: { faqs: CaseStudyFaq[] }) {
   )
 }
 
-function ProjectFigure({ screenshot, priority = false }: { screenshot: ProjectScreenshot; priority?: boolean }) {
+function ProjectFigure({ screenshot, title, priority = false }: { screenshot: ProjectScreenshot; title: string; priority?: boolean }) {
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const closeLightbox = useCallback(() => setIsLightboxOpen(false), [])
+
   return (
-    <figure className="overflow-hidden rounded-card border border-border bg-background shadow-card">
-      <div className="flex justify-center bg-muted p-2 sm:p-3">
-        <img
-          src={screenshot.src}
-          alt={screenshot.alt}
-          width={screenshot.width}
-          height={screenshot.height}
-          loading={priority ? 'eager' : 'lazy'}
-          style={{ maxWidth: `${screenshot.width}px` }}
-          className="h-auto w-full rounded-[calc(var(--radius)-2px)] border border-border object-contain"
-        />
-      </div>
-      <figcaption className="border-t border-border px-4 py-3 text-sm leading-6 text-muted-foreground sm:px-5">{screenshot.caption}</figcaption>
-    </figure>
+    <>
+      <figure className="overflow-hidden rounded-card border border-border bg-background shadow-card">
+        <div className="flex justify-center bg-muted p-2 sm:p-3">
+          <button
+            ref={triggerRef}
+            type="button"
+            onClick={() => setIsLightboxOpen(true)}
+            aria-haspopup="dialog"
+            aria-label={`Open larger view: ${screenshot.alt}`}
+            className="interactive-control group block w-full cursor-zoom-in rounded-[calc(var(--radius)-2px)] border-0 bg-transparent p-0 text-left focus-visible:outline-none"
+          >
+            <img
+              src={screenshot.src}
+              alt={screenshot.alt}
+              width={screenshot.width}
+              height={screenshot.height}
+              loading={priority ? 'eager' : 'lazy'}
+              style={{ maxWidth: `${screenshot.width}px` }}
+              className="h-auto w-full rounded-[calc(var(--radius)-2px)] border border-border object-contain"
+            />
+          </button>
+        </div>
+        <figcaption className="border-t border-border px-4 py-3 text-sm leading-6 text-muted-foreground sm:px-5">{screenshot.caption}</figcaption>
+      </figure>
+      <ImageLightbox
+        open={isLightboxOpen}
+        src={screenshot.src}
+        alt={screenshot.alt}
+        title={title}
+        width={screenshot.width}
+        height={screenshot.height}
+        returnFocusRef={triggerRef}
+        onClose={closeLightbox}
+      />
+    </>
   )
 }
