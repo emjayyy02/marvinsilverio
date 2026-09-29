@@ -58,6 +58,7 @@ export const skillCategories: SkillCategory[] = [
     id: 'ai-llm-workflows',
     title: 'AI / LLM Workflows',
     skills: [
+      { id: 'rag', name: 'RAG', description: 'Grounded retrieval with vector search and citation validation', status: 'current', logo: concept('RAG') },
       { id: 'ai-agents', name: 'AI Agents', description: 'Agent-based AI workflows and automation', status: 'current', logo: concept('AGT') },
       { id: 'openai', name: 'OpenAI', description: 'AI models and API integrations', status: 'current', logo: brand('openai') },
       { id: 'gemini-api', name: 'Gemini API', description: 'Google AI model integrations', status: 'current', logo: brand('googlegemini') },

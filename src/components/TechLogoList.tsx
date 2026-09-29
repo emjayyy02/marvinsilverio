@@ -13,6 +13,7 @@ const logoSources: Record<string, string> = {
   GitHub: '/icons/tech/github.svg',
   'Cloudflare Workers': '/icons/tech/cloudflareworkers.svg',
   Supabase: '/icons/tech/supabase.svg',
+  'Gemini API': '/icons/tech/googlegemini.svg',
   Slack: '/icons/tech/slack.svg',
   Vercel: '/icons/tech/vercel.svg',
 }
@@ -27,6 +28,12 @@ const fallbackLabels: Record<string, string> = {
   Lenis: 'LE',
   PostgreSQL: 'PG',
   Vitest: 'VT',
+  RAG: 'RAG',
+  'Groq API': 'GQ',
+  pgvector: 'PGV',
+  'GPT-OSS': 'GPT',
+  'Google Drive': 'GD',
+  Postman: 'PM',
 }
 
 export function TechLogoList({

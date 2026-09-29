@@ -111,6 +111,65 @@ const revenueRecovery = {
   workflow: shot('/images/revenue-recovery-n8n-workflow.png', 'Sanitized n8n canvas for the Revenue Recovery OS intervention executor with validation, Slack notification, and success and failure callbacks.', 'The development workflow performs external notification and reports execution results back to the application without exposing credentials or endpoint details.', 1440, 900),
 }
 
+const retailRag = {
+  architecture: shot(
+    '/images/retailrag-main-workflow.png',
+    'Complete RetailRAG n8n orchestration showing production intake, security controls, knowledge retrieval, grounded generation, validation, evaluation, failure handling, run logging, and response paths.',
+    'The main orchestration keeps production, evaluation, security, retrieval, grounded generation, validation, failure handling, and observability inside explicit workflow boundaries.',
+    1611,
+    703,
+  ),
+  retrieval: shot(
+    '/images/retailrag-retrieval-workflow.png',
+    'RetailRAG knowledge-retrieval sub-workflow with trusted knowledge-scope resolution, Gemini embeddings, metadata filtering, and Supabase vector retrieval.',
+    'Production retrieval enforces the trusted knowledge boundary before semantic search and limits current operational guidance to active policy knowledge.',
+    1117,
+    567,
+  ),
+  ingestion: shot(
+    '/images/retailrag-ingestion-workflow.png',
+    'RetailRAG ingestion workflow moving policy documents from Google Drive through text extraction, metadata parsing, chunking, Gemini embeddings, and Supabase vector storage.',
+    'Knowledge ingestion converts controlled Markdown policy documents into metadata-rich chunks for later vector retrieval.',
+    1611,
+    635,
+  ),
+  evaluationExpected: shot(
+    '/images/retailrag-evaluation-expected.png',
+    'RetailRAG evaluation dataset showing seven policy, evidence, live-data, security, and injection cases with expected outcomes.',
+    'The fixed evaluation set defines expected sources, evidence status, security behavior, and answer requirements before scoring actual model behavior.',
+    1765,
+    207,
+  ),
+  evaluationActual: shot(
+    '/images/retailrag-evaluation-actual.png',
+    'RetailRAG evaluation results showing actual sources, evidence status, security decisions, grounding validity, and passing test outcomes.',
+    'All seven documented evaluation cases passed the frozen v1 evaluation baseline.',
+    1709,
+    215,
+  ),
+  productionSuccess: shot(
+    '/images/retailrag-production-success.png',
+    'RetailRAG production webhook result showing a grounded successful request with ALLOW, SUFFICIENT evidence, validated output, and a retrieved policy citation.',
+    'A verified production request returned a validated grounded recommendation backed by retrieved policy evidence.',
+    1446,
+    947,
+  ),
+  securityDenial: shot(
+    '/images/retailrag-security-denial.png',
+    'RetailRAG credential request safely denied by the deterministic security path with no retrieval citations.',
+    'Restricted credential requests are denied before normal RAG processing and still return a validated production-compatible result.',
+    1441,
+    855,
+  ),
+  runLogging: shot(
+    '/images/retailrag-run-logging.png',
+    'RetailRAG operational run log showing successful, denied, and error outcomes with evidence, security, source, validation, and error fields.',
+    'Production executions leave lightweight operational evidence so success, denial, and runtime failures can be inspected without opening every n8n execution.',
+    1733,
+    493,
+  ),
+}
+
 const projectRecords = [
   {
     slug: 'revenue-recovery-os',
@@ -225,6 +284,114 @@ const projectRecords = [
           question: 'Is this using real customer or revenue data?',
           answer: 'No. The public demo uses fictional and sanitized portfolio data and is read-only, demonstrating the implemented architecture without claiming real customers or recovered revenue.',
         },
+      ],
+    },
+  },
+  {
+    slug: 'retailrag',
+    number: '07',
+    title: 'RetailRAG',
+    type: 'RAG decision-support system',
+    summary: 'A production-style RAG system with grounded retrieval, security controls, automated evaluation, citation validation, and operational observability.',
+    description: 'A production-style RAG decision-support system that retrieves authorized policy knowledge, generates grounded operational recommendations, validates evidence and citations, enforces deterministic security controls, and fails safely when trusted information is insufficient.',
+    cardTechnologies: ['n8n', 'Supabase', 'RAG', 'Gemini API', 'Groq API'],
+    technologies: ['n8n', 'RAG', 'Supabase', 'pgvector', 'Gemini API', 'Groq API', 'GPT-OSS', 'Google Drive', 'Postman', 'GitHub'],
+    sourceUrl: 'https://github.com/emjayyy02/project-07-retailrag',
+    links: [
+      { label: 'View Case Study', href: '/projects/retailrag', type: 'primary' },
+      { label: 'View Source', href: 'https://github.com/emjayyy02/project-07-retailrag', type: 'secondary' },
+    ],
+    featured: false,
+    selected: true,
+    previewImage: retailRag.architecture,
+    heroScreenshot: retailRag.architecture,
+    caseStudy: {
+      sections: [
+        {
+          id: 'operational-problem',
+          title: 'The operational problem',
+          paragraphs: [
+            'Retail staff may need quick answers about return windows, refund approvals, procedure requirements, or which policy version applies. A normal language model can hallucinate policy, invent thresholds, cite evidence it never retrieved, use outdated information, or guess when live operational data is required.',
+            'RetailRAG was built for the fictional UrbanStitch Clothing Co. as a decision-support system rather than a general chatbot. Its responsibility is to retrieve authorized evidence, produce a grounded recommendation, and identify when the available knowledge is not strong enough to answer safely.',
+          ],
+        },
+        {
+          id: 'system-architecture',
+          title: 'Four workflows, one controlled decision path',
+          paragraphs: [
+            'RetailRAG separates the system into four n8n workflows: the main decision system, knowledge retrieval, knowledge ingestion, and operational run logging. The main workflow owns authenticated intake, validation, security checks, grounded generation, output validation, runtime routing, failure handling, and the final response.',
+            'Production, evaluation, and manual-debug execution are explicitly separated so testing or development paths do not accidentally enter production logging or response behavior.',
+          ],
+          points: [
+            'Authenticated production webhook',
+            'Retrieval kept behind a trusted scope',
+            'Structured model output validated before release',
+            'Success, denial, and runtime failures remain observable',
+          ],
+        },
+        {
+          id: 'retrieval-boundaries',
+          title: 'How retrieval stays inside the knowledge boundary',
+          paragraphs: [
+            'Policy documents move from Google Drive through Markdown extraction, metadata parsing, chunking, Gemini embeddings, and Supabase vector storage. Retrieval then uses semantic search plus metadata filtering to return the most relevant authorized chunks.',
+            'For normal production requests, RetailRAG sets knowledge_scope to current_only and filters for active policy metadata. The caller cannot override that trusted value by writing instructions such as "use the archived policy" inside the request.',
+          ],
+          screenshots: [retailRag.retrieval, retailRag.ingestion],
+          evidenceLayout: 'paired',
+        },
+        {
+          id: 'grounding-validation',
+          title: 'Grounding the recommendation after generation',
+          paragraphs: [
+            'The model returns structured output rather than unrestricted chatbot text, but the model is still not trusted to create evidence freely. RetailRAG compares claimed source IDs, citation ranks, supporting evidence, retrieved documents, and evidence status after generation.',
+            'Final citations are rebuilt from evidence that was actually retrieved. A document the model mentions but the retrieval layer never returned cannot become an accepted source. Evidence is classified as SUFFICIENT, PARTIAL, or INSUFFICIENT so the system can identify missing support instead of filling gaps with assumptions.',
+          ],
+        },
+        {
+          id: 'security-boundaries',
+          title: 'Security before retrieval',
+          paragraphs: [
+            'Employee requests and retrieved document contents are both treated as untrusted data. Neither can modify system instructions, permissions, approval requirements, retrieval configuration, active-policy precedence, or trusted knowledge scope.',
+            'A deterministic pre-retrieval security gate blocks credential or secret requests and authorization-bypass attempts. The production webhook also uses Header Authentication, so invalid authentication is rejected before the RetailRAG decision path executes.',
+          ],
+          screenshots: [retailRag.securityDenial],
+          evidenceLayout: 'medium',
+        },
+        {
+          id: 'evaluation-failure-handling',
+          title: 'Testing behavior instead of trusting demos',
+          paragraphs: [
+            'RetailRAG uses a repeatable seven-case evaluation dataset covering policy retrieval, multi-document reasoning, refund approval, live-data boundaries, credential requests, authorization bypass, and knowledge-scope injection. The frozen v1 evaluation finished 7 / 7 PASS.',
+            'The separate production regression finished 8 / 8 PASS, including authentication, invalid input, current-policy retrieval, refund approval, live-data boundaries, credential denial, authorization bypass, and scope-injection behavior. Controlled failure tests also verified HTTP 502 for invalid AI output and HTTP 503 for unavailable AI or knowledge retrieval.',
+          ],
+          screenshots: [retailRag.evaluationExpected, retailRag.evaluationActual],
+          evidenceLayout: 'paired',
+        },
+        {
+          id: 'production-observability',
+          title: 'Production-style responses and run logging',
+          paragraphs: [
+            'A grounded production request can return HTTP 200 with SUCCESS, ALLOW, SUFFICIENT evidence, validated output, and citations to retrieved policy documents. A restricted business request can also return HTTP 200 while its outcome is DENIED, because the software successfully enforced the business/security rule.',
+            'Production executions write lightweight summaries containing run ID, timestamp, outcome, case type, security decision, evidence status, source IDs, validation state, and error code. This makes SUCCESS, DENIED, and ERROR behavior inspectable without relying only on the visual workflow canvas.',
+          ],
+          screenshots: [retailRag.productionSuccess, retailRag.runLogging],
+          evidenceLayout: 'wide',
+        },
+        {
+          id: 'final-result',
+          title: 'Final result',
+          paragraphs: [
+            'RetailRAG v1.0 was frozen after architecture completion, grounding validation, evaluation, production hardening, runtime failure testing, webhook verification, and operational logging. The result is a stable portfolio baseline showing how RAG can be surrounded by deterministic controls instead of being treated as an autonomous chatbot.',
+            'The project reinforced that the difficult part of AI automation is not simply calling a model. The important work is controlling what evidence the model sees, validating what comes back, defining where the system must abstain, testing failure paths, and leaving enough operational evidence to understand what happened.',
+          ],
+        },
+      ],
+      takeaways: [
+        'RAG reliability depends on the controls around retrieval and generation, not only the model.',
+        'Model-created citations should be verified against evidence the system actually retrieved.',
+        'Knowledge boundaries and approval rules should remain trusted application state rather than visitor-controlled prompt text.',
+        'Evaluation and production regression make AI behavior inspectable instead of relying on convincing one-off demos.',
+        'A useful AI system must know when evidence is insufficient and fail safely when dependencies or model output cannot be trusted.',
       ],
     },
   },
@@ -442,7 +609,7 @@ const projectRecords = [
     links: [
       { label: 'Live Site ↗', href: 'https://project-02-novatech-solutions.nivramqtzx.workers.dev/', type: 'primary' },
     ],
-    featured: false, selected: true, previewImage: nova.desktop, heroScreenshot: nova.desktop,
+    featured: false, selected: false, previewImage: nova.desktop, heroScreenshot: nova.desktop,
   },
   {
     slug: 'personal-developer-profile',
@@ -566,10 +733,10 @@ export const projects: Project[] = [...projectRecords].sort((left, right) => Num
 export const featuredProject = projects.find((project) => project.featured)!
 
 const homepageProjectSlugs = [
+  'retailrag',
   'invoice-collections-automation',
   'ai-support-operations',
   'workflow-operations-manager',
-  'novatech-solutions',
 ] as const
 
 function getRequiredProjectBySlug(slug: string) {

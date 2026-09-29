@@ -83,7 +83,7 @@ export const content = {
     projects: {
       eyebrow: '03 / Selected projects',
       title: 'Selected projects.',
-      description: 'A few recent builds across automation and frontend work. Explore the full archive for more.',
+      description: 'A few recent builds across AI systems, automation, and frontend work. Explore the full archive for more.',
     },
     skills: {
       eyebrow: '04 / Tools & capabilities',
