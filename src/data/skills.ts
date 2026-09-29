@@ -64,7 +64,7 @@ export const skillCategories: SkillCategory[] = [
       { id: 'gemini-api', name: 'Gemini API', description: 'Google AI model integrations', status: 'current', logo: brand('googlegemini') },
       { id: 'openrouter', name: 'OpenRouter', description: 'Multi-model routing and integration', status: 'current', logo: brand('openrouter') },
       { id: 'groq-api', name: 'Groq API', description: 'Fast LLM inference integrations', status: 'current', logo: brand('groq') },
-      { id: 'prompt-engineering', name: 'Prompt Engineering', description: 'Task-focused model instructions', status: 'current', logo: concept('PR') },
+      { id: 'prompt-engineering', name: 'Prompt Engineering', description: 'Task-focused model instructions', status: 'current', logo: brand('prompt-engineering') },
     ],
   },
   {
@@ -75,7 +75,6 @@ export const skillCategories: SkillCategory[] = [
       { id: 'webhooks', name: 'Webhooks', description: 'Event-driven integrations', status: 'current', logo: brand('webhooks') },
       { id: 'rest-apis', name: 'REST APIs', description: 'Service integration', status: 'current', logo: brand('rest-api') },
       { id: 'json', name: 'JSON', description: 'Structured data exchange', status: 'current', logo: brand('json') },
-      { id: 'local-storage', name: 'Local Storage', description: 'Browser-side persistence', status: 'current', logo: concept('LS') },
     ],
   },
   {
@@ -84,7 +83,7 @@ export const skillCategories: SkillCategory[] = [
     skills: [
       { id: 'hubspot', name: 'HubSpot', description: 'CRM, deals and sales automation', status: 'current', logo: brand('hubspot') },
       { id: 'airtable', name: 'Airtable', description: 'Operational data and lightweight CRM', status: 'current', logo: brand('airtable') },
-      { id: 'gohighlevel', name: 'GoHighLevel', description: 'CRM and workflow familiarity', status: 'current', logo: concept('CRM') },
+      { id: 'gohighlevel', name: 'GoHighLevel', description: 'CRM and workflow familiarity', status: 'current', logo: brand('gohighlevel') },
     ],
   },
   {

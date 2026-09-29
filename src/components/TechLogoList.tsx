@@ -20,6 +20,9 @@ const logoSources: Record<string, string> = {
   Webhooks: '/icons/tech/webhooks.svg',
   'REST APIs': '/icons/tech/rest-api.svg',
   JSON: '/icons/tech/json.svg',
+  'Prompt Engineering': '/icons/tech/prompt-engineering.svg',
+  Canva: '/icons/tech/canva.svg',
+  GoHighLevel: '/icons/tech/gohighlevel.svg',
   'Google Drive': '/icons/tech/googledrive.svg',
   Postman: '/icons/tech/postman.svg',
   'GPT-OSS': '/icons/tech/openai.svg',
@@ -30,7 +33,6 @@ const logoSources: Record<string, string> = {
 const fallbackLabels: Record<string, string> = {
   'HTTP APIs': 'API',
   Webhooks: 'WH',
-  JSON: '{}',
   'Local Storage': 'LS',
   'Open-Meteo API': 'OM',
   Motion: 'MO',
