@@ -38,7 +38,7 @@ jobs:
       - name: Checkout M Worker
         uses: actions/checkout@v4
         with:
-          repository: emjayyy02/m-porftfolio-assistant
+          repository: emjayyy02/m-portfolio-assistant
           token: ${{ secrets.M_WORKER_REPO_TOKEN }}
           path: worker
 
