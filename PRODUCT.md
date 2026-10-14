@@ -43,7 +43,7 @@ The product is a responsive, static web portfolio used across desktop and mobile
 
 ## Evidence on Hand
 
-- Panoptes OS v1.0.0 has published architecture, security, testing, production, workflow, and screenshot documentation. Its portfolio media uses the five synthetic public captures, a derived landscape crop, and a neutral lifecycle diagram. It is deployment-ready and locally verified in production mode; always-on public hosting is intentionally not maintained, and hosted verification is unperformed.
+- Panoptes OS v1.0.1 has published architecture, security, testing, production, workflow, and screenshot documentation. Its portfolio media uses the five synthetic public captures, a derived landscape crop, and a neutral lifecycle diagram. It is deployment-ready and locally verified in production mode; always-on public hosting is intentionally not maintained, and hosted verification is unperformed.
 - Public project facts and deeper FAQ answers are generated from the catalog for the separate portfolio-assistant Worker. Local knowledge synchronization is distinct from deploying that Worker.
 
 - Existing contact details and learning-stack information in `src/data/content.ts`.

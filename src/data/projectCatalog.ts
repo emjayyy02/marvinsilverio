@@ -175,8 +175,8 @@ const retailRag = {
 }
 
 const panoptesSource = 'https://github.com/emjayyy02/panoptes-os'
-const panoptesRelease = `${panoptesSource}/releases/tag/v1.0.0`
-const panoptesDocs = `${panoptesSource}/blob/v1.0.0`
+const panoptesRelease = `${panoptesSource}/releases/tag/v1.0.1`
+const panoptesDocs = `${panoptesSource}/blob/v1.0.1`
 const panoptesDisclosure = 'Panoptes OS v1 is deployment-ready and locally verified in production mode. Always-on public hosting is intentionally not maintained for this US$0/month portfolio project.'
 const panoptes = {
   preview: shot('/images/panoptes-dashboard-preview.png', 'Cropped dark Panoptes Operator Console showing the incident overview and operator attention metrics from synthetic fixtures.', 'Landscape crop of the real Operator Console, captured locally in production mode with synthetic fixtures. The complete dashboards appear below.', 1440, 720),
@@ -214,7 +214,7 @@ const projectRecords = [
           id: 'failure-problem', title: 'Why an alert is not enough',
           paragraphs: [
             'A failure alert tells an operator that something stopped. It rarely explains whether retrying is safe, whether an external action already happened, who should authorize recovery, or whether the next attempt actually worked. Someone still has to investigate those questions before acting.',
-            'Panoptes OS v1.0.0 addresses that operational gap. It turns a failed automation into a persistent incident with execution evidence, a diagnosis, a controlled recovery decision, and a recorded outcome. The goal is accountable recovery, with enough context for an operator to understand what happened and decide what to do next.',
+            'Panoptes OS v1.0.1 addresses that operational gap. It turns a failed automation into a persistent incident with execution evidence, a diagnosis, a controlled recovery decision, and a recorded outcome. The goal is accountable recovery, with enough context for an operator to understand what happened and decide what to do next.',
           ],
         },
         {
@@ -293,7 +293,7 @@ const projectRecords = [
         { question: 'What authority does AI have?', answer: 'AI interprets evidence and recommends an action through validated structured output. It cannot change trusted configuration, budgets, credentials, or permissions, authorize itself, approve its recommendation, or execute recovery.' },
         { question: 'Who controls recovery and human approval?', answer: 'Deterministic workflow policy and independent execution gates control recovery. Allowlisted authenticated operators approve or reject decisions where required. Approval cannot bypass UNSAFE classification or an exhausted retry budget.' },
         { question: 'What does deployment-ready mean here?', answer: `${panoptesDisclosure} The compiled application and container were tested locally. Public HTTPS/ingress, hosted operation, fresh-instance workflow import, and a complete database migration were not verified or provided.` },
-        { question: 'Where can the source and verification evidence be inspected?', answer: `The public repository is ${panoptesSource}. Its v1.0.0 release includes sanitized workflows and synthetic screenshots. The release-pinned docs/testing.md explains test scope and provenance; the source and evidence links on this page open those records.` },
+        { question: 'Where can the source and verification evidence be inspected?', answer: `The public repository is ${panoptesSource}. Its v1.0.1 release includes sanitized workflows and synthetic screenshots. The release-pinned docs/testing.md explains test scope and provenance; the source and evidence links on this page open those records.` },
       ],
       knowledgeFaqs: [
         { question: 'What verification was recorded for Panoptes?', answer: 'The local production-mode freeze recorded 24 gateway/static-security tests, 170 browser assertions, and 16 container checks. These separate measures overlap and must not be summed. Tests used isolated local HTTPS Auth/n8n fixtures and local Docker; action requests went only to synthetic fixtures. Historical live decisions, user-executed database permission evidence, and real authenticated read-only checks have different provenance. Hosted verification was not performed.' },
@@ -304,7 +304,7 @@ const projectRecords = [
       ],
       finalLinks: [
         { label: 'View GitHub Repository', href: panoptesSource, type: 'primary' },
-        { label: 'View v1.0.0 Release', href: panoptesRelease, type: 'secondary' },
+        { label: 'View v1.0.1 Release', href: panoptesRelease, type: 'secondary' },
       ],
     },
   },
