@@ -76,9 +76,9 @@ export const content = {
   sections: {
     featuredBuild: {
       eyebrow: '02 / Featured build',
-      title: 'From customer signals to accountable recovery.',
-      description: 'An explainable churn-risk and recovery system that connects customer evidence, human-approved interventions, and confirmed outcomes.',
-      architecture: 'Signals → Explainable Risk → Approval → Execution → Outcome',
+      title: 'From workflow failures to controlled recovery.',
+      description: 'Execution evidence, AI-assisted diagnosis, and human decisions in one incident recovery system.',
+      architecture: 'Failure → Evidence → Diagnosis → Policy → Controlled recovery',
     },
     projects: {
       eyebrow: '03 / Selected projects',

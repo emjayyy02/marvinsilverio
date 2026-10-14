@@ -14,6 +14,8 @@ import { ProjectPage } from './pages/ProjectPage'
 import { ProjectsPage } from './pages/ProjectsPage'
 import { SkillsPage } from './pages/SkillsPage'
 
+const defaultDescription = 'Marvin Silverio — Automation Engineer & Frontend Developer building reliable workflow automations and web interfaces.'
+
 export default function App() {
   const shouldReduceMotion = usePrefersReducedMotion()
   const { location } = useRouter()
@@ -52,7 +54,7 @@ export default function App() {
       }}
     >
       <MotionConfig reducedMotion={shouldReduceMotion ? 'always' : 'never'}>
-        <RouteEffects title={title} routeKey={location.key} pathname={location.pathname} search={location.search} hash={location.hash} />
+        <RouteEffects title={title} description={hasCaseStudy(project) ? project.description : defaultDescription} routeKey={location.key} pathname={location.pathname} search={location.search} hash={location.hash} />
         <a href="#main-content" className="sr-only z-[100] rounded-card bg-primary px-4 py-3 text-sm font-medium text-primary-foreground focus:fixed focus:left-4 focus:top-4 focus:not-sr-only">Skip to content</a>
         <Nav />
         <main id="main-content" tabIndex={-1}>
@@ -67,12 +69,14 @@ export default function App() {
 
 function RouteEffects({
   title,
+  description,
   routeKey,
   pathname,
   search,
   hash,
 }: {
   title: string
+  description: string
   routeKey: number
   pathname: string
   search: string
@@ -83,6 +87,7 @@ function RouteEffects({
 
   useEffect(() => {
     document.title = title
+    document.querySelector('meta[name="description"]')?.setAttribute('content', description)
     const isArchivePagination = !isFirstRender.current && pathname === '/projects' && previousPathname.current === '/projects'
 
     const frame = window.requestAnimationFrame(() => {
@@ -113,7 +118,7 @@ function RouteEffects({
     })
 
     return () => window.cancelAnimationFrame(frame)
-  }, [hash, pathname, routeKey, search, title])
+  }, [description, hash, pathname, routeKey, search, title])
 
   return null
 }

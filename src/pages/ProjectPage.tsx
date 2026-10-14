@@ -4,7 +4,7 @@ import { ImageLightbox } from '../components/ImageLightbox'
 import { Reveal } from '../components/Reveal'
 import { ScrollToTop } from '../components/ScrollToTop'
 import { TechLogoList } from '../components/TechLogoList'
-import type { CaseStudyFaq, CaseStudySection, ProjectScreenshot, ProjectWithCaseStudy } from '../data/projects'
+import type { CaseStudyFaq, CaseStudySection, ProjectLink, ProjectScreenshot, ProjectWithCaseStudy } from '../data/projects'
 import { RouteLink } from '../lib/router'
 
 export function ProjectPage({ project }: { project: ProjectWithCaseStudy }) {
@@ -94,6 +94,13 @@ export function ProjectPage({ project }: { project: ProjectWithCaseStudy }) {
           </div>
         </div>
       </section>
+      {project.caseStudy.finalLinks?.length ? (
+        <section className="border-b border-border bg-surface" aria-label={`${project.title} source and release`}>
+          <div className="mx-auto flex max-w-6xl flex-wrap gap-3 px-5 py-10 sm:px-8 sm:py-14">
+            {project.caseStudy.finalLinks.map((link) => <EvidenceLink key={link.href} link={link} />)}
+          </div>
+        </section>
+      ) : null}
       <ScrollToTop />
     </>
   )
@@ -103,9 +110,11 @@ function CaseStudySectionView({ section, index, first, projectTitle }: { section
   const sectionNumber = String(index + 1).padStart(2, '0')
   const evidenceClass = section.evidenceLayout === 'paired'
     ? 'grid gap-5 lg:grid-cols-2'
-    : section.evidenceLayout === 'medium'
-      ? 'grid max-w-4xl gap-5'
-      : 'grid gap-5'
+    : section.evidenceLayout === 'diagram'
+      ? 'grid w-full gap-5 md:mx-auto md:w-3/4 md:max-w-xl'
+      : section.evidenceLayout === 'medium'
+        ? 'grid max-w-4xl gap-5'
+        : 'grid gap-5'
 
   return (
     <section id={section.id} aria-labelledby={`${section.id}-heading`} className={`${first ? '' : 'mt-16 border-t border-border pt-16'} scroll-mt-24`}>
@@ -120,6 +129,11 @@ function CaseStudySectionView({ section, index, first, projectTitle }: { section
             {section.points.map((point) => <li key={point} className="pixel-tag items-start">{point}</li>)}
           </ul>
         )}
+        {section.links?.length ? (
+          <div className="mt-7 flex flex-wrap gap-3">
+            {section.links.map((link) => <EvidenceLink key={link.href} link={link} />)}
+          </div>
+        ) : null}
       </div>
       {section.screenshots && (
         <div className={`${evidenceClass} mt-9`}>
@@ -128,6 +142,14 @@ function CaseStudySectionView({ section, index, first, projectTitle }: { section
       )}
     </section>
   )
+}
+
+function EvidenceLink({ link }: { link: ProjectLink }) {
+  const className = `interactive-control ${link.type === 'primary' ? 'button-primary bg-primary text-primary-foreground' : 'button-secondary border border-border bg-background text-foreground'} group inline-flex min-h-11 items-center justify-center gap-2 rounded-card px-4 py-2.5 text-center text-sm font-medium`
+  const label = <>{link.label}<Icon name="arrow" className="button-arrow size-4 shrink-0 group-hover:translate-x-0.5" /></>
+  return link.href.startsWith('http')
+    ? <a href={link.href} target="_blank" rel="noreferrer" className={className}>{label}</a>
+    : <RouteLink href={link.href} className={className}>{label}</RouteLink>
 }
 
 function CaseStudyFaqs({ faqs }: { faqs: CaseStudyFaq[] }) {
@@ -144,7 +166,7 @@ function CaseStudyFaqs({ faqs }: { faqs: CaseStudyFaq[] }) {
               </dt>
               <dd className="mt-3 grid grid-cols-[1.5rem_minmax(0,1fr)] gap-x-4">
                 <span aria-hidden="true" className="font-mono text-xs font-medium tracking-[0.12em] text-muted-foreground">A</span>
-                <span className="leading-7 text-muted-foreground">{faq.answer}</span>
+                <span className="min-w-0 leading-7 text-muted-foreground [overflow-wrap:anywhere]">{faq.answer}</span>
               </dd>
             </div>
           ))}

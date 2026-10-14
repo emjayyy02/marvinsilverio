@@ -23,9 +23,20 @@ function generatePortfolioKnowledge() {
     lines.push(`Type: ${project.category}`)
     lines.push(`Summary: ${project.summary}`)
     lines.push(`Technologies: ${project.technologies.join(', ')}`)
+    if (project.sourceUrl) lines.push(`Source: ${project.sourceUrl}`)
+    if (project.caseStudyPath) lines.push(`Case study: ${project.caseStudyPath}`)
 
     if (project.featured) {
       lines.push('Featured: Yes')
+    }
+
+    for (const faq of project.faqs) {
+      lines.push(`Question: ${faq.question}`)
+      lines.push(`Answer: ${faq.answer}`)
+    }
+    if (project.takeaways.length) {
+      lines.push('Engineering takeaways:')
+      for (const takeaway of project.takeaways) lines.push(`- ${takeaway}`)
     }
 
     lines.push('')

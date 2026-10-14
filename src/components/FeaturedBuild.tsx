@@ -8,7 +8,7 @@ import { TechLogoList } from './TechLogoList'
 
 export function FeaturedBuild() {
   const project = featuredProject
-  const preview = project.heroScreenshot
+  const preview = project.previewImage
   const section = content.sections.featuredBuild
   const links = project.links ?? []
 
@@ -37,7 +37,7 @@ export function FeaturedBuild() {
                     loading="lazy"
                     className="h-full w-full rounded-[calc(var(--radius)-2px)] border border-border object-contain object-center"
                   />
-                  <span className="absolute left-3 top-3 rounded-card border border-border bg-background/90 px-2 py-1 font-mono text-[0.6rem] uppercase tracking-[0.1em] text-muted-foreground backdrop-blur-sm">Build preview</span>
+                  <span className="absolute left-3 top-3 max-w-[calc(100%-1.5rem)] rounded-card border border-border bg-background/90 px-2 py-1 font-mono text-[0.6rem] uppercase tracking-[0.1em] text-muted-foreground backdrop-blur-sm">{project.featuredMediaLabel ?? 'Build preview'}</span>
                 </div>
               </div>
 
@@ -58,7 +58,8 @@ export function FeaturedBuild() {
                 <div className="mt-8 grid gap-3 border-t border-border pt-5 sm:grid-cols-2">
                   {links.map((link, index) => {
                     const isPrimary = link.type === 'primary'
-                    const className = `interactive-control ${isPrimary ? 'button-primary bg-primary text-primary-foreground sm:col-span-2' : 'button-secondary group border border-border bg-background text-foreground'} inline-flex min-h-11 items-center justify-center gap-2 rounded-card px-4 py-2.5 text-center text-sm font-medium`
+                    const spansActionRow = isPrimary || project.slug === 'panoptes-os'
+                    const className = `interactive-control ${isPrimary ? 'button-primary bg-primary text-primary-foreground' : 'button-secondary group border border-border bg-background text-foreground'} ${spansActionRow ? 'sm:col-span-2' : ''} inline-flex min-h-11 items-center justify-center gap-2 rounded-card px-4 py-2.5 text-center text-sm font-medium`
                     const content = (
                       <>
                         {link.label}

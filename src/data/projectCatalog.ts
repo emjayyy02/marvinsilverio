@@ -12,7 +12,8 @@ export interface CaseStudySection {
   paragraphs: string[]
   points?: string[]
   screenshots?: ProjectScreenshot[]
-  evidenceLayout?: 'wide' | 'medium' | 'paired'
+  evidenceLayout?: 'wide' | 'medium' | 'paired' | 'diagram'
+  links?: ProjectLink[]
 }
 
 export interface CaseStudyFaq {
@@ -30,6 +31,8 @@ export interface ProjectCaseStudy {
   sections: CaseStudySection[]
   takeaways: string[]
   faqs?: CaseStudyFaq[]
+  knowledgeFaqs?: CaseStudyFaq[]
+  finalLinks?: ProjectLink[]
 }
 
 export interface Project {
@@ -48,6 +51,7 @@ export interface Project {
   selected: boolean
   previewImage: ProjectScreenshot
   heroScreenshot: ProjectScreenshot
+  featuredMediaLabel?: string
   caseStudy?: ProjectCaseStudy
 }
 
@@ -170,7 +174,140 @@ const retailRag = {
   ),
 }
 
+const panoptesSource = 'https://github.com/emjayyy02/panoptes-os'
+const panoptesRelease = `${panoptesSource}/releases/tag/v1.0.0`
+const panoptesDocs = `${panoptesSource}/blob/v1.0.0`
+const panoptesDisclosure = 'Panoptes OS v1 is deployment-ready and locally verified in production mode. Always-on public hosting is intentionally not maintained for this US$0/month portfolio project.'
+const panoptes = {
+  preview: shot('/images/panoptes-dashboard-preview.png', 'Cropped dark Panoptes Operator Console showing the incident overview and operator attention metrics from synthetic fixtures.', 'Landscape crop of the real Operator Console, captured locally in production mode with synthetic fixtures. The complete dashboards appear below.', 1440, 720),
+  dark: shot('/images/panoptes-dashboard-dark.png', 'Complete dark Panoptes dashboard showing operator attention, a synthetic incident awaiting approval, and failure distribution.', 'The complete dark dashboard keeps recovery state and incidents requiring attention together. All displayed data is synthetic.', 1440, 1517),
+  light: shot('/images/panoptes-dashboard-light.png', 'Complete light Panoptes dashboard showing the same synthetic incident overview, recent incident, and failure distribution.', 'The same operational view in the console’s light theme. This is a local fixture capture, not hosted or live recovery evidence.', 1440, 1517),
+  explorer: shot('/images/panoptes-incident-explorer.png', 'Panoptes Incident Explorer showing a synthetic failure, execution identifiers, timestamps, and the beginning of its AI assessment.', 'Incident Explorer connects the failure record to execution evidence and AI assessment. Recovery controls and event history continue below the captured area.', 1440, 1000),
+  approval: shot('/images/panoptes-approval-confirmation.png', 'Panoptes approval confirmation before submission, showing the proposed retry, retry budget, safety classification, and idempotency context.', 'Confirmation before submission using a synthetic incident. No approval was submitted during capture, and this image does not demonstrate completed recovery.', 1440, 1000),
+  login: shot('/images/panoptes-login.png', 'Empty Panoptes operator sign-in form with email and password fields.', 'Operators sign in through Supabase Auth. Access also requires the gateway’s server-side operator allowlist.', 1440, 1000),
+  lifecycle: shot('/images/panoptes-incident-lifecycle.svg', 'Incident lifecycle: failure, persistent incident, evidence, AI diagnosis, validation and policy; escalation ends the recovery path, approval still passes safety gates, and an allowed retry is verified before its outcome and audit history are recorded.', 'Architecture illustration: approval still passes recovery safeguards. Only an allowed retry reaches verification; pending work is not a successful recovery.', 720, 1320),
+}
+
 const projectRecords = [
+  {
+    slug: 'panoptes-os',
+    number: '08',
+    title: 'Panoptes OS',
+    type: 'AI-assisted incident recovery & operator control',
+    summary: 'Turns failed automations into reviewable incidents with execution evidence, AI-assisted diagnosis, deterministic recovery safeguards, and human approval.',
+    description: 'AI-assisted incident recovery for automation workflows, combining execution evidence, deterministic safety policy, and human-controlled recovery.',
+    cardTechnologies: ['React', 'TypeScript', 'n8n', 'Supabase', 'Groq API'],
+    technologies: ['React', 'TypeScript', 'Vite', 'Node.js', 'Fastify', 'n8n', 'Supabase Auth', 'Supabase', 'PostgreSQL', 'Groq API', 'Docker', 'Playwright'],
+    sourceUrl: panoptesSource,
+    links: [
+      { label: 'View Case Study', href: '/projects/panoptes-os', type: 'primary' },
+      { label: 'View Source', href: panoptesSource, type: 'secondary' },
+    ],
+    featured: true,
+    selected: false,
+    previewImage: panoptes.preview,
+    heroScreenshot: panoptes.preview,
+    featuredMediaLabel: 'Operator Console · cropped preview',
+    caseStudy: {
+      sections: [
+        {
+          id: 'failure-problem', title: 'Why an alert is not enough',
+          paragraphs: [
+            'A failure alert tells an operator that something stopped. It rarely explains whether retrying is safe, whether an external action already happened, who should authorize recovery, or whether the next attempt actually worked. Someone still has to investigate those questions before acting.',
+            'Panoptes OS v1.0.0 addresses that operational gap. It turns a failed automation into a persistent incident with execution evidence, a diagnosis, a controlled recovery decision, and a recorded outcome. The goal is accountable recovery, with enough context for an operator to understand what happened and decide what to do next.',
+          ],
+        },
+        {
+          id: 'incident-lifecycle', title: 'One incident, a controlled lifecycle',
+          paragraphs: [
+            'Error Intake assigns a deterministic incident identity from the workflow and failed execution, then collects execution evidence before requesting a diagnosis. Validated findings enter deterministic policy, which can escalate the incident, request human approval, or permit guarded retry. Not every incident visits every state.',
+            'The operator path is React console → authenticated Fastify gateway → n8n operator workflows → Supabase. Incident rows hold current state; separate event records retain diagnosis, decisions, attempts, and outcomes. Event duplicate detection supports persistent audit history without claiming tamper-proof logs or end-to-end exactly-once execution.',
+          ],
+          screenshots: [panoptes.lifecycle], evidenceLayout: 'diagram',
+        },
+        {
+          id: 'ai-authority', title: 'AI recommends. Policy governs.',
+          paragraphs: [
+            'The Groq-backed model interprets execution evidence, classifies the failure, and recommends an action. Execution errors and other evidence remain untrusted input. Structured parsing and validation reject unexpected control fields before model output can influence the recovery path.',
+            'Trusted application logic owns workflow configuration, retry budgets, safety checks, and approval routing. AI cannot change credentials, permissions, idempotency guarantees, or business data. It cannot approve its own recommendation or execute a retry. This separation makes the model useful for diagnosis while keeping authority in explicit, inspectable rules.',
+          ],
+        },
+        {
+          id: 'safe-recovery', title: 'Recovery must be safe to repeat',
+          paragraphs: [
+            'A timeout can leave an operation’s outcome uncertain: the remote action may have completed even though its acknowledgement never arrived. Panoptes considers side-effect risk and trusted idempotency information before another attempt, rather than treating every temporary error as permission to retry.',
+            'Policy and execution have independent gates. The retry workflow validates integer counts and the remaining budget, then enforces safety constraints again. Missing trusted configuration disables automatic recovery. Human approval cannot override an UNSAFE classification or an exhausted budget. After a retry, verification distinguishes recovered, pending, and escalated outcomes; an execution request alone is not recovery success.',
+          ],
+        },
+        {
+          id: 'human-control', title: 'Human control',
+          paragraphs: [
+            'Recoveries requiring authorization wait for an operator to approve or reject them. Confirmation presents the incident, proposed action, safety context, and retry budget before submission. Rejection escalates the incident without starting a retry; approval still passes the backend’s recovery safeguards.',
+            'The gateway derives the operator identity from the verified account, and authoritative incident state is checked again before a decision. Approval POSTs are never automatically retried. A lost acknowledgement remains uncertain, requiring a fresh state read before another deliberate action rather than an optimistic success message.',
+          ],
+          screenshots: [panoptes.approval], evidenceLayout: 'wide',
+        },
+        {
+          id: 'operator-investigation', title: 'Operator investigation',
+          paragraphs: [
+            'The console brings incident summaries, recent and awaiting-approval lists, failure distribution, and investigation into one workspace. Incident Explorer connects the original failure with execution evidence, AI assessment, trusted recovery constraints, and event history. Backend statuses and timestamps remain authoritative.',
+            'Current state answers what needs attention now; the timeline explains how that state was reached. Recovery pending stays visibly distinct from recovered. The interface supports light, dark, and system themes, while these public captures use synthetic incidents and a demo-operator label. They illustrate the product without exposing operational records or claiming live recovery.',
+          ],
+          screenshots: [panoptes.explorer, panoptes.dark, panoptes.light], evidenceLayout: 'wide',
+        },
+        {
+          id: 'security-authority', title: 'Security and authority',
+          paragraphs: [
+            'Supabase Auth identifies the operator; every gateway API request verifies that session and checks a server-side allowlist. A valid account alone does not grant console access. The browser does not query Panoptes operational tables directly or receive backend approval credentials.',
+            'Fixed API routes, strict contracts, bounded requests and responses, and fail-closed configuration constrain the gateway. Server-only Header Auth accompanies the internal approval request. Future hosted operation also requires HTTPS and restricted n8n ingress; gateway authentication does not protect a separately exposed webhook. These are deployment requirements, not controls proven by a public hosting test.',
+          ],
+          screenshots: [panoptes.login], evidenceLayout: 'medium',
+        },
+        {
+          id: 'verification', title: 'Verification',
+          paragraphs: [
+            'The recorded local production-mode freeze exercised the compiled Fastify application with isolated HTTPS Auth/n8n fixtures and local Docker. The measures below are separate and overlapping; they are not added into one test total.',
+            'Browser action tests targeted synthetic fixtures. Historical live approval/rejection observations, database permission evidence, and authenticated read-only checks have separate provenance. These results establish bounded local behavior, not hosted operation, production usage, or real-client outcomes.',
+          ],
+          points: ['24 gateway/static-security tests', '170 production browser assertions', '16 local container checks'],
+          links: [{ label: 'Read testing evidence', href: `${panoptesDocs}/docs/testing.md`, type: 'secondary' }],
+        },
+        {
+          id: 'deployment-limitations', title: 'Deployment status and limitations',
+          paragraphs: [
+            panoptesDisclosure,
+            'Hosted verification and fresh-instance workflow import remain unperformed. The repository includes sanitized workflow exports and configuration guidance, but not a complete database provisioning or migration package. Importers must configure credentials, workflow mappings, trusted settings, and backend infrastructure. Cloning the console does not provision a working service.',
+          ],
+        },
+      ],
+      takeaways: [
+        'Keep AI interpretation separate from execution authority.',
+        'Enforce recovery safeguards again where execution happens.',
+        'Treat approval, retry execution, and verified recovery as distinct states.',
+        'Preserve uncertainty when an action acknowledgement is lost.',
+        'Document what local testing proves and what remains unverified.',
+      ],
+      faqs: [
+        { question: 'What is Panoptes OS?', answer: 'An AI-assisted incident recovery and operator-control system for n8n automations. It connects persistent incidents, execution evidence, diagnosis, deterministic recovery policy, human decisions, verification, and audit history.' },
+        { question: 'Why was it built?', answer: 'A failure alert does not establish whether repeating an operation is safe or whether recovery worked. Panoptes brings the evidence, safeguards, authorization, and outcome into one reviewable incident lifecycle.' },
+        { question: 'What authority does AI have?', answer: 'AI interprets evidence and recommends an action through validated structured output. It cannot change trusted configuration, budgets, credentials, or permissions, authorize itself, approve its recommendation, or execute recovery.' },
+        { question: 'Who controls recovery and human approval?', answer: 'Deterministic workflow policy and independent execution gates control recovery. Allowlisted authenticated operators approve or reject decisions where required. Approval cannot bypass UNSAFE classification or an exhausted retry budget.' },
+        { question: 'What does deployment-ready mean here?', answer: `${panoptesDisclosure} The compiled application and container were tested locally. Public HTTPS/ingress, hosted operation, fresh-instance workflow import, and a complete database migration were not verified or provided.` },
+        { question: 'Where can the source and verification evidence be inspected?', answer: `The public repository is ${panoptesSource}. Its v1.0.0 release includes sanitized workflows and synthetic screenshots. The release-pinned docs/testing.md explains test scope and provenance; the source and evidence links on this page open those records.` },
+      ],
+      knowledgeFaqs: [
+        { question: 'What verification was recorded for Panoptes?', answer: 'The local production-mode freeze recorded 24 gateway/static-security tests, 170 browser assertions, and 16 container checks. These separate measures overlap and must not be summed. Tests used isolated local HTTPS Auth/n8n fixtures and local Docker; action requests went only to synthetic fixtures. Historical live decisions, user-executed database permission evidence, and real authenticated read-only checks have different provenance. Hosted verification was not performed.' },
+        { question: 'How is Panoptes architected?', answer: 'The authenticated React/TypeScript Operator Console calls a Node.js/Fastify gateway. Fixed gateway routes invoke n8n operator workflows, with Supabase/PostgreSQL storing incidents, trusted workflow configuration, and incident events. Supabase Auth supplies verified identity; Groq supplies diagnostic model inference.' },
+        { question: 'How does guarded recovery work?', answer: 'Error Intake collects evidence and validates diagnosis before deterministic policy chooses escalation, approval, or retry. Retry Execution independently checks integer retry budgets, safety, trusted idempotency, and approval conditions. Verify Recovery distinguishes RECOVERED, RECOVERY_PENDING, and ESCALATED outcomes. Pending does not prove an autonomous scheduler is running.' },
+        { question: 'How are recovery and audit history bounded?', answer: 'Deterministic incident identity and duplicate-aware event writes preserve reviewable state and history. They do not establish cryptographic immutability, tamper-proof history, exactly-once processing, or race-free decisions. Approval preflight does not reserve an incident, and approval POSTs are never automatically retried.' },
+        { question: 'What engineering lessons does Panoptes demonstrate?', answer: 'Separate probabilistic diagnosis from deterministic authority, repeat safety checks at execution, distinguish authorization from execution and verified outcomes, preserve uncertain acknowledgements, and keep synthetic/local evidence separate from hosted or real-client claims.' },
+      ],
+      finalLinks: [
+        { label: 'View GitHub Repository', href: panoptesSource, type: 'primary' },
+        { label: 'View v1.0.0 Release', href: panoptesRelease, type: 'secondary' },
+      ],
+    },
+  },
   {
     slug: 'revenue-recovery-os',
     number: '06',
@@ -186,8 +323,8 @@ const projectRecords = [
       { label: 'Live Demo', href: 'https://revenue-recovery-os-et.vercel.app', type: 'secondary' },
       { label: 'View Source', href: 'https://github.com/emjayyy02/project-06-revenue-recovery-os', type: 'secondary' },
     ],
-    featured: true,
-    selected: false,
+    featured: false,
+    selected: true,
     previewImage: revenueRecovery.dashboard,
     heroScreenshot: revenueRecovery.dashboard,
     caseStudy: {
@@ -544,7 +681,7 @@ const projectRecords = [
       { label: 'View Case Study', href: '/projects/workflow-operations-manager', type: 'primary' },
       { label: 'View Source', href: 'https://github.com/emjayyy02/project-03-workflow-ops-manager', type: 'secondary' },
     ],
-    featured: false, selected: true, previewImage: workflow.dashboard, heroScreenshot: workflow.dashboard,
+    featured: false, selected: false, previewImage: workflow.dashboard, heroScreenshot: workflow.dashboard,
     caseStudy: {
       sections: [
         {
@@ -733,10 +870,10 @@ export const projects: Project[] = [...projectRecords].sort((left, right) => Num
 export const featuredProject = projects.find((project) => project.featured)!
 
 const homepageProjectSlugs = [
+  'revenue-recovery-os',
   'retailrag',
   'invoice-collections-automation',
   'ai-support-operations',
-  'workflow-operations-manager',
 ] as const
 
 function getRequiredProjectBySlug(slug: string) {

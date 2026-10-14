@@ -28,7 +28,7 @@ The product is a responsive, static web portfolio used across desktop and mobile
 - Light and dark themes only, persisted locally and initialized from the operating-system preference.
 - Hero, section, and panel motion remains restrained and respects reduced motion.
 - General portfolio, certification, Education, contact, and footer content stays centralized in `src/data/content.ts`; the current toolkit and its categories live in `src/data/skills.ts`; structured project records are exposed through `src/data/projects.ts` and maintained in one project catalog.
-- Revenue Recovery OS is the featured build. Invoice Collections Automation, AI Support Operations Triage System, Workflow Operations Manager, and NovaTech Solutions appear—in that exact order—as selected projects, while all verified projects remain available through a four-per-page `/projects` archive and supported case-study routes. Experience remains hidden until Marvin supplies a real entry.
+- Panoptes OS is the featured build. Revenue Recovery OS, RetailRAG, Invoice Collections Automation, and AI Support Operations Triage System appear—in that exact order—as the four selected projects. All nine projects, including Workflow Operations Manager, remain available through the four-per-page `/projects` archive and existing supported case-study routes. Experience remains hidden until Marvin supplies a real entry.
 - A small dependency-free History API router supports the homepage, `/skills`, reload-safe project archive query pagination, and project detail URLs.
 - No fabricated roles, organizations, certifications, metrics, testimonials, or project outcomes.
 
@@ -42,6 +42,9 @@ The product is a responsive, static web portfolio used across desktop and mobile
 - The interface remains neutral except for the restrained blue profile mark; personality otherwise comes from typography, spacing, pixel craft, and motion.
 
 ## Evidence on Hand
+
+- Panoptes OS v1.0.0 has published architecture, security, testing, production, workflow, and screenshot documentation. Its portfolio media uses the five synthetic public captures, a derived landscape crop, and a neutral lifecycle diagram. It is deployment-ready and locally verified in production mode; always-on public hosting is intentionally not maintained, and hosted verification is unperformed.
+- Public project facts and deeper FAQ answers are generated from the catalog for the separate portfolio-assistant Worker. Local knowledge synchronization is distinct from deploying that Worker.
 
 - Existing contact details and learning-stack information in `src/data/content.ts`.
 - Structured descriptions, verified card preview images, representative card technologies, full stacks, source URLs, screenshots, evidence captions, and case-study sections for Projects 01–05 in the centralized project catalog.

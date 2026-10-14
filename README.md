@@ -14,9 +14,9 @@ A frontend-only personal portfolio focused on software development and workflow 
 - Light and dark themes with a hard-edged iris reveal that begins at the theme toggle
 - A compact `MJ` home mark, a decorative blue profile mark, and Marvin's supplied circular portrait with a one-time center-out SVG splash reveal plus a neutral load-failure fallback
 - Hero positioning as “Automation Engineer & Frontend Developer,” with selected-project and resume actions sourced from centralized identity data
-- Revenue Recovery OS presented as the Featured Build with a verified dashboard preview, concise card metadata, technology logos, case study, live demo, and source actions
-- Invoice Collections Automation, AI Support Operations Triage System, Workflow Operations Manager, and NovaTech Solutions presented—in that exact order—in the two-column Selected Projects grid with verified previews, scanning summaries, and representative technology logos
-- A scalable `/projects` archive with four-item query-string pagination for all seven projects and evidence-rich case studies for five
+- Panoptes OS presented as the Featured Build with a real landscape dashboard crop, representative technology logos, case study, and source action; it has no public live demo
+- Revenue Recovery OS, RetailRAG, Invoice Collections Automation, and AI Support Operations Triage System presented—in that exact order—as the four Selected Projects; Revenue Recovery retains its case study, live demo, and source actions
+- A scalable `/projects` archive with four-item query-string pagination for all nine projects, including Workflow Operations Manager and the broader project history
 - Repository screenshots placed beside the architecture, behavior, reliability, testing, and evolution claims they support
 - Narrow case-study prose with sequentially numbered narrative sections, optional visible FAQ rows, wider technical evidence, lazy-loaded supporting images, and a reduced-motion-aware back-to-top control
 - Meaningful document titles, route scroll/focus handling, and browser back/forward support through a small dependency-free History API router
@@ -53,3 +53,9 @@ General portfolio information—including identity, Education, contact copy, con
 The repository does not currently identify a deployment provider or contain provider-specific routing configuration. Any static host used for deployment must rewrite unknown application routes to `/index.html` so direct requests to `/projects` and project case studies reach the client-side router.
 
 Development defaults to full motion without a query string. Use `?motion=full` or `?motion=reduce` to exercise either QA path explicitly; production without an override follows the visitor's genuine reduced-motion preference.
+
+## Panoptes evidence and assistant knowledge
+
+Panoptes OS v1 is deployment-ready and locally verified in production mode. Always-on public hosting is intentionally not maintained for this US$0/month portfolio project. Screenshots are copied from the v1.0.0 public package and show synthetic local fixtures; the approval confirmation is captured before submission. `panoptes-dashboard-preview.png` is the top-left 1440×720 crop of the unchanged 1440×1517 dark dashboard, used on the homepage and as the case-study hero. Complete screenshots retain their source dimensions and lightbox behavior. The neutral lifecycle SVG is an explanatory diagram, not a UI screenshot. The landscape hero can later be replaced with product video; no video implementation is included.
+
+Project knowledge follows `projectCatalog.ts` → `portfolio-data.ts` → `scripts/generate-portfolio-knowledge.ts` → `portfolio-generated.md`. Run `npm run generate:portfolio-knowledge`, then copy the generated output byte-identically into the separate local `m-porftfolio-assistant/docs/portfolio-generated.md` before Worker verification. Visible FAQs and optional knowledge-only FAQs share the catalog source; knowledge-only answers are not rendered by the case-study page. The generator also exports full technologies, source/case-study links, and takeaways. Never hand-edit either generated copy. Local synchronization does not update the deployed assistant.

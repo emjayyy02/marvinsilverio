@@ -1,4 +1,4 @@
-import { projects } from './projectCatalog'
+import { projects, type CaseStudyFaq } from './projectCatalog'
 import { content } from './content'
 import { currentSkillCategories } from './skills'
 
@@ -9,6 +9,10 @@ export interface PortfolioProject {
   summary: string
   technologies: string[]
   featured?: boolean
+  sourceUrl?: string
+  caseStudyPath?: string
+  faqs: CaseStudyFaq[]
+  takeaways: string[]
 }
 
 export interface PortfolioCertification {
@@ -70,8 +74,12 @@ export const portfolioData = {
     title: project.title,
     category: project.type,
     summary: project.summary,
-    technologies: project.cardTechnologies,
+    technologies: project.technologies,
     featured: project.featured,
+    sourceUrl: project.sourceUrl,
+    caseStudyPath: project.caseStudy ? `/projects/${project.slug}` : undefined,
+    faqs: [...(project.caseStudy?.faqs ?? []), ...(project.caseStudy?.knowledgeFaqs ?? [])],
+    takeaways: project.caseStudy?.takeaways ?? [],
   })),
 
   skills: currentSkillCategories.map((category) => ({

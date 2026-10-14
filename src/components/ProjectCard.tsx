@@ -39,7 +39,7 @@ export function ProjectCard({ project, archive = false }: { project: Project; ar
         </div>
 
         {hasActions && (
-          <div className="flex flex-col gap-3 border-t border-border pt-5 sm:flex-row">
+          <div className="flex flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:flex-wrap">
             {links.map((link) => <ProjectCardAction key={`${link.label}-${link.href}`} link={link} />)}
           </div>
         )}
@@ -50,7 +50,7 @@ export function ProjectCard({ project, archive = false }: { project: Project; ar
 
 function ProjectCardAction({ link }: { link: ProjectLink }) {
   const isPrimary = link.type === 'primary'
-  const className = `interactive-control ${isPrimary ? 'button-primary bg-primary text-primary-foreground' : 'button-secondary group border border-border bg-background text-foreground'} inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-card px-4 py-2.5 text-center text-sm font-medium`
+  const className = `interactive-control ${isPrimary ? 'button-primary bg-primary text-primary-foreground' : 'button-secondary group border border-border bg-background text-foreground'} inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-card px-4 py-2.5 text-center text-sm font-medium sm:basis-32`
   const content = (
     <>
       {link.label}
