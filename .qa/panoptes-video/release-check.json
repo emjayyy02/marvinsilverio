@@ -1,0 +1,72 @@
+{
+  "date": "2026-10-16",
+  "master": {
+    "path": "../project-08-panoptes-video/film/out/panoptes-os-final-master.mp4",
+    "sha256": "097b3bb94d0dd1e29421a5a805123247f59883cb84780408a1000e89f07e7464",
+    "bytes": 11277914,
+    "width": 1920,
+    "height": 1080,
+    "pixelFormat": "yuvj420p",
+    "fps": "60/1",
+    "frames": 2100,
+    "duration": "35.000000",
+    "audio": {
+      "codec": "aac",
+      "channels": 2,
+      "sampleRate": "48000",
+      "rmsDb": -17.97707629623378,
+      "peakDb": -1.2901671177474374
+    },
+    "decode": "pass"
+  },
+  "derivative": {
+    "path": "public/media/panoptes-os-showcase.mp4",
+    "sha256": "519d2e63edf2cf4d0aa69824b4ec6602d8f094366dc7481bdecd1ced598b2872",
+    "bytes": 5045809,
+    "width": 1920,
+    "height": 1080,
+    "pixelFormat": "yuv420p",
+    "fps": "60/1",
+    "frames": 2100,
+    "duration": "35.000000",
+    "audio": {
+      "codec": "aac",
+      "channels": 2,
+      "sampleRate": "48000",
+      "rmsDb": -17.97707629623378,
+      "peakDb": -1.2901671177474374
+    },
+    "decode": "pass"
+  },
+  "audioPacketsIdentical": true,
+  "all2100FramePresentationTimesAndDurationsIdentical": true,
+  "fastStart": true,
+  "atoms": [
+    {
+      "type": "ftyp",
+      "offset": 0,
+      "size": 32
+    },
+    {
+      "type": "moov",
+      "offset": 32,
+      "size": 55599
+    },
+    {
+      "type": "free",
+      "offset": 55631,
+      "size": 8
+    },
+    {
+      "type": "mdat",
+      "offset": 55639,
+      "size": 4990170
+    }
+  ],
+  "poster": {
+    "path": "public/media/panoptes-os-showcase-poster.webp",
+    "bytes": 22032,
+    "sourceTimeSeconds": 7.5
+  },
+  "licenseMaterial": "../project-08-panoptes-video/docs/music-license.md"
+}

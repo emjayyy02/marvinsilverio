@@ -5,6 +5,7 @@ import { Icon } from './Icon'
 import { Reveal } from './Reveal'
 import { SectionHeading } from './SectionHeading'
 import { TechLogoList } from './TechLogoList'
+import { ProjectVideoPreview } from './ProjectVideoPreview'
 
 export function FeaturedBuild() {
   const project = featuredProject
@@ -28,17 +29,21 @@ export function FeaturedBuild() {
           <article className="overflow-hidden rounded-card border border-border bg-background shadow-card">
             <div className="grid lg:grid-cols-[minmax(0,1.35fr)_minmax(20rem,0.8fr)]">
               <div className="border-b border-border p-4 sm:p-6 lg:border-b-0 lg:border-r lg:p-7">
-                <div className="relative aspect-[2/1] overflow-hidden rounded-card border border-border bg-muted p-1.5">
-                  <img
-                    src={preview.src}
-                    alt={preview.alt}
-                    width={preview.width}
-                    height={preview.height}
-                    loading="lazy"
-                    className="h-full w-full rounded-[calc(var(--radius)-2px)] border border-border object-contain object-center"
-                  />
-                  <span className="absolute left-3 top-3 max-w-[calc(100%-1.5rem)] rounded-card border border-border bg-background/90 px-2 py-1 font-mono text-[0.6rem] uppercase tracking-[0.1em] text-muted-foreground backdrop-blur-sm">{project.featuredMediaLabel ?? 'Build preview'}</span>
-                </div>
+                {project.featuredVideo ? (
+                  <ProjectVideoPreview {...project.featuredVideo} title={project.title} />
+                ) : (
+                  <div className="relative aspect-[2/1] overflow-hidden rounded-card border border-border bg-muted p-1.5">
+                    <img
+                      src={preview.src}
+                      alt={preview.alt}
+                      width={preview.width}
+                      height={preview.height}
+                      loading="lazy"
+                      className="h-full w-full rounded-[calc(var(--radius)-2px)] border border-border object-contain object-center"
+                    />
+                    <span className="absolute left-3 top-3 max-w-[calc(100%-1.5rem)] rounded-card border border-border bg-background/90 px-2 py-1 font-mono text-[0.6rem] uppercase tracking-[0.1em] text-muted-foreground backdrop-blur-sm">{project.featuredMediaLabel ?? 'Build preview'}</span>
+                  </div>
+                )}
               </div>
 
               <div className="flex min-w-0 flex-col p-6 sm:p-8">

@@ -1,0 +1,147 @@
+[
+  {
+    "width": 320,
+    "card": {
+      "width": 265,
+      "height": 767.8125
+    },
+    "frame": {
+      "width": 231,
+      "height": 115.5
+    },
+    "neighbors": [
+      {
+        "width": 265,
+        "height": 741.625
+      },
+      {
+        "width": 265,
+        "height": 653.625
+      },
+      {
+        "width": 265,
+        "height": 637.625
+      },
+      {
+        "width": 265,
+        "height": 693.625
+      }
+    ]
+  },
+  {
+    "width": 375,
+    "card": {
+      "width": 320,
+      "height": 719.3125
+    },
+    "frame": {
+      "width": 286,
+      "height": 143
+    },
+    "neighbors": [
+      {
+        "width": 320,
+        "height": 668.5625
+      },
+      {
+        "width": 320,
+        "height": 612.5625
+      },
+      {
+        "width": 320,
+        "height": 596.5625
+      },
+      {
+        "width": 320,
+        "height": 620.5625
+      }
+    ]
+  },
+  {
+    "width": 768,
+    "card": {
+      "width": 689,
+      "height": 867.8125
+    },
+    "frame": {
+      "width": 639,
+      "height": 319.5
+    },
+    "neighbors": [
+      {
+        "width": 336.5,
+        "height": 645.84375
+      },
+      {
+        "width": 336.5,
+        "height": 645.84375
+      },
+      {
+        "width": 336.5,
+        "height": 599.84375
+      },
+      {
+        "width": 336.5,
+        "height": 599.84375
+      }
+    ]
+  },
+  {
+    "width": 1024,
+    "card": {
+      "width": 945,
+      "height": 583.3125
+    },
+    "frame": {
+      "width": 535.109375,
+      "height": 267.546875
+    },
+    "neighbors": [
+      {
+        "width": 464.5,
+        "height": 624.5
+      },
+      {
+        "width": 464.5,
+        "height": 624.5
+      },
+      {
+        "width": 464.5,
+        "height": 582.5
+      },
+      {
+        "width": 464.5,
+        "height": 582.5
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "card": {
+      "width": 1088,
+      "height": 551.3125
+    },
+    "frame": {
+      "width": 624.90625,
+      "height": 312.453125
+    },
+    "neighbors": [
+      {
+        "width": 536,
+        "height": 622.71875
+      },
+      {
+        "width": 536,
+        "height": 622.71875
+      },
+      {
+        "width": 536,
+        "height": 622.71875
+      },
+      {
+        "width": 536,
+        "height": 622.71875
+      }
+    ]
+  }
+]

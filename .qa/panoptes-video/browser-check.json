@@ -1,0 +1,351 @@
+{
+  "url": "http://127.0.0.1:5175",
+  "engine": "Chrome 152 / Playwright",
+  "matrix": [
+    {
+      "theme": "light",
+      "width": 320,
+      "card": {
+        "width": 265,
+        "height": 767.8125
+      },
+      "frame": {
+        "width": 231,
+        "height": 115.5
+      },
+      "neighbors": [
+        {
+          "width": 265,
+          "height": 741.625
+        },
+        {
+          "width": 265,
+          "height": 653.625
+        },
+        {
+          "width": 265,
+          "height": 637.625
+        },
+        {
+          "width": 265,
+          "height": 693.625
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "theme": "light",
+      "width": 375,
+      "card": {
+        "width": 320,
+        "height": 719.3125
+      },
+      "frame": {
+        "width": 286,
+        "height": 143
+      },
+      "neighbors": [
+        {
+          "width": 320,
+          "height": 668.5625
+        },
+        {
+          "width": 320,
+          "height": 612.5625
+        },
+        {
+          "width": 320,
+          "height": 596.5625
+        },
+        {
+          "width": 320,
+          "height": 620.5625
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "card": {
+        "width": 689,
+        "height": 867.8125
+      },
+      "frame": {
+        "width": 639,
+        "height": 319.5
+      },
+      "neighbors": [
+        {
+          "width": 336.5,
+          "height": 645.84375
+        },
+        {
+          "width": 336.5,
+          "height": 645.84375
+        },
+        {
+          "width": 336.5,
+          "height": 599.84375
+        },
+        {
+          "width": 336.5,
+          "height": 599.84375
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "card": {
+        "width": 945,
+        "height": 583.3125
+      },
+      "frame": {
+        "width": 535.109375,
+        "height": 267.546875
+      },
+      "neighbors": [
+        {
+          "width": 464.5,
+          "height": 624.5
+        },
+        {
+          "width": 464.5,
+          "height": 624.5
+        },
+        {
+          "width": 464.5,
+          "height": 582.5
+        },
+        {
+          "width": 464.5,
+          "height": 582.5
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "card": {
+        "width": 1088,
+        "height": 551.3125
+      },
+      "frame": {
+        "width": 624.90625,
+        "height": 312.453125
+      },
+      "neighbors": [
+        {
+          "width": 536,
+          "height": 622.71875
+        },
+        {
+          "width": 536,
+          "height": 622.71875
+        },
+        {
+          "width": 536,
+          "height": 622.71875
+        },
+        {
+          "width": 536,
+          "height": 622.71875
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "card": {
+        "width": 265,
+        "height": 767.8125
+      },
+      "frame": {
+        "width": 231,
+        "height": 115.5
+      },
+      "neighbors": [
+        {
+          "width": 265,
+          "height": 741.625
+        },
+        {
+          "width": 265,
+          "height": 653.625
+        },
+        {
+          "width": 265,
+          "height": 637.625
+        },
+        {
+          "width": 265,
+          "height": 693.625
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "theme": "dark",
+      "width": 375,
+      "card": {
+        "width": 320,
+        "height": 719.3125
+      },
+      "frame": {
+        "width": 286,
+        "height": 143
+      },
+      "neighbors": [
+        {
+          "width": 320,
+          "height": 668.5625
+        },
+        {
+          "width": 320,
+          "height": 612.5625
+        },
+        {
+          "width": 320,
+          "height": 596.5625
+        },
+        {
+          "width": 320,
+          "height": 620.5625
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "card": {
+        "width": 689,
+        "height": 867.8125
+      },
+      "frame": {
+        "width": 639,
+        "height": 319.5
+      },
+      "neighbors": [
+        {
+          "width": 336.5,
+          "height": 645.84375
+        },
+        {
+          "width": 336.5,
+          "height": 645.84375
+        },
+        {
+          "width": 336.5,
+          "height": 599.84375
+        },
+        {
+          "width": 336.5,
+          "height": 599.84375
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "card": {
+        "width": 945,
+        "height": 583.3125
+      },
+      "frame": {
+        "width": 535.109375,
+        "height": 267.546875
+      },
+      "neighbors": [
+        {
+          "width": 464.5,
+          "height": 624.5
+        },
+        {
+          "width": 464.5,
+          "height": 624.5
+        },
+        {
+          "width": 464.5,
+          "height": 582.5
+        },
+        {
+          "width": 464.5,
+          "height": 582.5
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "card": {
+        "width": 1088,
+        "height": 551.3125
+      },
+      "frame": {
+        "width": 624.90625,
+        "height": 312.453125
+      },
+      "neighbors": [
+        {
+          "width": 536,
+          "height": 622.71875
+        },
+        {
+          "width": 536,
+          "height": 622.71875
+        },
+        {
+          "width": 536,
+          "height": 622.71875
+        },
+        {
+          "width": 536,
+          "height": 622.71875
+        }
+      ],
+      "overflow": false
+    }
+  ],
+  "checks": [
+    "10 theme/width cases: exact baseline card/frame/neighbor dimensions; no overflow; reduced motion hover stays paused",
+    "No playback on page load; metadata preload; poster; loop configured without autoplay",
+    "First desktop hover starts muted once; native controls; pointer exit keeps playing",
+    "Native keyboard Pause persists on later hover; no repeated play calls",
+    "Native Play resumes; browser seek to 15s and unmute work",
+    "Activated playback loops across the 35s boundary",
+    "Keyboard overlay Enter works, visible focus, focus transfers to native video",
+    "Case-study CTA works; case-study media remains static; linked music credit present",
+    "Source CTA retains correct external URL",
+    "Touch emulation: paused initially; tap starts muted inline with native controls",
+    "OS reduced-motion preference also prevents hover initiation",
+    "One video element and one MP4 resource URL; shared poster URL uses browser cache",
+    "Failed MP4 request preserves loaded poster and readable error state",
+    "No uncaught browser or unexpected console errors"
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "resources": [
+    {
+      "name": "http://127.0.0.1:5175/media/panoptes-os-showcase-poster.webp",
+      "transferSize": 300,
+      "encodedBodySize": 0
+    },
+    {
+      "name": "http://127.0.0.1:5175/media/panoptes-os-showcase.mp4",
+      "transferSize": 300,
+      "encodedBodySize": 0
+    }
+  ],
+  "limitations": [
+    "Touch is browser emulation, not physical-device verification.",
+    "Native control pointer checks are recorded separately.",
+    "The intentionally aborted MP4 failure test produces an expected browser network error."
+  ]
+}

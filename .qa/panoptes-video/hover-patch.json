@@ -1,0 +1,26 @@
+{
+  "url": "http://127.0.0.1:5175",
+  "engine": "Chrome 152 / Playwright",
+  "checks": [
+    "Original frame/card dimensions preserved at 320/375/768/1024/1440px",
+    "No-click muted first start: top-left-padding",
+    "No-click muted first start: top-right-padding",
+    "No-click muted first start: bottom-left-padding",
+    "No-click muted first start: bottom-right-padding",
+    "No-click muted first start: center",
+    "Mouse leave keeps playing",
+    "Native Pause persists through leave/re-enter",
+    "Native Play resumes",
+    "Native unmute works",
+    "Native progress bar pointer seek works",
+    "Loop after activation works",
+    "OS reduced motion still allows first-hover muted playback, as requested",
+    "Reduced-motion manual pause also persists on re-enter",
+    "Site reduced-motion path still allows first-hover playback",
+    "Keyboard Enter starts; focus transfers to native player",
+    "Touch tap starts muted inline playback",
+    "No autoplay on page load or console errors"
+  ],
+  "errors": [],
+  "physicalTouch": "not tested"
+}

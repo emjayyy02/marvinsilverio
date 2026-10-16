@@ -98,6 +98,11 @@ export function ProjectPage({ project }: { project: ProjectWithCaseStudy }) {
         <section className="border-b border-border bg-surface" aria-label={`${project.title} source and release`}>
           <div className="mx-auto flex max-w-6xl flex-wrap gap-3 px-5 py-10 sm:px-8 sm:py-14">
             {project.caseStudy.finalLinks.map((link) => <EvidenceLink key={link.href} link={link} />)}
+            {project.caseStudy.musicCredit && (
+              <p id="film-music-credit" className="w-full text-sm leading-6 text-muted-foreground">
+                Film music: “{project.caseStudy.musicCredit.title}” — <a href={project.caseStudy.musicCredit.source} target="_blank" rel="noreferrer" className="underline underline-offset-4">{project.caseStudy.musicCredit.creator} (incompetech.com)</a>. Licensed under <a href={project.caseStudy.musicCredit.licenseUrl} target="_blank" rel="noreferrer" className="underline underline-offset-4">{project.caseStudy.musicCredit.license}</a>. {project.caseStudy.musicCredit.note}
+              </p>
+            )}
           </div>
         </section>
       ) : null}

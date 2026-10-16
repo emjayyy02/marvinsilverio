@@ -33,6 +33,7 @@ export interface ProjectCaseStudy {
   faqs?: CaseStudyFaq[]
   knowledgeFaqs?: CaseStudyFaq[]
   finalLinks?: ProjectLink[]
+  musicCredit?: { title: string; creator: string; source: string; license: string; licenseUrl: string; note: string }
 }
 
 export interface Project {
@@ -52,6 +53,7 @@ export interface Project {
   previewImage: ProjectScreenshot
   heroScreenshot: ProjectScreenshot
   featuredMediaLabel?: string
+  featuredVideo?: { src: string; poster: string }
   caseStudy?: ProjectCaseStudy
 }
 
@@ -191,6 +193,7 @@ const panoptes = {
 const projectRecords = [
   {
     slug: 'panoptes-os',
+    featuredVideo: { src: '/media/panoptes-os-showcase.mp4', poster: '/media/panoptes-os-showcase-poster.webp' },
     number: '08',
     title: 'Panoptes OS',
     type: 'AI-assisted incident recovery & operator control',
@@ -209,6 +212,12 @@ const projectRecords = [
     heroScreenshot: panoptes.preview,
     featuredMediaLabel: 'Operator Console · cropped preview',
     caseStudy: {
+      musicCredit: {
+        title: 'Floating Cities', creator: 'Kevin MacLeod',
+        source: 'https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1600018',
+        license: 'CC BY 4.0', licenseUrl: 'https://creativecommons.org/licenses/by/4.0/',
+        note: 'Edited, filtered, faded and mixed for the Panoptes OS film.',
+      },
       sections: [
         {
           id: 'failure-problem', title: 'Why an alert is not enough',

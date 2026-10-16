@@ -1,0 +1,11 @@
+{
+  "engine": "Chrome 152",
+  "checks": [
+    "Native Pause button",
+    "Native Play button",
+    "Native Unmute button",
+    "Native timeline pointer seek",
+    "Native Fullscreen button"
+  ],
+  "method": "Pointer clicks at browser-native UA media control boxes inspected through CDP"
+}
