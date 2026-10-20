@@ -19,7 +19,7 @@ export function Hero() {
       <div className="mx-auto flex min-h-[calc(90svh-4rem)] max-w-6xl flex-col items-center justify-center px-5 py-12 text-center sm:px-8 sm:py-16">
         <motion.p {...entrance(0)} className="inline-flex max-w-full items-center gap-2 rounded-full border border-profile-mark/20 bg-profile-mark/10 px-4 py-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-profile-mark">
           <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full bg-current" />
-          <span className="text-balance">Open to automation specialist roles</span>
+          <span className="text-balance">OPEN TO AI AUTOMATION &amp; SYSTEMS ROLES</span>
         </motion.p>
 
         <motion.div {...entrance(0.08)} className="mt-6 w-32 shrink-0 rounded-full ring-1 ring-profile-mark sm:w-40">

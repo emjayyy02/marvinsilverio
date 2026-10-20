@@ -56,8 +56,8 @@ const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${portfol
 export const content = {
   person: {
     name: 'Marvin Silverio',
-    professionalTitle: 'Technical VA / Automation Specialist',
-    heroSummary: 'I build workflow automations and web interfaces that turn repetitive processes into reliable, usable systems. My current work focuses on n8n, JavaScript, AI-assisted workflows, APIs, and modern frontend development.',
+    professionalTitle: 'AI Automation & Systems Specialist',
+    heroSummary: 'I build reliable automation and AI systems around real business processes. My work combines n8n, APIs, TypeScript, PostgreSQL/Supabase, RAG, and human-in-the-loop controls to turn repetitive workflows into systems that are easier to operate, test, and trust.',
     profileImage: {
       src: '/images/marvin-silverio-profile.jpg' as string | null,
       alt: 'Portrait of Marvin Silverio',
